@@ -25,6 +25,12 @@
                 </a>
             </li>
             <li class="nav-item nav-category">Mantenimientos</li>
+			<li class="nav-item {{ request()->routeIs('societies.*') ? 'active' : '' }}">
+                <a href="{{ route('societies.index') }}" class="nav-link">
+                    <i class="link-icon" data-feather="layers"></i>
+                    <span class="link-title">Organización</span>
+                </a>
+            </li>
 			<li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="link-icon" data-feather="file-plus"></i>
