@@ -64,8 +64,7 @@ create table societies (
 	address varchar(255) not null,
 	phone varchar(13) not null,
 	latitude varchar(255) not null,
-	longitude varchar(255) not null,	
-	-- email varchar(255) not null,
+	longitude varchar(255) not null,
 	created_at timestamp null default null,
   	updated_at timestamp null default null,
 	foreign key (id_partner) REFERENCES partners(id)
@@ -91,4 +90,6 @@ create table partner_society_project (
 	created_at timestamp null default null,
   	updated_at timestamp null default null,
 	foreign key (society_project_id) references society_project(id),
+	foreign key (partner_id) references partners(id),
+	constraint unique (society_project_id, partner_id)
 ) engine = innodb;
