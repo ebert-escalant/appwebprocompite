@@ -77,6 +77,8 @@ create table society_projects (
 	year int not null,
 	assets json,
 	qualification varchar(50),
+	created_at timestamp null default null,
+  	updated_at timestamp null default null,
 	foreign key (society_id) references societies(id),
 	foreign key (project_id) references projects(id),
 	constraint unique (society_id, year, project_id)
@@ -87,6 +89,7 @@ create table society_members (
 	year int not null,
 	society_id char(13) not null,
 	partner_id char(13) not null,
+	assets json,
 	created_at timestamp null default null,
   	updated_at timestamp null default null,
 	foreign key (society_id) references societies(id),
