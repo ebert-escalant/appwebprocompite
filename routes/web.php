@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SocietyController;
 use App\Http\Controllers\UbigeoController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->group(function () {
@@ -23,4 +24,10 @@ Route::middleware(['auth'])->group(function () {
 	Route::match(['get', 'post'], 'societies/insert', [SocietyController::class, 'insert'])->name('societies.insert');
 	Route::match(['get', 'put'], 'societies/edit/{id}', [SocietyController::class, 'edit'])->name('societies.edit');
 	Route::delete('societies/delete/{id}', [SocietyController::class, 'delete'])->name('societies.delete');
+
+	// projects
+	Route::get('projects', [ProjectController::class, 'getAll'])->name('projects.index');
+	Route::match(['get', 'post'], 'projects/insert', [ProjectController::class, 'insert'])->name('projects.insert');
+	Route::match(['get', 'put'], 'projects/edit/{id}', [ProjectController::class, 'edit'])->name('projects.edit');
+	Route::delete('projects/delete/{id}', [ProjectController::class, 'delete'])->name('projects.delete');
 });

@@ -23,7 +23,6 @@ class SocietyController extends Controller
         if ($request->isMethod('post')) {
             try {
                 DB::beginTransaction();
-
                 $errors = AppHelper::validate(
                     [
                         'type' => trim($request->input('txtType')),

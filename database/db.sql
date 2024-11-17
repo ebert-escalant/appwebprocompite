@@ -44,7 +44,7 @@ create table societies (
 	part_number bigint not null,
 	district varchar(255) not null,
 	province varchar(255) not null,
-	departement varchar(255) not null,
+	department varchar(255) not null,
 	comunity varchar(255) not null,
 	address varchar(255) not null,
 	phone varchar(13) not null,
