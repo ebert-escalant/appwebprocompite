@@ -55,16 +55,6 @@ create table societies (
   	updated_at timestamp null default null
 ) engine = innodb;
 
-create table project_society (
-	id ,
-	year int,
-	society_id char(13),
-	project_id char(13),
-	assets json,
-)
-
-create table 
-
 create table partners (
 	id char(13) not primary key null,
 	dni char(8) unique not null,
@@ -102,8 +92,6 @@ create table asset_services(
     idPartner char(13),
     FOREIGN KEY (idPartner) REFERENCES socios(idPartner)
 )engine=innodb;
-
-create table assigned
 
 create table associations(
 	idAssociations char(13) primary key not null,
