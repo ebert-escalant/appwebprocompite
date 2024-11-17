@@ -70,7 +70,7 @@ create table societies (
 	foreign key (id_partner) REFERENCES partners(id)
 ) engine = innodb;
 
-create table society_project (
+create table society_projects (
 	id char(13) primary key not null,
 	society_id char(13) not null,
 	project_id char(13) not null,
@@ -82,14 +82,14 @@ create table society_project (
 	constraint unique (society_id, year, project_id)
 ) engine = innodb;
 
-create table partner_society_project (
+create table society_members (
 	id char(13) primary key not null,
-	society_project_id char(13) not null,
+	year int not null,
+	society_id char(13) not null,
 	partner_id char(13) not null,
-	assets json,
 	created_at timestamp null default null,
   	updated_at timestamp null default null,
-	foreign key (society_project_id) references society_project(id),
+	foreign key (society_id) references societies(id),
 	foreign key (partner_id) references partners(id),
-	constraint unique (society_project_id, partner_id)
+	constraint unique (society_id, year, partner_id)
 ) engine = innodb;
