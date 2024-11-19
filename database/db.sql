@@ -36,7 +36,7 @@ create table projects (
 ) engine = innodb;
 
 create table partners (
-	id char(13) not primary key null,
+	id char(13) primary key not null,
 	dni char(8) unique not null,
 	full_name varchar(500) not null,
 	birthdate date,
