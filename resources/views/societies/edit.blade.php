@@ -66,21 +66,15 @@
 					<input id="txtComunity" name="txtComunity" type="text" class="form-control form-control-sm" value="{{ $society->comunity }}">
 				</div>
 				<div class="row">
-					<div class="col-md-8">
+					<div class="col-md-12">
 						<div class="form-group">
 							<label for="txtAddress">Dirección *</label>
 							<input id="txtAddress" name="txtAddress" type="text" class="form-control form-control-sm" value="{{ $society->address }}">
 						</div>
 					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="txtPhone">Teléfono *</label>
-							<input id="txtPhone" name="txtPhone" type="text" class="form-control form-control-sm" value="{{ $society->phone }}">
-						</div>
-					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-8">
 						<div class="form-group">
 							<label for="txtType">Tipo *</label>
 							<select id="txtType" name="txtType" class="form-control select2" style="width: 100%">
@@ -92,10 +86,10 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-4">
 						<div class="form-group">
-							<label for="txtEmail">Correo electrónico *</label>
-							<input id="txtEmail" name="txtEmail" type="email" class="form-control form-control-sm" value="{{ $society->email }}">
+							<label for="txtPhone">Teléfono *</label>
+							<input id="txtPhone" name="txtPhone" type="text" class="form-control form-control-sm" value="{{ $society->phone }}">
 						</div>
 					</div>
 				</div>

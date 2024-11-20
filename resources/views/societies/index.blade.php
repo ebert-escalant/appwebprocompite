@@ -42,7 +42,6 @@
 								<th>Comunidad</th>
 								<th>Dirección</th>
 								<th>Teléfono</th>
-								<th>Correo</th>
                                 <th width="10%"></th>
                             </tr>
                         </thead>
@@ -59,7 +58,6 @@
 									<td>{{ $item->comunity }}</td>
 									<td>{{ $item->address }}</td>
 									<td>{{ $item->phone }}</td>
-									<td>{{ $item->email }}</td>
 									<td align="right">
 										<a class="btn bg-default btn-sm px-1 py-0" href="{{ route('societies.edit', $item->id) }}" data-toggle="tooltip" data-placement="right" title="Editar" >
 											<i class="fas fa-edit text-success"></i>

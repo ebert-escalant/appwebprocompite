@@ -47,10 +47,6 @@ $(function() {
 			txtPhone: {
 				required: true,
 				maxlength: 9
-			},
-			txtEmail: {
-				required: true,
-				maxlength: 255
 			}
 		},
 		messages: {
@@ -97,11 +93,6 @@ $(function() {
 			txtPhone: {
 				required: 'El campo es requerido',
 				maxlength: 'El campo debe contener máximo 13 caracteres'
-			},
-			txtEmail: {
-				required: 'El campo es requerido',
-				pattern: 'El campo debe ser un correo válido',
-				maxlength: 'El campo debe contener máximo 255 caracteres'
 			}
 		},
 		...validationConfig,
