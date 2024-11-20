@@ -32,7 +32,6 @@
                     <table class="table table-striped text-nowrap" style="min-width: 600px;">
                         <thead>
                             <tr class="bg-slate-300">
-								<th>Código</th>
                                 <th>Nombre del plan de negocio</th>
 								<th>Categoría</th>
 								<th>Monto total de inversión</th>
@@ -43,7 +42,6 @@
                         <tbody>
                             @foreach ($data as $item)
 								<tr>
-									<td>{{ $item->code }}</td>
 									<td>{{ $item->name }}</td>
 									<td>{{ $item->category}}</td>
 									<td>{{ $item->investment_amount }}</td>

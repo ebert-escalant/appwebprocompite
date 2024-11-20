@@ -8,9 +8,6 @@ $(function() {
 				required: true,
 				maxlength: 700
 			},
-			txtCode: {
-				required: true
-			},
             txtCategory:{
                 required: true,
                 maxlength: 255
@@ -26,10 +23,6 @@ $(function() {
 
 		},
 		messages: {
-			txtCode: {
-				required: 'El campo es requerido',
-				maxlength: 'El campo debe contener máximo 255 caracteres'
-			},
             txtPlanNegocio: {
                 required: 'El campo es requerido',
                 maxlength: 'El campo debe contener máximo 700 caracteres'

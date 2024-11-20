@@ -26,7 +26,6 @@ create table sessions (
 
 create table projects (
 	id char(13) primary key not null,
-	code varchar(10) unique not null,
 	name varchar(700) not null,
 	category varchar(255) not null,
 	investment_amount double not null,

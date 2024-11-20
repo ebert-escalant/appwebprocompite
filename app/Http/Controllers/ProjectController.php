@@ -11,7 +11,7 @@ class ProjectController extends Controller
     public function getAll(Request $request)
     {
         $search = $request->input('search') ?? '';
-        $data = Project::whereRaw('concat(code, name, category) like ?', ['%' . $search . '%'])->paginate(10);
+        $data = Project::whereRaw('concat(name, name, category) like ?', ['%' . $search . '%'])->paginate(10);
         $data->appends(['search' => $search]);
         $data->onEachSide(0);
         return view('projects.index', ['data' => $data, 'search' => $search]);
@@ -25,14 +25,12 @@ class ProjectController extends Controller
                 $errors = AppHelper::validate(
                     [
                         'name' => trim($request->input('txtPlanNegocio')),
-                        'code' => trim($request->input('txtCode')),
                         'category' => trim($request->input('txtCategory')),
                         'investment_amount' => trim($request->input('txtAmountInversment')),
                         'cofinance_amount' => trim($request->input('txtConfinanceAmount')),
 					],
 					[
 						'name' => ['required', 'string', 'max:700'],
-                        'code' => ['required', 'string'],
                         'category' => ['required', 'string', 'max:255'],
                         'investment_amount' => ['required', 'numeric'],
                         'cofinance_amount' => ['required', 'numeric'],
@@ -48,7 +46,6 @@ class ProjectController extends Controller
                 $item = new Project();
                 $item->id = uniqid();
                 $item->name = trim($request->input('txtPlanNegocio'));
-                $item->code = trim($request->input('txtCode'));
                 $item->category = trim($request->input('txtCategory'));
                 $item->investment_amount = trim($request->input('txtAmountInversment'));
                 $item->cofinance_amount = trim($request->input('txtConfinanceAmount'));
@@ -85,14 +82,12 @@ class ProjectController extends Controller
                 $errors = AppHelper::validate(
                     [
                         'name' => trim($request->input('txtPlanNegocio')),
-                        'code' => trim($request->input('txtCode')),
                         'category' => trim($request->input('txtCategory')),
                         'investment_amount' => trim($request->input('txtAmountInversment')),
                         'cofinance_amount' => trim($request->input('txtConfinanceAmount')),
 					],
 					[
 						'name' => ['required', 'string', 'max:700'],
-                        'code' => ['required', 'string'],
                         'category' => ['required', 'string', 'max:255'],
                         'investment_amount' => ['required', 'numeric'],
                         'cofinance_amount' => ['required', 'numeric'],
@@ -106,7 +101,6 @@ class ProjectController extends Controller
                 }
 
                 $item->name = trim($request->input('txtPlanNegocio'));
-                $item->code = trim($request->input('txtCode'));
                 $item->category = trim($request->input('txtCategory'));
                 $item->investment_amount = trim($request->input('txtAmountInversment'));
                 $item->cofinance_amount = trim($request->input('txtConfinanceAmount'));
