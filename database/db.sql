@@ -62,8 +62,6 @@ create table societies (
 	comunity varchar(255) not null,
 	address varchar(255) not null,
 	phone varchar(13) not null,
-	latitude varchar(255) not null,
-	longitude varchar(255) not null,
 	created_at timestamp null default null,
   	updated_at timestamp null default null,
 	foreign key (id_partner) REFERENCES partners(id)

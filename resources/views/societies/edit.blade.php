@@ -82,20 +82,6 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="txtLatitude">Latitud *</label>
-							<input id="txtLatitude" name="txtLatitude" type="text" class="form-control form-control-sm" value="{{ $society->latitude }}">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="txtLongitude">Longitud *</label>
-							<input id="txtLongitude" name="txtLongitude" type="text" class="form-control form-control-sm" value="{{ $society->longitude }}">
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
 							<label for="txtType">Tipo *</label>
 							<select id="txtType" name="txtType" class="form-control select2" style="width: 100%">
 								<option></option>

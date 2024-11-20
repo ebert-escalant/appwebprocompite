@@ -36,8 +36,6 @@ class SocietyController extends Controller
 						'comunity' => trim($request->input('txtComunity')),
 						'address' => trim($request->input('txtAddress')),
 						'phone' => trim($request->input('txtPhone')),
-						'latitude' => trim($request->input('txtLatitude')),
-						'longitude' => trim($request->input('txtLongitude')),
 						'email' => trim($request->input('txtEmail')),
 					],
 					[
@@ -52,8 +50,6 @@ class SocietyController extends Controller
 						'comunity' => ['required', 'string', 'max:255'],
 						'address' => ['required', 'string', 'max:255'],
 						'phone' => ['required', 'string', 'max:13'],
-						'latitude' => ['required', 'string', 'max:255'],
-						'longitude' => ['required', 'string', 'max:255'],
 						'email' => ['required', 'string', 'max:255'],
                     ]
                 );
@@ -77,8 +73,6 @@ class SocietyController extends Controller
 				$item->comunity = trim($request->input('txtComunity'));
 				$item->address = trim($request->input('txtAddress'));
 				$item->phone = trim($request->input('txtPhone'));
-				$item->latitude = trim($request->input('txtLatitude'));
-				$item->longitude = trim($request->input('txtLongitude'));
 				$item->email = trim($request->input('txtEmail'));
 
                 $item->save();
@@ -127,8 +121,6 @@ class SocietyController extends Controller
 						'comunity' => trim($request->input('txtComunity')),
 						'address' => trim($request->input('txtAddress')),
 						'phone' => trim($request->input('txtPhone')),
-						'latitude' => trim($request->input('txtLatitude')),
-						'longitude' => trim($request->input('txtLongitude')),
 						'email' => trim($request->input('txtEmail')),
 					],
 					[
@@ -143,8 +135,6 @@ class SocietyController extends Controller
 						'comunity' => ['required', 'string', 'max:255'],
 						'address' => ['required', 'string', 'max:255'],
 						'phone' => ['required', 'string', 'max:13'],
-						'latitude' => ['required', 'string', 'max:255'],
-						'longitude' => ['required', 'string', 'max:255'],
 						'email' => ['required', 'string', 'max:255'],
                     ]
                 );
@@ -166,8 +156,6 @@ class SocietyController extends Controller
 				$item->comunity = trim($request->input('txtComunity'));
 				$item->address = trim($request->input('txtAddress'));
 				$item->phone = trim($request->input('txtPhone'));
-				$item->latitude = trim($request->input('txtLatitude'));
-				$item->longitude = trim($request->input('txtLongitude'));
 				$item->email = trim($request->input('txtEmail'));
 
                 $item->save();

@@ -21,7 +21,8 @@ $(function() {
 			},
 			txtPartNumber: {
 				required: true,
-				number: true
+				number: true,
+				maxlength: 8
 			},
 			txtDistrict: {
 				required: true,
@@ -45,15 +46,7 @@ $(function() {
 			},
 			txtPhone: {
 				required: true,
-				maxlength: 13
-			},
-			txtLatitude: {
-				required: true,
-				maxlength: 255
-			},
-			txtLongitude: {
-				required: true,
-				maxlength: 255
+				maxlength: 9
 			},
 			txtEmail: {
 				required: true,
@@ -104,14 +97,6 @@ $(function() {
 			txtPhone: {
 				required: 'El campo es requerido',
 				maxlength: 'El campo debe contener máximo 13 caracteres'
-			},
-			txtLatitude: {
-				required: 'El campo es requerido',
-				maxlength: 'El campo debe contener máximo 255 caracteres'
-			},
-			txtLongitude: {
-				required: 'El campo es requerido',
-				maxlength: 'El campo debe contener máximo 255 caracteres'
 			},
 			txtEmail: {
 				required: 'El campo es requerido',
