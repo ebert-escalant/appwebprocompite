@@ -39,7 +39,7 @@
                                 <th>Dirección</th>
 								<th>Cooreo electrónico</th>
                                 <th>Carga familiar</th>
-                                <th>Carga</th>
+                                <th>Cargo</th>
                                 {{-- <th>Conyugue</th> --}}
                                 <th width="10%"></th>
                             </tr>

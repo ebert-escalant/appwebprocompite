@@ -84,6 +84,79 @@ class PartnerController extends Controller
         return view('partners.insert');
     }
 
+    public function edit(Request $request, $id)
+    {
+        $partner = Partner::find($id);
+        if (!$partner) {
+            return AppHelper::redirect(route('partners.index'), AppHelper::ERROR, ['Socio no encontrado']);
+        }
+
+        if ($request->isMethod('put')) {
+            try {
+                DB::beginTransaction();
+                $errors = AppHelper::validate(
+                    [
+                        'dni' => trim($request->input('txtDni')),
+                        'full_name' => trim($request->input('txtFullName')),
+                        'birthdate' => trim($request->input('txtBirthdate')),
+                        'phone' => trim($request->input('txtPhone')),
+                        'address' => trim($request->input('txtAddress')),
+                        'email' => trim($request->input('txtEmail')),
+                        'family_charge' => trim($request->input('txtFamilyCharge')),
+                        'charge' => trim($request->input('txtCharge'))
+                    ],
+                    [
+                        'dni' => ['required', 'string', 'max:8'],
+                        'full_name' => ['required', 'string', 'max:255'],
+                        'birthdate' => ['required', 'date_format:Y-m-d'],
+                        'phone' => ['required', 'string', 'max:13'],
+                        'address' => ['required', 'string', 'max:255'],
+                        'email' => ['required', 'string', 'max:255'],
+                        'family_charge' => ['required', 'string', 'max:255'],
+                        'charge' => ['required', 'string', 'max:255']
+                    ]
+                );
+
+                if (count($errors) > 0) {
+                    DB::rollBack();
+
+                    return AppHelper::redirect(route('partners.edit', ['id' => $id]), AppHelper::ERROR, $errors);
+                }
+
+                $partner->dni = $request->input('txtDni');
+                $partner->full_name = $request->input('txtFullName');
+                $partner->birthdate = $request->input('txtBirthdate');
+                $partner->phone = $request->input('txtPhone');
+                $partner->address = $request->input('txtAddress');
+                $partner->email = $request->input('txtEmail');
+                $partner->family_charge = $request->input('txtFamilyCharge');
+                $partner->charge = $request->input('txtCharge');
+                $partner->save();
+
+                DB::commit();
+
+                return AppHelper::redirect(route('partners.index'), AppHelper::SUCCESS, ['Actualización exitosa']);
+            } catch (\Exception $e) {
+                DB::rollBack();
+
+                return AppHelper::redirect(route('partners.edit', ['id' => $id]), AppHelper::ERROR, [$e->getMessage()]);
+            }
+        }
+        return view('partners.edit', ['partner' => $partner]);
+    }
+
+    public function delete($id)
+    {
+        $partner = Partner::find($id);
+        if (!$partner) {
+            return AppHelper::redirect(route('partners.index'), AppHelper::ERROR, ['Socio no encontrado']);
+        }
+
+        $partner->delete();
+
+        return AppHelper::redirect(route('partners.index'), AppHelper::SUCCESS, ['Eliminación exitosa']);
+    }
+
     public function getByDni($dni)
     {
         $partner = Partner::where('dni', $dni)->first();
