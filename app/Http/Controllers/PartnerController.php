@@ -38,7 +38,7 @@ class PartnerController extends Controller
 						'spouse_dni' => trim($request->input('txtSpouseDni')),
 						'has_spouse' => trim($request->input('chkHasSpouse')),
 						'spouse_full_name' => trim($request->input('txtSpouseFullName')),
-						'spouse_birthdate' => trim($request->input('txtSpouseBirthdate')),
+						'spouse_birthdate' => trim($request->input('txtSpouseBirthDate')),
 						'spouse_phone' => trim($request->input('txtSpousePhone')),
 						'spouse_email' => trim($request->input('txtSpouseEmail'))
                     ],
@@ -69,7 +69,7 @@ class PartnerController extends Controller
                 $partner->id = uniqid();
                 $partner->dni = trim($request->input('txtDni'));
                 $partner->full_name = trim($request->input('txtFullName'));
-                $partner->birthdate = trim($request->input('txtBirthdate'));
+                $partner->birthdate = trim($request->input('txtBirthDate'));
                 $partner->phone = trim($request->input('txtPhone'));
                 $partner->address = trim($request->input('txtAddress'));
                 $partner->email = trim($request->input('txtEmail')) ? trim($request->input('txtEmail')) : '';
@@ -80,7 +80,7 @@ class PartnerController extends Controller
 					$partner->spouse = json_encode([
 						'dni' => trim($request->input('txtSpouseDni')),
 						'full_name' => trim($request->input('txtSpouseFullName')),
-						'birthdate' => trim($request->input('txtSpouseBirthdate')),
+						'birthdate' => trim($request->input('txtSpouseBirthDate')),
 						'phone' => trim($request->input('txtSpousePhone')),
 						'email' => trim($request->input('txtSpouseEmail')) ? trim($request->input('txtSpouseEmail')) : ''
 					]);
