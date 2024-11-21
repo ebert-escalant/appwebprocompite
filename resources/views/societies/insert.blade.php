@@ -89,6 +89,41 @@
 						</div>
 					</div>
 				</div>
+				<hr>
+				<h4 class="card-title">Datos del representante legal</h4>
+				<div class="row">
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="txtDni">DNI *</label>
+							<input id="txtDni" name="txtDni" type="text" class="form-control form-control-sm" onblur="getParntnerByDni(event)">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="txtFullName">Nombre completo *</label>
+							<input id="txtFullName" name="txtFullName" type="text" class="form-control form-control-sm">
+						</div>
+					</div>
+                    <div class="col-md-3">
+                        <label for="txtPhone2">Teléfono*</label>
+                        <input id="txtPhone2" name="txtPhone2" type="text" class="form-control form-control-sm">
+                    </div>
+					<div class="col-md-3">
+                        <label for="txtCharge">Cargo *</label>
+                        <select name="txtCharge" id="txtCharge">
+							<option></option>
+                            <option value="Miembro">Miembro</option>
+                            <option value="Directivo">Directivo</option>
+                            <option value="Presidente">Presidente</option>
+                        </select>
+                    </div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+                        <label for="txtEmail">Correlo electrónico *</label>
+                        <input id="txtEmail" name="txtEmail" type="email" class="form-control form-control-sm">
+                    </div>
+				</div>
 				<div class="d-flex align-items-center justify-content-end">
 					<button class="btn btn-primary" type="submit">Registrar datos</button>
 				</div>

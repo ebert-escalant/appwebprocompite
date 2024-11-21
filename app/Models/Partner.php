@@ -3,16 +3,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Society extends Model
+
+class Partner extends Model
 {
-	protected $table = 'societies';
+	protected $table = 'partners';
 	protected $primaryKey = 'id';
 	protected $keyType = 'string';
 	public $incrementing = false;
 	public $timestamps = true;
-
-	public function partner()
-    {
-        return $this->belongsTo(Partner::class, 'id_partner', 'id');
-    }
 }
