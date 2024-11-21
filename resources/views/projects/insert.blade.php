@@ -9,25 +9,19 @@
 					<input id="txtPlanNegocio" name="txtPlanNegocio" type="text" class="form-control form-control-sm">
 				</div>
 				<div class="row">
-					<div class="col-md-3">
-						<div class="form-group">
-							<label for="txtCode">Código *</label>
-							<input id="txtCode" name="txtCode" type="text" class="form-control form-control-sm">
-						</div>
-					</div>
-					<div class="col-md-3">
+					<div class="col-md-4">
 						<div class="form-group">
 							<label for="txtCategory">Categoría *</label>
 							<input id="txtCategory" name="txtCategory" type="text" class="form-control form-control-sm">
 						</div>
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-4">
 						<div class="form-group">
 							<label for="txtAmountInversment">Monto de inversión *</label>
 							<input id="txtAmountInversment" name="txtAmountInversment" type="text" class="form-control form-control-sm">
 						</div>
 					</div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="txtConfinanceAmount">Cofinanciamineto solicitado *</label>
                         <input id="txtConfinanceAmount" name="txtConfinanceAmount" type="text" class="form-control form-control-sm">
                     </div>

@@ -21,7 +21,8 @@ $(function() {
 			},
 			txtPartNumber: {
 				required: true,
-				number: true
+				number: true,
+				maxlength: 8
 			},
 			txtDistrict: {
 				required: true,
@@ -45,19 +46,7 @@ $(function() {
 			},
 			txtPhone: {
 				required: true,
-				maxlength: 13
-			},
-			txtLatitude: {
-				required: true,
-				maxlength: 255
-			},
-			txtLongitude: {
-				required: true,
-				maxlength: 255
-			},
-			txtEmail: {
-				required: true,
-				maxlength: 255
+				maxlength: 9
 			}
 		},
 		messages: {
@@ -104,19 +93,6 @@ $(function() {
 			txtPhone: {
 				required: 'El campo es requerido',
 				maxlength: 'El campo debe contener máximo 13 caracteres'
-			},
-			txtLatitude: {
-				required: 'El campo es requerido',
-				maxlength: 'El campo debe contener máximo 255 caracteres'
-			},
-			txtLongitude: {
-				required: 'El campo es requerido',
-				maxlength: 'El campo debe contener máximo 255 caracteres'
-			},
-			txtEmail: {
-				required: 'El campo es requerido',
-				pattern: 'El campo debe ser un correo válido',
-				maxlength: 'El campo debe contener máximo 255 caracteres'
 			}
 		},
 		...validationConfig,
@@ -155,4 +131,22 @@ function getDistricts(event) {
 			$('#txtDistrict').html(`<option></option>${html.join('')}`)
 		}
 	})
+}
+
+function getParntnerByDni(event){
+    $.ajax({
+        url: `${_baseAppUrl}/partnersdni/${event.target.value}`,
+        type: 'GET',
+        data: {
+            dni: $('#txtDni').val()
+        },
+        success: function(response){
+            console.log(response.address)
+        $('#txtFullName').val(response.full_name).prop('disabled', true)  
+        $('#txtPhone2').val(response.phone).prop('disabled', true)
+        // $('txtAddress').val(response.address)//nani
+        $('#txtEmail').val(response.email).prop('disabled', true)
+        $('#txtCharge').val(response.charge).prop('disabled', true)     
+        }
+    })
 }

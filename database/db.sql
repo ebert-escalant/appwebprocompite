@@ -26,7 +26,6 @@ create table sessions (
 
 create table projects (
 	id char(13) primary key not null,
-	code varchar(10) unique not null,
 	name varchar(700) not null,
 	category varchar(255) not null,
 	investment_amount double not null,
@@ -36,12 +35,12 @@ create table projects (
 ) engine = innodb;
 
 create table partners (
-	id char(13) not primary key null,
+	id char(13) primary key not null,
 	dni char(8) unique not null,
 	full_name varchar(500) not null,
 	birthdate date,
 	phone varchar(13) not null,
-	addres varchar(255) not null,
+	address varchar(255) not null,
 	email varchar(255) not null,
 	family_charge varchar(50) not null,
 	charge varchar(50) not null,
@@ -63,8 +62,6 @@ create table societies (
 	comunity varchar(255) not null,
 	address varchar(255) not null,
 	phone varchar(13) not null,
-	latitude varchar(255) not null,
-	longitude varchar(255) not null,
 	created_at timestamp null default null,
   	updated_at timestamp null default null,
 	foreign key (id_partner) REFERENCES partners(id)

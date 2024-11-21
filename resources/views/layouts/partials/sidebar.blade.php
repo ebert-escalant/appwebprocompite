@@ -25,16 +25,22 @@
                 </a>
             </li>
             <li class="nav-item nav-category">Mantenimientos</li>
-			<li class="nav-item {{ request()->routeIs('societies.*') ? 'active' : '' }}">
-                <a href="{{ route('societies.index') }}" class="nav-link">
-                    <i class="link-icon" data-feather="layers"></i>
-                    <span class="link-title">Organización</span>
+            <li class="nav-item {{ request()->routeIs('partners.*') ? 'active' : '' }}">
+                <a href="{{ route('partners.index') }}" class="nav-link">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Socios</span>
                 </a>
             </li>
             <li class="nav-item {{ request()->routeIs('projects.*') ? 'active' : '' }}">
                 <a href="{{ route('projects.index') }}" class="nav-link">
                     <i class="link-icon" data-feather="file-text"></i>
                     <span class="link-title">Plan de negocio</span>
+                </a>
+            </li>
+			<li class="nav-item {{ request()->routeIs('societies.*') ? 'active' : '' }}">
+                <a href="{{ route('societies.index') }}" class="nav-link">
+                    <i class="link-icon" data-feather="layers"></i>
+                    <span class="link-title">Organización</span>
                 </a>
             </li>
 			<li class="nav-item">

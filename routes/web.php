@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SocietyController;
 use App\Http\Controllers\UbigeoController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\PartnerController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->group(function () {
@@ -30,4 +31,11 @@ Route::middleware(['auth'])->group(function () {
 	Route::match(['get', 'post'], 'projects/insert', [ProjectController::class, 'insert'])->name('projects.insert');
 	Route::match(['get', 'put'], 'projects/edit/{id}', [ProjectController::class, 'edit'])->name('projects.edit');
 	Route::delete('projects/delete/{id}', [ProjectController::class, 'delete'])->name('projects.delete');
+
+	Route::get('partners', [PartnerController::class, 'getAll'])->name('partners.index');
+	Route::match(['get', 'post'], 'partners/insert', [PartnerController::class, 'insert'])->name('partners.insert');
+	Route::match(['get', 'put'], 'partners/edit/{id}', [PartnerController::class, 'edit'])->name('partners.edit');
+	Route::delete('partners/delete/{id}', [PartnerController::class, 'delete'])->name('partners.delete');
+	Route::get('partnersdni/{dni}', [PartnerController::class, 'getByDni'])->name('partners.show');
+
 });
