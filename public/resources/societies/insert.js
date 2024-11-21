@@ -1,6 +1,6 @@
 'use strict'
 
-$(function() {
+$(function () {
 
 	$('#frmInsertSociety').validate({
 		rules: {
@@ -133,20 +133,20 @@ function getDistricts(event) {
 	})
 }
 
-function getParntnerByDni(event){
-    $.ajax({
-        url: `${_baseAppUrl}/partnersdni/${event.target.value}`,
-        type: 'GET',
-        data: {
-            dni: $('#txtDni').val()
-        },
-        success: function(response){
-            console.log(response.address)
-        $('#txtFullName').val(response.full_name).prop('disabled', true)  
-        $('#txtPhone2').val(response.phone).prop('disabled', true)
-        // $('txtAddress').val(response.address)//nani
-        $('#txtEmail').val(response.email).prop('disabled', true)
-        $('#txtCharge').val(response.charge).prop('disabled', true)     
-        }
-    })
+function getParntnerByDni(event) {
+	$.ajax({
+		url: `${_baseAppUrl}/partners/get-by-dni/${event.target.value}`,
+		type: 'GET',
+		data: {
+			dni: $('#txtDni').val()
+		},
+		success: function (response) {
+			console.log(response.address)
+			$('#txtFullName').val(response.full_name).prop('disabled', true)
+			$('#txtPhone2').val(response.phone).prop('disabled', true)
+			// $('txtAddress').val(response.address)//nani
+			$('#txtEmail').val(response.email).prop('disabled', true)
+			$('#txtCharge').val(response.charge).prop('disabled', true)
+		}
+	})
 }

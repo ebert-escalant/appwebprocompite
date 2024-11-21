@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="{{ asset('vendors/flag-icon-css/css/flag-icon.min.css') }}">
     <!-- endinject -->
     <!-- Layout styles -->
-    <link rel="stylesheet" href="{{ asset('css/style.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css?x='.env('CACHE_UPDATE_DATE')) }}">
     <link rel="stylesheet" href="{{ asset('vendors/toastr/toastr.min.css') }}">
     <!-- Styles / Scripts -->

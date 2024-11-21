@@ -36,6 +36,6 @@ Route::middleware(['auth'])->group(function () {
 	Route::match(['get', 'post'], 'partners/insert', [PartnerController::class, 'insert'])->name('partners.insert');
 	Route::match(['get', 'put'], 'partners/edit/{id}', [PartnerController::class, 'edit'])->name('partners.edit');
 	Route::delete('partners/delete/{id}', [PartnerController::class, 'delete'])->name('partners.delete');
-	Route::get('partnersdni/{dni}', [PartnerController::class, 'getByDni'])->name('partners.show');
+	Route::get('partners/get-by-dni/{dni}', [PartnerController::class, 'getByDni'])->name('partners.findByDni');
 
 });

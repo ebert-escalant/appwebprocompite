@@ -74,34 +74,6 @@
 										</form>
 									</td>
 								</tr>
-                                {{-- <tr>
-                                    <td>{{ $item->name }}</td>
-									<td class="text-center">{{ date('d-m-Y', strtotime($item->created_at)) }}</td>
-									<td class="text-center">
-										@if ($item->status)
-											<span class="badge bg-success">Activo</span>
-										@else
-											<span class="badge bg-danger">Inactivo</span>
-										@endif
-									</td>
-                                    <td align="right">
-                                        <button class="btn bg-teal btn-sm px-1 py-0" data-toggle="tooltip"
-                                            data-placement="right" title="Editar"
-                                            onclick="openAjaxModal('', 'Editar', null, '{{ route('societies.edit', $item->id) }}', 'GET');">
-                                            <i class="fas fa-edit "></i>
-                                        </button>
-                                        <button class="btn bg-maroon btn-sm px-1 py-0" data-toggle="tooltip"
-                                            data-placement="right" title="Eliminar"
-                                            onclick="sendFrmConfirm('delete{{ $item->id }}society')">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                        <form id="delete{{ $item->id }}society"
-                                            action="{{ route('societies.delete', $item->id) }}" method="POST" hidden>
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
-                                    </td>
-                                </tr> --}}
                             @endforeach
                         </tbody>
                     </table>
