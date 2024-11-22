@@ -7,7 +7,7 @@
                 @method('PUT')
 				<div class="form-group">
 					<label for="txtDni">DNI *</label>
-					<input id="txtDni" name="txtDni" type="text" class="form-control form-control-sm" value={{ $partner->dni}}>
+					<input id="txtDni" name="txtDni" type="text" maxlength="8" class="form-control form-control-sm" value={{ $partner->dni}}>
 				</div>
 				<div class="row">
 					<div class="col-md-4">
@@ -24,7 +24,7 @@
 					</div>
                     <div class="col-md-4">
                         <label for="txtPhone">Teléfono*</label>
-                        <input id="txtPhone" name="txtPhone" type="text" class="form-control form-control-sm" value="{{ $partner->phone }}">
+                        <input id="txtPhone" name="txtPhone" type="text" maxlength="9" class="form-control form-control-sm" value="{{ $partner->phone }}">
                     </div>
 				</div>
                 <div class="row">
@@ -50,8 +50,40 @@
                         </select>
                     </div>
                 </div>
+				<hr>
+				<p class="h5 text-primary mb-3">Datos de la pareja</p>
+				<div class="form-check form-check-flat form-check-primary">
+					<label for="chkHasSpouse" class="form-check-label">
+						<input type="checkbox" id="chkHasSpouse" name="chkHasSpouse" class="form-check-input" {{$partner->spouse ? 'checked' : ''}} onchange="changeChkHasSpouse(event)">
+						¿Tiene pareja?
+					</label>
+				</div>
+				<div class="row hasSpouseDiv" style="display: none;">
+					<div class="col-md-4 form-group">
+						<label for="txtSpouseDni">DNI *</label>
+						<input id="txtSpouseDni" name="txtSpouseDni" type="text" maxlength="8" class="form-control form-control-sm" maxlength="8" value="{{$partner->spouse ? $partner->spouse->dni: ''}}">
+					</div>
+					<div class="col-md-8 form-group">
+						<label for="txtSpouseFullName">Nombre completo *</label>
+						<input id="txtSpouseFullName" name="txtSpouseFullName" type="text" class="form-control form-control-sm" value="{{$partner->spouse ? $partner->spouse->full_name : ''}}">
+					</div>
+				</div>
+				<div class="row hasSpouseDiv" style="display: none;">
+					<div class="col-md-4 form-group">
+						<label for="txtSpouseBirthDate">Fecha de nacimieto *</label>
+						<input id="txtSpouseBirthDate" name="txtSpouseBirthDate" type="date" class="form-control form-control-sm" value="{{$partner->spouse ? $partner->spouse->birthdate : ''}}">
+					</div>
+					<div class="col-md-4 form-group">
+						<label for="txtSpousePhone">Teléfono*</label>
+						<input id="txtSpousePhone" name="txtSpousePhone" type="text" maxlength="9" class="form-control form-control-sm" maxlength="9" value="{{$partner->spouse ? $partner->spouse->phone : ''}}">
+					</div>
+					<div class="col-md-4 form-group">
+						<label for="txtSpouseEmail">Correlo electrónico *</label>
+						<input id="txtSpouseEmail" name="txtSpouseEmail" type="email" class="form-control form-control-sm" value="{{$partner->spouse ? $partner->spouse->email : ''}}">
+					</div>
+				</div>
 				<div class="d-flex align-items-center justify-content-end">
-					<button class="btn btn-primary" type="submit">Registrar datos</button>
+					<button class="btn btn-primary" type="submit">Guardar datos</button>
 				</div>
 			</form>
 		</div>
@@ -59,6 +91,7 @@
 	@push('scripts')
 		<script>
 			var _baseAppUrl = "{{ url('') }}";
+			let spouseStatus = {{ $partner->spouse ? 1 : 0 }};
 		</script>
 		<script src="{{ asset('resources/partners/edit.js?x='.env('CACHE_UPDATE_DATE')) }}"></script>
 	@endpush

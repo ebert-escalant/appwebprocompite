@@ -81,7 +81,7 @@ class SocietyController extends Controller
                 return AppHelper::redirect(route('societies.insert'), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
             } catch (\Exception $e) {
                 DB::rollBack();
-
+				return dd($e->getMessage());
                 return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.insert'));
             }
         }

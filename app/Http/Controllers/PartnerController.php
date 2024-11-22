@@ -103,6 +103,11 @@ class PartnerController extends Controller
     public function edit(Request $request, $id)
     {
         $partner = Partner::find($id);
+       
+        if($partner->spouse){
+            $partner->spouse = json_decode(stripslashes($partner->spouse), true);
+        }
+
         if (!$partner) {
             return AppHelper::redirect(route('partners.index'), AppHelper::ERROR, ['Socio no encontrado']);
         }
@@ -147,6 +152,17 @@ class PartnerController extends Controller
                 $partner->email = $request->input('txtEmail');
                 $partner->family_charge = $request->input('txtFamilyCharge');
                 $partner->charge = $request->input('txtCharge');
+                if($request->input('chkHasSpouse')){
+                    $partner->spouse = json_encode([
+						'dni' => trim($request->input('txtSpouseDni')),
+						'full_name' => trim($request->input('txtSpouseFullName')),
+						'birthdate' => trim($request->input('txtSpouseBirthDate')),
+						'phone' => trim($request->input('txtSpousePhone')),
+						'email' => trim($request->input('txtSpouseEmail')) ? trim($request->input('txtSpouseEmail')) : ''
+					]);
+                }else{
+                    $partner->spouse = null;
+                }
                 $partner->save();
 
                 DB::commit();
