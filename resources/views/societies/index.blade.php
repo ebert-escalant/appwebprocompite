@@ -59,6 +59,9 @@
 									<td>{{ $item->address }}</td>
 									<td>{{ $item->phone }}</td>
 									<td align="right">
+										<a class="btn bg-default btn-sm px-1 py-0" href="{{ route('societies.members', $item->id) }}" data-toggle="tooltip" data-placement="right" title="Socios" >
+											<i class="fas fa-users text-primary"></i>
+										</a>
 										<a class="btn bg-default btn-sm px-1 py-0" href="{{ route('societies.edit', $item->id) }}" data-toggle="tooltip" data-placement="right" title="Editar" >
 											<i class="fas fa-edit text-success"></i>
 										</a>

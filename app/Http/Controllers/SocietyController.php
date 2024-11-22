@@ -2,7 +2,9 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\AppHelper;
+use App\Models\Partner;
 use App\Models\Society;
+use App\Models\SocietyMember;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -170,11 +172,11 @@ class SocietyController extends Controller
             return AppHelper::redirect(route('societies.index'), AppHelper::ERROR, ['Registro no encontrado.']);
         }
 
-		$departments = $this->getDepartments();
+		$departments = AppHelper::getDepartments();
 
-		$provinces = $this->getProvinces($item->department);
+		$provinces = AppHelper::getProvinces($item->department);
 
-		$districts = $this->getDistricts($item->province);
+		$districts = AppHelper::getDistricts($item->province);
 
 		/* return response()->json($provinces); */
 
@@ -205,69 +207,6 @@ class SocietyController extends Controller
             return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.index'));
         }
     }
-
-	public function getDepartments()
-	{
-		$json = file_get_contents(public_path('data/departments.json'));
-
-		$data = json_decode($json, true);
-
-		return $data;
-	}
-
-	public function getProvinces($department)
-	{
-		$departments = file_get_contents(public_path('data/departments.json'));
-
-		$departments = json_decode($departments, true);
-
-		$department = array_filter($departments, function ($item) use ($department) {
-			return strtolower($item['name']) == strtolower($department);
-		});
-
-		if (empty($department)) {
-			return [];
-		}
-
-		$department = array_values($department);
-
-		$json = file_get_contents(public_path('data/provinces.json'));
-
-		$data = json_decode($json, true);
-
-		$data = array_filter($data, function ($item) use ($department) {
-			return $item['department_id'] == $department[0]['id'];
-		});
-
-		return array_values($data);
-	}
-
-	public function getDistricts($province)
-	{
-		$provinces = file_get_contents(public_path('data/provinces.json'));
-
-		$provinces = json_decode($provinces, true);
-
-		$province = array_filter($provinces, function ($item) use ($province) {
-			return strtolower($item['name']) == strtolower($province);
-		});
-
-		if (empty($province)) {
-			return [];
-		}
-
-		$province = array_values($province);
-
-		$json = file_get_contents(public_path('data/districts.json'));
-
-		$data = json_decode($json, true);
-
-		$data = array_filter($data, function ($item) use ($province) {
-			return $item['province_id'] == $province[0]['id'];
-		});
-
-		return array_values($data);
-	}
 
 	public function addProject(Request $request, $id) {
 		if ($request->isMethod('post')) {
@@ -309,6 +248,187 @@ class SocietyController extends Controller
 
 				return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.index'));
 			}
+		}
+	}
+
+	public function getMembers(Request $request, $id) {
+		$item = Society::find($id);
+		$year = $request->input('year') ? $request->input('year') : date('Y');
+		$search = $request->input('search') ? $request->input('search') : '';
+
+		if (!$item) {
+			return AppHelper::redirect(route('societies.index'), AppHelper::ERROR, ['Registro no encontrado.']);
+		}
+
+		$members = $item->societyMembers()->with('member')->whereRaw('year=?', [$year])->whereHas('member', function($query) use ($search) {
+			$query->whereRaw('concat(dni, full_name) like ?', ['%' . $search . '%']);
+		})->paginate(10);
+
+		$members->appends(['year' => $year]);
+		$members->appends(['search' => $search]);
+
+		$members->onEachSide(0);
+
+		return view('societies.members', ['society' => $item, 'members' => $members, 'year' => $year, 'years' => range(date('Y'), 2018, -1), 'search' => $search]);
+	}
+
+	public function editMemberAssets(Request $request, $id) {
+		if ($request->isMethod('put')) {
+			try {
+				DB::beginTransaction();
+				$item = SocietyMember::find($id);
+
+
+				if (!$item) {
+					DB::rollBack();
+
+					return AppHelper::redirect(route('societies.members', $item->society_id), AppHelper::ERROR, ['Registro no encontrado.']);
+				}
+
+				$errors = AppHelper::validate(
+					[
+						'assets' => trim($request->input('txtAssets'))
+					],
+					[
+						'assets' => ['nullable', 'string']
+					]
+				);
+
+				if (count($errors) > 0) {
+					DB::rollBack();
+
+					return AppHelper::redirect(route('societies.members', $item->society_id), AppHelper::ERROR, $errors);
+				}
+
+				$assets = json_decode(trim($request->input('txtAssets')), true);
+				$newAssets = null;
+
+				if ($assets && is_array($assets)) {
+					foreach ($assets as $asset) {
+						$newAssets[] = [
+							'description' => $asset['description'],
+							'quantity' => $asset['quantity'],
+							'unit' => $asset['unit'],
+							'receptionDate' => $asset['receptionDate'],
+							'type' => $asset['type']
+						];
+					}
+				}
+
+				$item->assets = json_encode($newAssets);
+
+				$item->save();
+
+				DB::commit();
+
+				return AppHelper::redirect(route('societies.members', $item->society_id), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
+			} catch (\Exception $e) {
+				DB::rollBack();
+				dd($e->getMessage());
+				return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.members', $item->society_id));
+			}
+		}
+
+		$item = SocietyMember::find($id);
+
+		if (!$item) {
+			return '<div class="alert alert-danger">Registro no encontrado.</div>';
+		}
+
+		return view('societies.edit-assets', ['member' => $item]);
+	}
+
+	public function addMember(Request $request, $id) {
+		try {
+			DB::beginTransaction();
+
+			$item = Society::find($id);
+
+			if (!$item) {
+				DB::rollBack();
+
+				return AppHelper::redirect(route('societies.members', $item->id), AppHelper::ERROR, ['Registro no encontrado.']);
+			}
+
+			$errors = AppHelper::validate(
+				[
+					'year' => trim($request->input('txtYear')),
+					'dni' => trim($request->input('txtDni'))
+				],
+				[
+					'year' => ['required', 'numeric'],
+					'dni' => ['required', 'string', 'max:8', 'exists:partners,dni']
+				]
+			);
+
+			if (count($errors) > 0) {
+				DB::rollBack();
+
+				return AppHelper::redirect(route('societies.members', $item->id), AppHelper::ERROR, $errors);
+			}
+
+			$partner = Partner::where('dni', trim($request->input('txtDni')))->first();
+
+			$existitem = SocietyMember::with('society')->whereRaw('partner_id=? and year=?', [$partner->id, trim($request->input('txtYear'))])->first();
+
+			if ($existitem) {
+				DB::rollBack();
+
+				return AppHelper::redirect(route('societies.members', $item->id), AppHelper::ERROR, ["El socio ya es miembro de la organización {$existitem->society->social_razon} en el año seleccionado."]);
+			}
+
+			if ($partner->spouse) {
+				$spouse = Partner::whereRaw('dni=?', [$partner->spouse->dni])->first();
+
+				if($spouse) {
+					$existmember = SocietyMember::whereRaw('partner_id=? and year=?', [$spouse->id, trim($request->input('txtYear'))])->first();
+
+					if ($existmember) {
+						DB::rollBack();
+
+						return AppHelper::redirect(route('societies.members', $item->id), AppHelper::ERROR, ['No se puede agregar el socio por que su esposo(a) ya es miembro de una organización.']);
+					}
+				}
+			}
+
+			$member = new SocietyMember();
+			$member->id = uniqid();
+			$member->society_id = $item->id;
+			$member->partner_id = $partner->id;
+			$member->year = trim($request->input('txtYear'));
+			$member->assets = null;
+
+			$member->save();
+
+			DB::commit();
+
+			return AppHelper::redirect(route('societies.members', $item->id), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
+		} catch (\Exception $e) {
+			DB::rollBack();
+			dd($e->getMessage());
+			return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.members', $item->id));
+		}
+	}
+
+	public function deleteMember($id) {
+		$item = SocietyMember::find($id);
+
+		if (!$item) {
+			return AppHelper::redirect(route('societies.members', $item->society_id), AppHelper::ERROR, ['Registro no encontrado.']);
+		}
+
+		try {
+			DB::beginTransaction();
+
+			$item->delete();
+
+			DB::commit();
+
+			return AppHelper::redirect(route('societies.members', $item->society_id), AppHelper::SUCCESS, ['Operación realizó con éxito.']);
+		} catch (\Exception $e) {
+			DB::rollBack();
+
+			return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.members', $item->society_id));
 		}
 	}
 }

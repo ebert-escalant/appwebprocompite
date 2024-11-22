@@ -30,4 +30,11 @@ class Partner extends Model
 	{
 		return $this->belongsToMany(Project::class, 'society_members', 'partner_id', 'project_id', 'id', 'id');
 	}
+
+	protected function casts()
+	{
+		return [
+			'spouse' => 'object'
+		];
+	}
 }

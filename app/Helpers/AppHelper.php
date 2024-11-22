@@ -76,4 +76,80 @@ class AppHelper
 
 		return $body->success;
 	}
+
+	public static function getDepartments()
+	{
+		$json = file_get_contents(public_path('data/departments.json'));
+
+		$data = json_decode($json, true);
+
+		return $data;
+	}
+
+	public static function getProvinces($department)
+	{
+		$departments = file_get_contents(public_path('data/departments.json'));
+
+		$departments = json_decode($departments, true);
+
+		$department = array_filter($departments, function ($item) use ($department) {
+			return strtolower($item['name']) == strtolower($department);
+		});
+
+		if (empty($department)) {
+			return [];
+		}
+
+		$department = array_values($department);
+
+		$json = file_get_contents(public_path('data/provinces.json'));
+
+		$data = json_decode($json, true);
+
+		$data = array_filter($data, function ($item) use ($department) {
+			return $item['department_id'] == $department[0]['id'];
+		});
+
+		return array_values($data);
+	}
+
+	public static function getDistricts($province)
+	{
+		$provinces = file_get_contents(public_path('data/provinces.json'));
+
+		$provinces = json_decode($provinces, true);
+
+		$province = array_filter($provinces, function ($item) use ($province) {
+			return strtolower($item['name']) == strtolower($province);
+		});
+
+		if (empty($province)) {
+			return [];
+		}
+
+		$province = array_values($province);
+
+		$json = file_get_contents(public_path('data/districts.json'));
+
+		$data = json_decode($json, true);
+
+		$data = array_filter($data, function ($item) use ($province) {
+			return $item['province_id'] == $province[0]['id'];
+		});
+
+		return array_values($data);
+	}
+
+	public static function getYears()
+	{
+		return range(date('Y'), 2018, -1);
+		$years = [];
+		$currentYear = date('Y');
+
+		for ($i = 2018; $i <= $currentYear; $i++) {
+			$years[] = $i;
+		}
+
+		return $years;
+	}
 }

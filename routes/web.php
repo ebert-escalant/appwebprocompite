@@ -25,6 +25,10 @@ Route::middleware(['auth'])->group(function () {
 	Route::match(['get', 'post'], 'societies/insert', [SocietyController::class, 'insert'])->name('societies.insert');
 	Route::match(['get', 'put'], 'societies/edit/{id}', [SocietyController::class, 'edit'])->name('societies.edit');
 	Route::delete('societies/delete/{id}', [SocietyController::class, 'delete'])->name('societies.delete');
+	Route::get('societies/members/{id}', [SocietyController::class, 'getMembers'])->name('societies.members');
+	Route::post('societies/add-member/{id}', [SocietyController::class, 'addMember'])->name('societies.addmember');
+	Route::delete('societies/delete-member/{id}', [SocietyController::class, 'deleteMember'])->name('societies.deletemember');
+	Route::match(['get', 'put'], 'societies/edit-member-assets/{id}', [SocietyController::class, 'editMemberAssets'])->name('societies.editmemberassets');
 
 	// projects
 	Route::get('projects', [ProjectController::class, 'getAll'])->name('projects.index');
