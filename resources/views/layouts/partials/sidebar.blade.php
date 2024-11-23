@@ -1,7 +1,21 @@
 <nav class="sidebar">
-    <div class="sidebar-header">
-        <a href="/" class="sidebar-brand">
-            Pro<span>Compite</span>
+    <div class="sidebar-header" style="padding: 0 20px;">
+        <a href="/" class="sidebar-brand" style="display: inline-block;">
+			<svg width="240" height="50" viewBox="0 0 240 50" xmlns="http://www.w3.org/2000/svg">
+				<defs>
+					<filter id="outline">
+						<feMorphology in="SourceAlpha" result="DILATED" operator="dilate" radius="2"></feMorphology>
+						<feFlood flood-color="white" flood-o25pacity="1" result="WHITE"></feFlood>
+						<feComposite in="WHITE" in2="DILATED" operator="in" result="OUTLINE"></feComposite>
+						<feMerge>
+							<feMergeNode in="OUTLINE"></feMergeNode>
+							<feMergeNode in="SourceGraphic"></feMergeNode>
+						</feMerge>
+					</filter>
+				</defs>
+				<text x="10" y="35" font-family="Arial, sans-serif" font-size="28" font-weight="900" fill="#ea2225" filter="url(#outline)">Pro</text>
+				<text x="63" y="35" font-family="Arial, sans-serif" font-size="28" font-weight="900" fill="#00a54f" filter="url(#outline)">Compite</text>
+			</svg>
         </a>
         <div class="sidebar-toggler not-active">
             <span></span>
