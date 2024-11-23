@@ -9,8 +9,10 @@
                     </div>
                     <div class="col-md-8 pl-md-0">
                         <div class="auth-form-wrapper px-4 py-5">
-                            <a href="#" class="d-block mb-2" style="font-weight: 900;font-size: 25px;color: #031a61;">PRO<span style="color: #727cf5;font-weight: 300;">COMPITE</span></a>
-                            <h5 class="text-muted font-weight-normal mb-4">Ingresa tus credenciales para acceder a la plataforma.</h5>
+							<figure style="width: 100%; display: flex; justify-content:center;">
+								<img src="{{ asset('images/full_logo.webp') }}" height="120" alt="">
+							</figure>
+                            <h5 class="text-muted font-weight-normal my-3">Ingresa tus credenciales para acceder a la plataforma.</h5>
                             <form class="forms-sample" method="POST" action="{{ route('login') }}">
 								@csrf
                                 <div class="form-group">

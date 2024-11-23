@@ -12,6 +12,7 @@ Route::middleware(['guest'])->group(function () {
 	Route::match(['get', 'post'], 'signin', [AuthController::class, 'signin'])->name('login');
 });
 Route::middleware(['auth'])->group(function () {
+	Route::match(['get', 'put'], 'profile', [AuthController::class, 'profile'])->name('profile');
 	Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 	Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
 
