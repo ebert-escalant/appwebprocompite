@@ -103,10 +103,6 @@ class PartnerController extends Controller
     public function edit(Request $request, $id)
     {
         $partner = Partner::find($id);
-       
-        if($partner->spouse){
-            $partner->spouse = json_decode(stripslashes($partner->spouse), true);
-        }
 
         if (!$partner) {
             return AppHelper::redirect(route('partners.index'), AppHelper::ERROR, ['Socio no encontrado']);
