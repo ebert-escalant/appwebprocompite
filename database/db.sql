@@ -1,4 +1,6 @@
-create database dbprocompite;
+CREATE DATABASE dbprocompite
+CHARACTER SET latin1
+COLLATE latin1_swedish_ci;
 use dbprocompite;
 
 create table users (

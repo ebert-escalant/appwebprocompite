@@ -134,6 +134,7 @@ function getDistricts(event) {
 }
 
 function getParntnerByDni(event) {
+	//crear un input para id con estado hiden
 	$.ajax({
 		url: `${_baseAppUrl}/partners/get-by-dni/${event.target.value}`,
 		type: 'GET',
@@ -141,7 +142,8 @@ function getParntnerByDni(event) {
 			dni: $('#txtDni').val()
 		},
 		success: function (response) {
-			console.log(response.address)
+			$('#hiddenId').val(response.id)
+			console.log(response.id)
 			$('#txtFullName').val(response.full_name).prop('disabled', true)
 			$('#txtPhone2').val(response.phone).prop('disabled', true)
 			// $('txtAddress').val(response.address)//nani

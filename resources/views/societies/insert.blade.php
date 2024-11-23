@@ -95,6 +95,7 @@
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="txtDni">DNI *</label>
+							<input type="hidden" id="hiddenId" name="hiddenId">
 							<input id="txtDni" name="txtDni" type="text" class="form-control form-control-sm" onblur="getParntnerByDni(event)">
 						</div>
 					</div>

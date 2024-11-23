@@ -73,6 +73,7 @@ class SocietyController extends Controller
 				$item->comunity = trim($request->input('txtComunity'));
 				$item->address = trim($request->input('txtAddress'));
 				$item->phone = trim($request->input('txtPhone'));
+				$item->id_partner = trim($request->input('hiddenId'));
 
                 $item->save();
 
