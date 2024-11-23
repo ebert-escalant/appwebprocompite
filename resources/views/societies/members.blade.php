@@ -15,7 +15,7 @@
 				</div>
 				<div class="col-md-4 form-group">
 					<label for="txtDni">DNI *</label>
-					<input id="txtDni" name="txtDni" type="text" class="form-control form-control-sm" maxlength="8" onkeyup="keyUpTxtDni(event)" onblur="getParntnerByDni(event)">
+					<input id="txtDni" name="txtDni" type="text" class="form-control form-control-sm" maxlength="8" placeholder="Ingrese DNI (Enter)" onkeyup="keyUpTxtDni(event)" onblur="getParntnerByDni(event)">
 				</div>
 				<div class="col-md-4 form-group">
 					<label for="txtFullName">Nombre completo *</label>
