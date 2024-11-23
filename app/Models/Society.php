@@ -30,4 +30,9 @@ class Society extends Model
 	{
 		return $this->belongsToMany(Project::class, 'society_projects', 'society_id', 'project_id', 'id', 'id');
 	}
+
+	public function representative()
+	{
+		return $this->belongsTo(Partner::class, 'id_partner', 'id');
+	}
 }

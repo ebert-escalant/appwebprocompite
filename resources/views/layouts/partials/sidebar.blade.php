@@ -32,12 +32,6 @@
                     <span class="link-title">Inicio</span>
                 </a>
             </li>
-			<li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="link-icon" data-feather="user"></i>
-                    <span class="link-title">Usuarios</span>
-                </a>
-            </li>
             <li class="nav-item nav-category">Mantenimientos</li>
             <li class="nav-item {{ request()->routeIs('partners.*') ? 'active' : '' }}">
                 <a href="{{ route('partners.index') }}" class="nav-link">
@@ -55,19 +49,6 @@
                 <a href="{{ route('societies.index') }}" class="nav-link">
                     <i class="link-icon" data-feather="layers"></i>
                     <span class="link-title">Organización</span>
-                </a>
-            </li>
-			<li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="link-icon" data-feather="file-plus"></i>
-                    <span class="link-title">Importar socios</span>
-                </a>
-            </li>
-			<li class="nav-item nav-category">Consultas</li>
-			<li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="link-icon" data-feather="pie-chart"></i>
-                    <span class="link-title">Reportes</span>
                 </a>
             </li>
         </ul>
