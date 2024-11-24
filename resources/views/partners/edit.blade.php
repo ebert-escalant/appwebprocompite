@@ -25,7 +25,7 @@
                         <input id="txtPhone" name="txtPhone" type="text" class="form-control form-control-sm" maxlength="9" value="{{ $partner->phone }}">
                     </div>
 					<div class="col-md-4 form-group">
-                        <label for="txtEmail">Correlo electrónico *</label>
+                        <label for="txtEmail">Correo electrónico *</label>
                         <input id="txtEmail" name="txtEmail" type="email" class="form-control form-control-sm" value="{{ $partner->email }}">
                     </div>
 				</div>

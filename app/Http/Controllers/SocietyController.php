@@ -5,6 +5,8 @@ use App\Helpers\AppHelper;
 use App\Models\Partner;
 use App\Models\Society;
 use App\Models\SocietyMember;
+use App\Models\SocietyProject;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -447,6 +449,91 @@ class SocietyController extends Controller
 			DB::rollBack();
 
 			return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.members', $item->society_id));
+		}
+	}
+	public function getProjects(Request $request, $id) {
+		$item = Society::find($id);
+		$year = $request->input('year');
+		$search = $request->input('search') ? $request->input('search') : '';
+
+		if (!$item) {
+			return AppHelper::redirect(route('societies.index'), AppHelper::ERROR, ['Registro no encontrado.']);
+		}
+
+		$projects = $item->SocietyProjects()->with('project')->whereRaw('year=?', [$year])->whereHas('project', function($query) use ($search) {
+			$query->whereRaw('concat(name, category) like ?', ['%' . $search . '%']);
+		})->paginate(10);
+
+		$projects->appends(['year' => $year]);
+		$projects->appends(['search' => $search]);
+
+		$projects->onEachSide(0);
+
+		$allprojects = Project::all();
+		return view('societies.projects', ['society' => $item,'allprojects'=>$allprojects, 'projects' => $projects, 'year' => $year, 'years' => range(date('Y'), 2018, -1), 'search' => $search]);
+	}
+
+	public function addProjects(Request $request, $id) {
+		if ($request->isMethod('post')) {
+			try {
+				DB::beginTransaction();
+
+				$item = Society::find($id);
+
+				if (!$item) {
+					DB::rollBack();
+
+					return AppHelper::redirect(route('societies.index'), AppHelper::ERROR, ['Registro no encontrado.']);
+				}
+
+				$errors = AppHelper::validate(
+					[
+						'project' => trim($request->input('txtProjectName')),
+						'year' => trim($request->input('txtYear')),
+						'assets' => trim($request->assets),
+						// 'qualification' => trim($request->input('txtQualification'))
+					],
+					[
+						'project' => ['required', 'string', 'exists:projects,id'],
+						'year' => ['required', 'numeric'],
+						'assets' => ['required', 'string'],
+						// 'qualification' => ['nullable', 'string']
+					]
+				);
+
+				if (count($errors) > 0) {
+					DB::rollBack();
+
+					return AppHelper::redirect(route('societies.addProject', $item->id), AppHelper::ERROR, $errors);
+				}
+
+				$project = Project::find(trim($request->input('txtProject')));
+
+				$existitem = SocietyProject::whereRaw('society_id=? and project_id=? and year=?', [$item->id, $project->id, trim($request->input('txtYear'))])->first();
+
+				if ($existitem) {
+					DB::rollBack();
+
+					return AppHelper::redirect(route('societies.projects', $item->id), AppHelper::ERROR, ["El proyecto ya fue agregado al año seleccionado."]);
+				}
+
+				$project = new SocietyProject();
+				$project->id = uniqid();
+				$project->society_id = $item->id;
+				$project->project_id = trim($request->input('txtProjectName'));
+				$project->year = trim($request->input('txtYear'));
+				// $project->assets = trim($request->input('txtAssets'));
+				// $project->qualification = trim($request->input('txtQualification'));
+
+				$project->save();
+
+				DB::commit();
+
+				return AppHelper::redirect(route('socities.projects', $item->id), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
+			} catch (\Exception $e) {
+				DB::rollBack();
+				return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.projects', $item->id));
+			}
 		}
 	}
 }
