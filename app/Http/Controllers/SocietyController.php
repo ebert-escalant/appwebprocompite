@@ -37,20 +37,30 @@ class SocietyController extends Controller
 						'department' => trim($request->input('txtDepartment')),
 						'comunity' => trim($request->input('txtComunity')),
 						'address' => trim($request->input('txtAddress')),
-						'phone' => trim($request->input('txtPhone'))
+						'phone' => trim($request->input('txtPhone')),
+						'representative_dni' => trim($request->input('txtRepresentativeDni')),
+						'representative_full_name' => trim($request->input('txtRepresentativeFullName')),
+						'representative_phone' => trim($request->input('txtRepresentativePhone')),
+						'representative_email' => trim($request->input('txtRepresentativeEmail')),
+						'representative_charge' => trim($request->input('txtRepresentativeCharge'))
 					],
 					[
 						'type' => ['required', 'string', 'max:30'],
 						'social_razon' => ['required', 'string', 'max:255'],
 						'ruc' => ['required', 'string', 'max:11'],
 						'constitution_date' => ['required', 'date_format:Y-m-d'],
-						'part_number' => ['required', 'integer'],
+						'part_number' => ['required', 'string', 'max:8'],
 						'district' => ['required', 'string', 'max:255'],
 						'province' => ['required', 'string', 'max:255'],
 						'department' => ['required', 'string', 'max:255'],
 						'comunity' => ['required', 'string', 'max:255'],
 						'address' => ['required', 'string', 'max:255'],
-						'phone' => ['required', 'string', 'max:13']
+						'phone' => ['required', 'string', 'max:9'],
+						'representative_dni' => ['required', 'string', 'max:8'],
+						'representative_full_name' => ['required', 'string', 'max:255'],
+						'representative_phone' => ['required', 'string', 'max:9'],
+						'representative_email' => ['nullable', 'string', 'max:255'],
+						'representative_charge' => ['required', 'string', 'max:255']
                     ]
                 );
 
@@ -59,6 +69,23 @@ class SocietyController extends Controller
 
                     return AppHelper::redirect(route('societies.insert'), AppHelper::ERROR, $errors);
                 }
+
+				$representative = Partner::whereRaw('dni=?', [trim($request->input('txtRepresentativeDni'))])->first();
+
+				if (!$representative) {
+					$representative = new Partner();
+					$representative->id = uniqid();
+					$representative->dni = trim($request->input('txtRepresentativeDni'));
+					$representative->full_name = trim($request->input('txtRepresentativeFullName'));
+					$representative->birthdate = null;
+					$representative->phone = trim($request->input('txtRepresentativePhone'));
+					$representative->address = '';
+					$representative->email = trim($request->input('txtRepresentativeEmail')) ? trim($request->input('txtRepresentativeEmail')) : '';
+					$representative->family_charge = '';
+					$representative->charge = trim($request->input('txtRepresentativeCharge'));
+
+					$representative->save();
+				}
 
                 $item = new Society();
                 $item->id = uniqid();
@@ -73,7 +100,7 @@ class SocietyController extends Controller
 				$item->comunity = trim($request->input('txtComunity'));
 				$item->address = trim($request->input('txtAddress'));
 				$item->phone = trim($request->input('txtPhone'));
-				$item->id_partner = trim($request->input('hiddenId'));
+				$item->id_partner = $representative->id;
 
                 $item->save();
 
@@ -121,19 +148,29 @@ class SocietyController extends Controller
 						'comunity' => trim($request->input('txtComunity')),
 						'address' => trim($request->input('txtAddress')),
 						'phone' => trim($request->input('txtPhone')),
+						'representative_dni' => trim($request->input('txtRepresentativeDni')),
+						'representative_full_name' => trim($request->input('txtRepresentativeFullName')),
+						'representative_phone' => trim($request->input('txtRepresentativePhone')),
+						'representative_email' => trim($request->input('txtRepresentativeEmail')),
+						'representative_charge' => trim($request->input('txtRepresentativeCharge'))
 					],
 					[
 						'type' => ['required', 'string', 'max:30'],
 						'social_razon' => ['required', 'string', 'max:255'],
 						'ruc' => ['required', 'string', 'max:11'],
 						'constitution_date' => ['required', 'date_format:Y-m-d'],
-						'part_number' => ['required', 'integer'],
+						'part_number' => ['required', 'string', 'max:8'],
 						'district' => ['required', 'string', 'max:255'],
 						'province' => ['required', 'string', 'max:255'],
 						'department' => ['required', 'string', 'max:255'],
 						'comunity' => ['required', 'string', 'max:255'],
 						'address' => ['required', 'string', 'max:255'],
-						'phone' => ['required', 'string', 'max:13'],
+						'phone' => ['required', 'string', 'max:9'],
+						'representative_dni' => ['required', 'string', 'max:8'],
+						'representative_full_name' => ['required', 'string', 'max:255'],
+						'representative_phone' => ['required', 'string', 'max:9'],
+						'representative_email' => ['nullable', 'string', 'max:255'],
+						'representative_charge' => ['required', 'string', 'max:255']
                     ]
                 );
 
@@ -142,6 +179,23 @@ class SocietyController extends Controller
 
                     return AppHelper::redirect(route('societies.edit', $item->id), AppHelper::ERROR, $errors);
                 }
+
+				$representative = Partner::whereRaw('dni=?', [trim($request->input('txtRepresentativeDni'))])->first();
+
+				if (!$representative) {
+					$representative = new Partner();
+					$representative->id = uniqid();
+					$representative->dni = trim($request->input('txtRepresentativeDni'));
+					$representative->full_name = trim($request->input('txtRepresentativeFullName'));
+					$representative->birthdate = null;
+					$representative->phone = trim($request->input('txtRepresentativePhone'));
+					$representative->address = '';
+					$representative->email = trim($request->input('txtRepresentativeEmail')) ? trim($request->input('txtRepresentativeEmail')) : '';
+					$representative->family_charge = '';
+					$representative->charge = trim($request->input('txtRepresentativeCharge'));
+
+					$representative->save();
+				}
 
                 $item->type = trim($request->input('txtType'));
 				$item->social_razon = trim($request->input('txtSocialRazon'));
@@ -154,6 +208,7 @@ class SocietyController extends Controller
 				$item->comunity = trim($request->input('txtComunity'));
 				$item->address = trim($request->input('txtAddress'));
 				$item->phone = trim($request->input('txtPhone'));
+				$item->id_partner = $representative->id;
 
                 $item->save();
 
@@ -167,7 +222,7 @@ class SocietyController extends Controller
             }
         }
 
-        $item = Society::find($id);
+        $item = Society::with('representative')->find($id);
 
         if (!$item) {
             return AppHelper::redirect(route('societies.index'), AppHelper::ERROR, ['Registro no encontrado.']);

@@ -13,7 +13,9 @@ $(function () {
 			},
 			txtRuc: {
 				required: true,
-				maxlength: 11
+				maxlength: 11,
+				minlength: 11,
+				number: true
 			},
 			txtConstitutionDate: {
 				required: true,
@@ -32,7 +34,7 @@ $(function () {
 				required: true,
 				maxlength: 255
 			},
-			txtDepartement: {
+			txtDepartment: {
 				required: true,
 				maxlength: 255
 			},
@@ -46,7 +48,32 @@ $(function () {
 			},
 			txtPhone: {
 				required: true,
-				maxlength: 9
+				number: true,
+				maxlength: 9,
+				minlength: 9
+			},
+			txtRepresentativeDni: {
+				required: true,
+				maxlength: 8,
+				minlength: 8
+			},
+			txtRepresentativeFullName: {
+				required: true,
+				maxlength: 255
+			},
+			txtRepresentativePhone: {
+				required: true,
+				number: true,
+				maxlength: 9,
+				minlength: 9
+			},
+			txtRepresentativeEmail: {
+				email: true,
+				maxlength: 255
+			},
+			txtRepresentativeCharge: {
+				required: true,
+				maxlength: 255
 			}
 		},
 		messages: {
@@ -60,7 +87,9 @@ $(function () {
 			},
 			txtRuc: {
 				required: 'El campo es requerido',
-				maxlength: 'El campo debe contener máximo 11 caracteres'
+				number: 'El campo debe ser un número',
+				minlength: 'El campo debe contener 11 caracteres',
+				maxlength: 'El campo debe contener 11 caracteres'
 			},
 			txtConstitutionDate: {
 				required: 'El campo es requerido',
@@ -68,7 +97,8 @@ $(function () {
 			},
 			txtPartNumber: {
 				required: 'El campo es requerido',
-				number: 'El campo debe ser un número'
+				number: 'El campo debe ser un número',
+				maxlength: 'El campo debe contener máximo 8 caracteres'
 			},
 			txtDistrict: {
 				required: 'El campo es requerido',
@@ -78,7 +108,7 @@ $(function () {
 				required: 'El campo es requerido',
 				maxlength: 'El campo debe contener máximo 255 caracteres'
 			},
-			txtDepartement: {
+			txtDepartment: {
 				required: 'El campo es requerido',
 				maxlength: 'El campo debe contener máximo 255 caracteres'
 			},
@@ -92,7 +122,31 @@ $(function () {
 			},
 			txtPhone: {
 				required: 'El campo es requerido',
-				maxlength: 'El campo debe contener máximo 13 caracteres'
+				number: 'El campo debe ser un número',
+				minlength: 'El campo debe contener 9 caracteres',
+				maxlength: 'El campo debe contener 9 caracteres'
+			},
+			txtRepresentativeDni: {
+				required: 'El campo es requerido',
+				maxlength: 'El campo debe contener máximo 8 caracteres'
+			},
+			txtRepresentativeFullName: {
+				required: 'El campo es requerido',
+				maxlength: 'El campo debe contener máximo 255 caracteres'
+			},
+			txtRepresentativePhone: {
+				required: 'El campo es requerido',
+				number: 'El campo debe ser un número',
+				minlength: 'El campo debe contener 9 caracteres',
+				maxlength: 'El campo debe contener 9 caracteres'
+			},
+			txtRepresentativeEmail: {
+				email: 'El campo debe ser un correo válido',
+				maxlength: 'El campo debe contener máximo 255 caracteres'
+			},
+			txtRepresentativeCharge: {
+				required: 'El campo es requerido',
+				maxlength: 'El campo debe contener máximo 255 caracteres'
 			}
 		},
 		...validationConfig,
@@ -134,21 +188,23 @@ function getDistricts(event) {
 }
 
 function getParntnerByDni(event) {
-	//crear un input para id con estado hiden
 	$.ajax({
 		url: `${_baseAppUrl}/partners/get-by-dni/${event.target.value}`,
 		type: 'GET',
-		data: {
-			dni: $('#txtDni').val()
-		},
+		data: null,
 		success: function (response) {
-			$('#hiddenId').val(response.id)
-			console.log(response.id)
-			$('#txtFullName').val(response.full_name).prop('disabled', true)
-			$('#txtPhone2').val(response.phone).prop('disabled', true)
-			// $('txtAddress').val(response.address)//nani
-			$('#txtEmail').val(response.email).prop('disabled', true)
-			$('#txtCharge').val(response.charge).prop('disabled', true)
+			$('#txtRepresentativeFullName').val(response.full_name)
+			$('#txtRepresentativePhone').val(response.phone)
+			$('#txtRepresentativeEmail').val(response.email)
+			$('#txtRepresentativeCharge').val(response.charge)
+			$('#txtRepresentativeCharge').trigger('change')
+		},
+		error: function (response) {
+			$('#txtRepresentativeFullName').val('')
+			$('#txtRepresentativePhone').val('')
+			$('#txtRepresentativeEmail').val('')
+			$('#txtRepresentativeCharge').val('')
+			$('#txtRepresentativeCharge').trigger('change')
 		}
 	})
 }
