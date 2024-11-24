@@ -11,6 +11,12 @@
 				<div class="row">
 					<div class="col-md-4">
 						<div class="form-group">
+							<select name="txtCategory" id="txtCategory">
+								<option></option>
+								<option value="Categoría A">Categoría A</option>
+								<option value="Categoría B">Categoría B</option>
+								<option value=""></option>
+							</select>
 							<label for="txtCategory">Categoría *</label>
 							<input id="txtCategory" name="txtCategory" type="text" class="form-control form-control-sm">
 						</div>
