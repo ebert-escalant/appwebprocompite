@@ -13,7 +13,12 @@
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="txtCategory">Categoría *</label>
-							<input id="txtCategory" name="txtCategory" type="text" class="form-control form-control-sm" value="{{ $project->category }}">
+							<select name="txtCategory" id="txtCategory" class="form-control select2">
+								<option></option>
+								<option value="Categoría A" {{$project->category == 'Categoría A' ? 'selected' : ''}}>Categoría A</option>
+								<option value="Categoría B" {{$project->category == 'Categoría B' ? 'selected' : ''}}>Categoría B</option>
+								<option value="Categoría C" {{$project->category == 'Cateogría C' ? 'selected' : ''}}>Categoría C</option>
+							</select>
 						</div>
 					</div>
 					<div class="col-md-4">
