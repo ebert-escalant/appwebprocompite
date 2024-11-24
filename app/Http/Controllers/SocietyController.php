@@ -378,16 +378,33 @@ class SocietyController extends Controller
 				return AppHelper::redirect(route('societies.members', $item->id), AppHelper::ERROR, ["El socio ya es miembro de la organización {$existitem->society->social_razon} en el año seleccionado."]);
 			}
 
+			// verificar si el socio es esposo(a) de un miembro
+			$memberspuse = Partner::whereRaw("JSON_EXTRACT(spouse, '$.dni')=?", [trim($request->input('txtDni'))])->first();
+
+			if ($memberspuse) {
+				$existitem = SocietyMember::with('society')->whereRaw('partner_id=? and year=?', [$memberspuse->id, trim($request->input('txtYear'))])->first();
+
+				// verificar si el esposo(a) es miembro de una organización en el año seleccionado
+				if ($existitem) {
+					DB::rollBack();
+
+					return AppHelper::redirect(route('societies.members', $item->id), AppHelper::ERROR, ["No se puede agregar el socio por que su esposo(a) ya es miembro de la organización {$existitem->society->social_razon} en el año seleccionado."]);
+				}
+			}
+
+			// verificar si el socio tiene esposo(a)
 			if ($partner->spouse) {
 				$spouse = Partner::whereRaw('dni=?', [$partner->spouse->dni])->first();
 
+				// verificar si el esposo(a) es miembro
 				if($spouse) {
 					$existmember = SocietyMember::whereRaw('partner_id=? and year=?', [$spouse->id, trim($request->input('txtYear'))])->first();
 
+					// verificar si el esposo(a) es miembro de una organización en el año seleccionado
 					if ($existmember) {
 						DB::rollBack();
 
-						return AppHelper::redirect(route('societies.members', $item->id), AppHelper::ERROR, ['No se puede agregar el socio por que su esposo(a) ya es miembro de una organización.']);
+						return AppHelper::redirect(route('societies.members', $item->id), AppHelper::ERROR, ["No se puede agregar el socio por que su esposo(a) ya es miembro de la organización {$existitem->society->social_razon} en el año seleccionado."]);
 					}
 				}
 			}
@@ -406,7 +423,7 @@ class SocietyController extends Controller
 			return AppHelper::redirect(route('societies.members', $item->id), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
 		} catch (\Exception $e) {
 			DB::rollBack();
-			dd($e->getMessage());
+
 			return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.members', $item->id));
 		}
 	}
