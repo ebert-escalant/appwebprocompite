@@ -77,20 +77,20 @@ class PartnerController extends Controller
                 $partner->charge = $request->input('txtCharge');
 
 				if ($request->input('chkHasSpouse')) {
-					$partner->spouse = json_encode([
+					$partner->spouse = [
 						'dni' => trim($request->input('txtSpouseDni')),
 						'full_name' => trim($request->input('txtSpouseFullName')),
 						'birthdate' => trim($request->input('txtSpouseBirthDate')),
 						'phone' => trim($request->input('txtSpousePhone')),
 						'email' => trim($request->input('txtSpouseEmail')) ? trim($request->input('txtSpouseEmail')) : ''
-					]);
+					];
 				}
 
                 $partner->save();
 
                 DB::commit();
 
-                return AppHelper::redirect(route('partners.index'), AppHelper::SUCCESS, ['Registro exitoso']);
+                return AppHelper::redirect(route('partners.insert'), AppHelper::SUCCESS, ['Registro exitoso']);
             } catch (\Exception $e) {
                 DB::rollBack();
 
@@ -149,13 +149,13 @@ class PartnerController extends Controller
                 $partner->family_charge = $request->input('txtFamilyCharge');
                 $partner->charge = $request->input('txtCharge');
                 if($request->input('chkHasSpouse')){
-                    $partner->spouse = json_encode([
+                    $partner->spouse = [
 						'dni' => trim($request->input('txtSpouseDni')),
 						'full_name' => trim($request->input('txtSpouseFullName')),
 						'birthdate' => trim($request->input('txtSpouseBirthDate')),
 						'phone' => trim($request->input('txtSpousePhone')),
 						'email' => trim($request->input('txtSpouseEmail')) ? trim($request->input('txtSpouseEmail')) : ''
-					]);
+					];
                 }else{
                     $partner->spouse = null;
                 }

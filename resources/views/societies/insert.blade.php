@@ -12,7 +12,7 @@
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="txtRuc">RUC *</label>
-							<input id="txtRuc" name="txtRuc" type="text" class="form-control form-control-sm">
+							<input id="txtRuc" name="txtRuc" type="text" maxlength="11" class="form-control form-control-sm">
 						</div>
 					</div>
 					<div class="col-md-4">
@@ -24,7 +24,7 @@
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="txtPartNumber">Número de partida *</label>
-							<input id="txtPartNumber" name="txtPartNumber" type="text" class="form-control form-control-sm">
+							<input id="txtPartNumber" name="txtPartNumber" type="text" maxlength="8" class="form-control form-control-sm">
 						</div>
 					</div>
 				</div>
@@ -84,8 +84,8 @@
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<label for="txtPhone">Teléfono *</label>
-							<input id="txtPhone" name="txtPhone" type="text" class="form-control form-control-sm">
+							<label for="txtPhone">Celular *</label>
+							<input id="txtPhone" name="txtPhone" type="text" maxlength="9" class="form-control form-control-sm">
 						</div>
 					</div>
 				</div>
@@ -96,7 +96,7 @@
 						<div class="form-group">
 							<label for="txtDni">DNI *</label>
 							<input type="hidden" id="hiddenId" name="hiddenId">
-							<input id="txtDni" name="txtDni" type="text" class="form-control form-control-sm" onblur="getParntnerByDni(event)">
+							<input id="txtDni" name="txtDni" type="text" maxlength="8" class="form-control form-control-sm" onblur="getParntnerByDni(event)">
 						</div>
 					</div>
 					<div class="col-md-3">
@@ -106,8 +106,8 @@
 						</div>
 					</div>
                     <div class="col-md-3">
-                        <label for="txtPhone2">Teléfono*</label>
-                        <input id="txtPhone2" name="txtPhone2" type="text" class="form-control form-control-sm">
+                        <label for="txtPhone2">Celular*</label>
+                        <input id="txtPhone2" name="txtPhone2" type="text" maxlength="9" class="form-control form-control-sm">
                     </div>
 					<div class="col-md-3">
                         <label for="txtCharge">Cargo *</label>
