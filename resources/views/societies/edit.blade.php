@@ -1,5 +1,5 @@
 <x-admin-layout>
-	<h4 class="card-title">Registrar organización</h4>
+	<h4 class="card-title">Editar organización</h4>
 	<div class="card">
 		<div class="card-body">
 			<form id="frmEditSociety" method="POST" action="{{ route('societies.edit', $society->id) }}">

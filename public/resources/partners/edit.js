@@ -5,10 +5,11 @@ $(function() {
     {
         $('.hasSpouseDiv').show()
     }
-    else{
+    else
+	{
         $('.hasSpouseDiv').hide()
-        }
-	$('#frmEditSociety').validate({
+	}
+	$('#frmEditPartner').validate({
 		rules: {
 			txtDni: {
                 maxlength: 8,
