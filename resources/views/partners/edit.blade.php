@@ -5,44 +5,42 @@
 			<form id="frmEditPartner" method="POST" action="{{ route('partners.edit', $partner->id) }}">
 				@csrf
                 @method('PUT')
-				<div class="form-group">
-					<label for="txtDni">DNI *</label>
-					<input id="txtDni" name="txtDni" type="text" maxlength="8" class="form-control form-control-sm" value={{ $partner->dni}}>
+				<div class="row">
+					<div class="col-md-4 form-group">
+						<label for="txtDni">DNI *</label>
+						<input id="txtDni" name="txtDni" type="text" class="form-control form-control-sm" maxlength="8" value={{ $partner->dni}}>
+					</div>
+					<div class="col-md-8 form-group">
+						<label for="txtFullName">Nombre completo *</label>
+						<input id="txtFullName" name="txtFullName" type="text" class="form-control form-control-sm" value="{{$partner->full_name}}">
+					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="txtFullName">Nombre completo *</label>
-							<input id="txtFullName" name="txtFullName" type="text" class="form-control form-control-sm" value="{{$partner->full_name}}">
-						</div>
+					<div class="col-md-4 form-group">
+						<label for="txtBirthDate">Fecha de nacimieto *</label>
+						<input id="txtBirthDate" name="txtBirthDate" type="date" class="form-control form-control-sm" value="{{ $partner->birthdate }}">
 					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="txtBirthdate">Fecha de nacimieto *</label>
-							<input id="txtBirthdate" name="txtBirthdate" type="date" class="form-control form-control-sm" value="{{ $partner->birthdate }}">
-						</div>
-					</div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 form-group">
                         <label for="txtPhone">Teléfono*</label>
-                        <input id="txtPhone" name="txtPhone" type="text" maxlength="9" class="form-control form-control-sm" value="{{ $partner->phone }}">
+                        <input id="txtPhone" name="txtPhone" type="text" class="form-control form-control-sm" maxlength="9" value="{{ $partner->phone }}">
                     </div>
-				</div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <label for="txtAddress">Dirección *</label>
-                        <input id="txtAddress" name="txtAddress" type="text" class="form-control form-control-sm" value="{{ $partner->address }}">
-                    </div>
-                    <div class="col-md-3">
+					<div class="col-md-4 form-group">
                         <label for="txtEmail">Correlo electrónico *</label>
                         <input id="txtEmail" name="txtEmail" type="email" class="form-control form-control-sm" value="{{ $partner->email }}">
                     </div>
-                    <div class="col-md-3">
+				</div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="txtAddress">Dirección *</label>
+                        <input id="txtAddress" name="txtAddress" type="text" class="form-control form-control-sm" value="{{ $partner->address }}">
+                    </div>
+                    <div class="col-md-3 form-group">
                         <label for="txtFamilyCharge">Carga familiar *</label>
                         <input id="txtFamilyCharge" name="txtFamilyCharge" type="text" class="form-control form-control-sm" value="{{ $partner->family_charge }}">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 form-group">
                         <label for="txtCharge">Cargo *</label>
-                        <select name="txtCharge" id="txtCharge">
+                        <select name="txtCharge" id="txtCharge" class="form-control select2" style="width: 100%;">
 							<option></option>
                             <option value="Miembro"{{$partner->charge == 'Miembro' ? 'selected' : ''}}>Miembro</option>
                             <option value="Directivo" {{$partner->charge == 'Directivo' ? 'selected' : ''}}>Directivo</option>
@@ -50,7 +48,6 @@
                         </select>
                     </div>
                 </div>
-				<hr>
 				<p class="h5 text-primary mb-3">Datos de la pareja</p>
 				<div class="form-check form-check-flat form-check-primary">
 					<label for="chkHasSpouse" class="form-check-label">
@@ -61,7 +58,7 @@
 				<div class="row hasSpouseDiv" style="display: none;">
 					<div class="col-md-4 form-group">
 						<label for="txtSpouseDni">DNI *</label>
-						<input id="txtSpouseDni" name="txtSpouseDni" type="text" maxlength="8" class="form-control form-control-sm" maxlength="8" value="{{$partner->spouse ? $partner->spouse->dni: ''}}">
+						<input id="txtSpouseDni" name="txtSpouseDni" type="text" class="form-control form-control-sm" maxlength="8" value="{{$partner->spouse ? $partner->spouse->dni: ''}}">
 					</div>
 					<div class="col-md-8 form-group">
 						<label for="txtSpouseFullName">Nombre completo *</label>
@@ -75,7 +72,7 @@
 					</div>
 					<div class="col-md-4 form-group">
 						<label for="txtSpousePhone">Teléfono*</label>
-						<input id="txtSpousePhone" name="txtSpousePhone" type="text" maxlength="9" class="form-control form-control-sm" maxlength="9" value="{{$partner->spouse ? $partner->spouse->phone : ''}}">
+						<input id="txtSpousePhone" name="txtSpousePhone" type="text" class="form-control form-control-sm" maxlength="9" value="{{$partner->spouse ? $partner->spouse->phone : ''}}">
 					</div>
 					<div class="col-md-4 form-group">
 						<label for="txtSpouseEmail">Correlo electrónico *</label>
@@ -83,7 +80,7 @@
 					</div>
 				</div>
 				<div class="d-flex align-items-center justify-content-end">
-					<button class="btn btn-primary" type="submit">Guardar datos</button>
+					<button class="btn btn-primary" type="submit">Guardar cambios</button>
 				</div>
 			</form>
 		</div>
@@ -91,7 +88,6 @@
 	@push('scripts')
 		<script>
 			var _baseAppUrl = "{{ url('') }}";
-			let spouseStatus = {{ $partner->spouse ? 1 : 0 }};
 		</script>
 		<script src="{{ asset('resources/partners/edit.js?x='.env('CACHE_UPDATE_DATE')) }}"></script>
 	@endpush

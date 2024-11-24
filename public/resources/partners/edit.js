@@ -1,21 +1,19 @@
 'use strict'
 
 $(function() {
-    if(spouseStatus)
-    {
-        $('.hasSpouseDiv').show()
-    }
-    else
-	{
-        $('.hasSpouseDiv').hide()
+	if ($('#chkHasSpouse').is(':checked')) {
+		$('.hasSpouseDiv').show()
+	} else {
+		$('.hasSpouseDiv').hide()
 	}
+
 	$('#frmEditPartner').validate({
 		rules: {
 			txtDni: {
                 maxlength: 8,
                 required: true
             },
-            txtFirstName: {
+            txtFullName: {
                 required: true,
                 maxlength: 255
             },
@@ -28,11 +26,14 @@ $(function() {
                 maxlength: 9
             },
             txtEmail: {
-                required: true,
-                pattern: 'El campo debe ser un correo válido',
-                // email: true,
+                required: false,
+                email: true,
                 maxlength: 255
             },
+			txtAddress: {
+				required: true,
+				maxlength: 255
+			},
             txtFamilyCharge: {
                 required: true,
                 maxlength: 255
@@ -41,7 +42,7 @@ $(function() {
                 required: true,
                 maxlength: 255
             },
-            txtSpouseDni: {
+			txtSpouseDni: {
 				maxlength: 8,
 				required: {
 					depends: function() {
@@ -100,6 +101,10 @@ $(function() {
                 email: 'El campo debe ser un correo válido',
                 maxlength: 'El campo debe contener máximo 255 caracteres'
             },
+			txtAddress: {
+				required: 'El campo es requerido',
+				maxlength: 'El campo debe contener máximo 255 caracteres'
+			},
             txtFamilyCharge: {
                 required: 'El campo es requerido',
                 maxlength: 'El campo debe contener máximo 255 caracteres'
@@ -129,7 +134,6 @@ $(function() {
 				email: 'El campo debe ser un correo válido',
 				maxlength: 'El campo debe contener máximo 255 caracteres'
 			}
-
 		},
 		...validationConfig,
 		submitHandler: function (form) {
@@ -141,7 +145,6 @@ $(function() {
 })
 
 function changeChkHasSpouse(e) {
-	console.log(e.target.checked)
 	if (e.target.checked) {
 		$('.hasSpouseDiv').show()
 	} else {

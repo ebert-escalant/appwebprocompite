@@ -4,7 +4,6 @@
 		<div class="card-body">
 			<form id="frmInsertPartner" method="POST" action="{{ route('partners.insert') }}">
 				@csrf
-
 				<div class="row">
 					<div class="col-md-4 form-group">
 						<label for="txtDni">DNI *</label>
