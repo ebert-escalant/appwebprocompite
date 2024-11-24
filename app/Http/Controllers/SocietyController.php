@@ -266,7 +266,7 @@ class SocietyController extends Controller
         }
     }
 
-	public function addProject(Request $request, $id) {
+	/* public function addProject(Request $request, $id) {
 		if ($request->isMethod('post')) {
 			try {
 				DB::beginTransaction();
@@ -307,7 +307,7 @@ class SocietyController extends Controller
 				return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.index'));
 			}
 		}
-	}
+	} */
 
 	public function getMembers(Request $request, $id) {
 		$item = Society::find($id);
@@ -381,7 +381,7 @@ class SocietyController extends Controller
 				return AppHelper::redirect(route('societies.members', $item->society_id), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
 			} catch (\Exception $e) {
 				DB::rollBack();
-				dd($e->getMessage());
+
 				return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.members', $item->society_id));
 			}
 		}
@@ -392,7 +392,7 @@ class SocietyController extends Controller
 			return '<div class="alert alert-danger">Registro no encontrado.</div>';
 		}
 
-		return view('societies.edit-assets', ['member' => $item]);
+		return view('societies.edit-member-assets', ['member' => $item]);
 	}
 
 	public function addMember(Request $request, $id) {
@@ -476,11 +476,11 @@ class SocietyController extends Controller
 
 			DB::commit();
 
-			return AppHelper::redirect(route('societies.members', $item->id), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
+			return AppHelper::redirect(route('societies.members', $id), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
 		} catch (\Exception $e) {
 			DB::rollBack();
 
-			return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.members', $item->id));
+			return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.members', $id));
 		}
 	}
 
@@ -505,9 +505,10 @@ class SocietyController extends Controller
 			return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.members', $item->society_id));
 		}
 	}
+
 	public function getProjects(Request $request, $id) {
 		$item = Society::find($id);
-		$year = $request->input('year');
+		$year = $request->input('year') ? $request->input('year') : date('Y');
 		$search = $request->input('search') ? $request->input('search') : '';
 
 		if (!$item) {
@@ -524,10 +525,11 @@ class SocietyController extends Controller
 		$projects->onEachSide(0);
 
 		$allprojects = Project::all();
+
 		return view('societies.projects', ['society' => $item,'allprojects'=>$allprojects, 'projects' => $projects, 'year' => $year, 'years' => range(date('Y'), 2018, -1), 'search' => $search]);
 	}
 
-	public function addProjects(Request $request, $id) {
+	public function addProject(Request $request, $id) {
 		if ($request->isMethod('post')) {
 			try {
 				DB::beginTransaction();
@@ -543,51 +545,133 @@ class SocietyController extends Controller
 				$errors = AppHelper::validate(
 					[
 						'project' => trim($request->input('txtProjectName')),
-						'year' => trim($request->input('txtYear')),
-						'assets' => trim($request->assets),
-						// 'qualification' => trim($request->input('txtQualification'))
+						'year' => trim($request->input('txtYear'))
 					],
 					[
 						'project' => ['required', 'string', 'exists:projects,id'],
-						'year' => ['required', 'numeric'],
-						'assets' => ['required', 'string'],
-						// 'qualification' => ['nullable', 'string']
+						'year' => ['required', 'numeric']
 					]
 				);
 
 				if (count($errors) > 0) {
 					DB::rollBack();
 
-					return AppHelper::redirect(route('societies.addProject', $item->id), AppHelper::ERROR, $errors);
+					return AppHelper::redirect(route('societies.projects', $item->id), AppHelper::ERROR, $errors);
 				}
 
-				$project = Project::find(trim($request->input('txtProject')));
+				$existsociety = SocietyProject::whereRaw('society_id=? and year=?', [$item->id, trim($request->input('txtYear'))])->first();
 
-				$existitem = SocietyProject::whereRaw('society_id=? and project_id=? and year=?', [$item->id, $project->id, trim($request->input('txtYear'))])->first();
-
-				if ($existitem) {
+				if ($existsociety) {
 					DB::rollBack();
 
-					return AppHelper::redirect(route('societies.projects', $item->id), AppHelper::ERROR, ["El proyecto ya fue agregado al año seleccionado."]);
+					return AppHelper::redirect(route('societies.projects', $item->id), AppHelper::ERROR, ["La organización ya tiene registrado el proyecto {$existsociety->project->name} en el año seleccionado."]);
 				}
 
-				$project = new SocietyProject();
-				$project->id = uniqid();
-				$project->society_id = $item->id;
-				$project->project_id = trim($request->input('txtProjectName'));
-				$project->year = trim($request->input('txtYear'));
-				// $project->assets = trim($request->input('txtAssets'));
-				// $project->qualification = trim($request->input('txtQualification'));
+				$project = Project::find(trim($request->input('txtProjectName')));
 
-				$project->save();
+				$societyproject = new SocietyProject();
+				$societyproject->id = uniqid();
+				$societyproject->society_id = $item->id;
+				$societyproject->project_id = $project->id;
+				$societyproject->year = trim($request->input('txtYear'));
+
+				$societyproject->save();
 
 				DB::commit();
 
-				return AppHelper::redirect(route('socities.projects', $item->id), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
+				return AppHelper::redirect(route('societies.projects', $id), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
 			} catch (\Exception $e) {
 				DB::rollBack();
-				return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.projects', $item->id));
+
+				return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.projects', $id));
 			}
+		}
+	}
+
+	public function editProjectAssets(Request $request, $id) {
+		if ($request->isMethod('put')) {
+			try {
+				DB::beginTransaction();
+				$item = SocietyProject::find($id);
+
+				if (!$item) {
+					DB::rollBack();
+
+					return AppHelper::redirect(route('societies.projects', $item->society_id), AppHelper::ERROR, ['Registro no encontrado.']);
+				}
+
+				$errors = AppHelper::validate(
+					[
+						'assets' => trim($request->input('txtAssets'))
+					],
+					[
+						'assets' => ['nullable', 'string']
+					]
+				);
+
+				if (count($errors) > 0) {
+					DB::rollBack();
+
+					return AppHelper::redirect(route('societies.projects', $item->society_id), AppHelper::ERROR, $errors);
+				}
+
+				$assets = json_decode(trim($request->input('txtAssets')), true);
+				$newAssets = null;
+
+				if ($assets && is_array($assets)) {
+					foreach ($assets as $asset) {
+						$newAssets[] = [
+							'description' => $asset['description'],
+							'quantity' => $asset['quantity'],
+							'unit' => $asset['unit'],
+							'receptionDate' => $asset['receptionDate'],
+							'type' => $asset['type']
+						];
+					}
+				}
+
+				$item->assets = $newAssets;
+
+				$item->save();
+
+				DB::commit();
+
+				return AppHelper::redirect(route('societies.projects', $item->society_id), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
+			} catch (\Exception $e) {
+				DB::rollBack();
+
+				return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.projects', $item->society_id));
+			}
+		}
+
+		$item = SocietyProject::find($id);
+
+		if (!$item) {
+			return '<div class="alert alert-danger">Registro no encontrado.</div>';
+		}
+
+		return view('societies.edit-project-assets', ['project' => $item]);
+	}
+
+	public function deleteProject($id) {
+		$item = SocietyProject::find($id);
+
+		if (!$item) {
+			return AppHelper::redirect(route('societies.projects', $item->society_id), AppHelper::ERROR, ['Registro no encontrado.']);
+		}
+
+		try {
+			DB::beginTransaction();
+
+			$item->delete();
+
+			DB::commit();
+
+			return AppHelper::redirect(route('societies.projects', $item->society_id), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
+		} catch (\Exception $e) {
+			DB::rollBack();
+
+			return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.projects', $item->society_id));
 		}
 	}
 }

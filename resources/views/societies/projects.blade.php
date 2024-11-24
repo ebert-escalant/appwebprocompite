@@ -1,10 +1,10 @@
 <x-admin-layout>
-	<h5 class="card-title text-primary">Proyecto de ({{ $society->social_razon }})</h5>
+	<h5 class="card-title text-primary">Proyectos de ({{ $society->social_razon }})</h5>
 	<form class="card" id="frmAddProject" action="{{ route('societies.addproject', $society->id) }}" method="POST">
 		@csrf
 		<div class="card-body">
 			<div class="row">
-				<div class="col-md-4 form-group">
+				<div class="col-md-3 form-group">
 					<label for="txtYear">Año *</label>
 					<select name="txtYear" id="txtYear" class="form-control select2" style="width: 100%;">
 						<option></option>
@@ -13,18 +13,18 @@
 						@endforeach
 					</select>
 				</div>
-				<div class="col-md-4 form-group">
+				<div class="col-md-6 form-group">
 					<label for="txtProjectName">Nombre del proyecto *</label>
-					<select name="txtProjectName" id="txtProjectName" class="form-control select2">
+					<select name="txtProjectName" id="txtProjectName" class="form-control select2" style="width: 100%">
+						<option></option>
 						@foreach ($allprojects as $item)
 							<option value="{{$item->id}}">{{$item->name}}</option>
 						@endforeach
 					</select>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-12 d-flex justify-content-end">
-					<button type="submit" class="btn btn-primary">
+				<div class="col-md-3 form-group">
+					<label for="">&nbsp;</label>
+					<button type="submit" class="btn btn-primary btn-block">
 						Registrar proyecto
 					</button>
 				</div>
@@ -78,14 +78,13 @@
 									<td>{{ $item->project->name }}</td>
 									<td>{{ $item->project->category }}</td>
 									<td>
-										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="right" title="Bienes y servicios" onclick="openAjaxModal('modal-xl', 'Editar bienes y servicios ({{ $item->project->name.' - '.$item->year }})', null, '{{ route('societies.editmemberassets', $item->id) }}', 'GET');"">
+										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="right" title="Bienes y servicios" onclick="openAjaxModal('modal-xl', 'Editar bienes y servicios ({{ $item->project->name.' - '.$item->year }})', null, '{{ route('societies.editprojectassets', $item->id) }}', 'GET');">
 											<i class="fas fa-layer-group text-primary"></i>
 										</butoon>
-										<button class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="right" title="Eliminar" onclick="openFormConfirm('delete{{ $item->id }}societymember')">
+										<button class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="right" title="Eliminar" onclick="openFormConfirm('delete{{ $item->id }}societyproject')">
 											<i class="fas fa-trash text-danger"></i>
 										</button>
-										<form id="delete{{ $item->id }}societymember"
-											action="{{ route('societies.deletemember', $item->id) }}" method="POST" hidden>
+										<form id="delete{{ $item->id }}societyproject" action="{{ route('societies.deleteproject', $item->id) }}" method="POST" hidden>
 											@csrf
 											@method('DELETE')
 										</form>

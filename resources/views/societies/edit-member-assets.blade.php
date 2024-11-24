@@ -54,7 +54,7 @@
 		</div>
 	</div>
 	<hr>
-	<form class="row" id="frmEditAssets" method="POST" action="{{ route('societies.editmemberassets', $member->id) }}">
+	<form class="row" id="frmEditMemberAssets" method="POST" action="{{ route('societies.editmemberassets', $member->id) }}">
 		@csrf
 		@method('PUT')
 		<input type="hidden" name="txtAssets" id="txtAssets">
@@ -73,7 +73,7 @@
 			appendAsset(asset);
 		});
 
-		$('#frmEditAssets').validate({
+		$('#frmEditMemberAssets').validate({
 			submitHandler: function (form) {
 				$('#txtAssets').val(JSON.stringify(assets));
 				openFormConfirm(form.id)
