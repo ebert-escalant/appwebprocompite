@@ -9,6 +9,7 @@ use App\Models\SocietyProject;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class SocietyController extends Controller
 {
@@ -651,6 +652,98 @@ class SocietyController extends Controller
 		}
 
 		return view('societies.edit-project-assets', ['project' => $item]);
+	}
+
+	public function editProjectFiles(Request $request, $id) {
+		if ($request->isMethod('put')) {
+			try {
+				DB::beginTransaction();
+
+				$item = SocietyProject::find($id);
+
+				if (!$item) {
+					DB::rollBack();
+
+					return AppHelper::redirect(route('societies.projects', $item->society_id), AppHelper::ERROR, ['Registro no encontrado.']);
+				}
+
+				// validar arhciivo solo pdf, maximo 20MB
+				$errors = AppHelper::validate(
+					[
+						'file' => $request->fileUploadFile
+					],
+					[
+						'file' => ['required', 'file', 'mimes:pdf', 'max:20480']
+					]
+				);
+
+
+				if (count($errors) > 0) {
+					DB::rollBack();
+
+					return AppHelper::redirect(route('societies.projects', $item->society_id), AppHelper::ERROR, $errors);
+				}
+
+				/* dd($request->file('fileUploadFile')); */
+
+				$file = $request->file('fileUploadFile');
+
+				$filename = uniqid();
+				// store on disk local
+				Storage::disk('local')->put($filename.'.'.strtolower($file->getClientOriginalExtension()), file_get_contents($file));
+
+				$item->files = $item->files ? [
+					...$item->files,
+					[
+						'originalname' => $file->getClientOriginalName(),
+						'filename' => $filename,
+						'created_at' => date('Y-m-d H:i:s')
+					]
+				]: [
+					[
+						'originalname' => $file->getClientOriginalName(),
+						'filename' => $filename,
+						'created_at' => date('Y-m-d H:i:s')
+					]
+				];
+
+				$item->save();
+
+				DB::commit();
+
+				return AppHelper::redirect(route('societies.projects', $item->society_id), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
+			} catch (\Exception $e) {
+				DB::rollBack();
+
+				return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.projects', $item->society_id));
+			}
+		}
+
+		$item = SocietyProject::find($id);
+
+		if (!$item) {
+			return '<div class="alert alert-danger">Registro no encontrado.</div>';
+		}
+
+		return view('societies.edit-project-files', ['project' => $item]);
+	}
+
+	public function downloadProjectFile($id, $filename) {
+		$item = SocietyProject::find($id);
+
+		if (!$item) {
+			return AppHelper::redirect(route('societies.projects', $item->society_id), AppHelper::ERROR, ['Registro no encontrado.']);
+		}
+
+		$file = collect($item->files)->where('filename', $filename)->first();
+
+		if (!$file) {
+			return AppHelper::redirect(route('societies.projects', $item->society_id), AppHelper::ERROR, ['Archivo no encontrado.']);
+		}
+
+		$filepath = storage_path('app/private/'.$filename.'.'.pathinfo($file['originalname'], PATHINFO_EXTENSION));
+
+		return response()->download($filepath, $file['originalname']);
 	}
 
 	public function deleteProject($id) {

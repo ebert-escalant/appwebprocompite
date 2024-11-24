@@ -77,6 +77,7 @@ create table society_projects (
 	project_id char(13) not null,
 	year int not null,
 	assets json,
+	files json,
 	qualification varchar(50),
 	created_at timestamp null default null,
   	updated_at timestamp null default null,

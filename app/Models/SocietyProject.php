@@ -25,7 +25,8 @@ class SocietyProject extends Model
 	protected function casts()
 	{
 		return [
-			'assets' => 'array'
+			'assets' => 'array',
+			'files' => 'array'
 		];
 	}
 }

@@ -34,6 +34,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('societies/add-project/{id}', [SocietyController::class, 'addProject'])->name('societies.addproject');
 	Route::delete('societies/delete-project/{id}', [SocietyController::class, 'deleteProject'])->name('societies.deleteproject');
 	Route::match(['get', 'put'], 'societies/edit-project-assets/{id}', [SocietyController::class, 'editProjectAssets'])->name('societies.editprojectassets');
+	Route::match(['get', 'put'], 'societies/edit-project-files/{id}', [SocietyController::class, 'editProjectFiles'])->name('societies.editprojectfiles');
+	Route::get('societies/download-project-file/{id}/{filename}', [SocietyController::class, 'downloadProjectFile'])->name('societies.downloadprojectfile');
 
 	// projects
 	Route::get('projects', [ProjectController::class, 'getAll'])->name('projects.index');
