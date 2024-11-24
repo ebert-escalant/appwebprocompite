@@ -65,7 +65,8 @@
 </div>
 <script>
 	var member = {!! json_encode($member) !!};
-	var assets = Array.isArray(JSON.parse(member.assets)) ? JSON.parse(member.assets) : [];
+
+	var assets = typeof member.assets === 'string' ? (Array.isArray(JSON.parse(member.assets)) ? JSON.parse(member.assets) : []) : Array.isArray(member.assets) ? member.assets : [];
 
 	$(function() {
 		assets.forEach(function(asset) {
@@ -80,6 +81,14 @@
 		});
 
 	});
+
+	function clearForm() {
+		$('#txtDescription').val('');
+		$('#txtUnit').val('');
+		$('#txtQuantity').val('');
+		$('#txtReceptionDate').val('');
+		$('#txtType').val('Bien');
+	}
 
 	function addAsset() {
 		var description = $('#txtDescription').val();
@@ -103,6 +112,7 @@
 
 		appendAsset(asset);
 		assets.push(asset);
+		clearForm();
 		updateAssets();
 	}
 

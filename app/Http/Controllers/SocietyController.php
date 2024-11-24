@@ -371,8 +371,7 @@ class SocietyController extends Controller
 					}
 				}
 
-				$item->assets = json_encode($newAssets);
-
+				$item->assets = $newAssets;
 				$item->save();
 
 				DB::commit();
