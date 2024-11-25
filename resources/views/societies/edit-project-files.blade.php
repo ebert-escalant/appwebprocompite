@@ -10,6 +10,9 @@
 				<button class="file-upload-browse btn btn-primary" type="button">Seleccionar</button>
 			</span>
 		</div>
+		<small class="form-text text-muted">
+			Optimize el archivo antes de subirlo. puede comprimirlo en: <a href="https://ilovepdf.com/compress_pdf" rel="noopener noreferrer" target="_blank">ilovepdf.com</a>
+		</small>
 	</div>
 	<div class="col-md-4 form-group">
 		<label for="">&nbsp;</label>

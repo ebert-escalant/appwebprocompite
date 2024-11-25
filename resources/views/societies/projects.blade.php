@@ -78,7 +78,7 @@
 									<td>{{ $item->project->name }}</td>
 									<td>{{ $item->project->category }}</td>
 									<td>
-										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="right" title="Archivos" onclick="openAjaxModal('modal-xl', 'Archivos de ({{ $item->project->name.' - '.$item->year }})', null, '{{ route('societies.editprojectfiles', $item->id) }}', 'GET');">
+										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="right" title="Archivos" onclick="openAjaxModal('modal-lg', 'Archivos de ({{ $item->project->name.' - '.$item->year }})', null, '{{ route('societies.editprojectfiles', $item->id) }}', 'GET');">
 											<i class="fas fa-folder-open text-success"></i>
 										</butoon>
 										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="right" title="Bienes y servicios" onclick="openAjaxModal('modal-xl', 'Editar bienes y servicios ({{ $item->project->name.' - '.$item->year }})', null, '{{ route('societies.editprojectassets', $item->id) }}', 'GET');">
