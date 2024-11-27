@@ -1,0 +1,173 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+	background-color: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+	margin-top: 40px;
+	margin-bottom: 40px;
+	padding: 10px 20px;
+}
+
+header {
+    padding: 20px 0;
+}
+
+.align-center {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.logo {
+    width: auto;
+    height: 150px;
+    margin-right: 20px;
+}
+
+h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+main {
+    padding: 40px 0;
+}
+
+.search-container {
+    background: linear-gradient(to right, #243b94, #5a7db9);
+    padding: 30px;
+    border-radius: 8px;
+    display: flex;
+}
+
+#dni-input {
+    flex-grow: 1;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px 0 0 4px;
+}
+
+#dni-input::placeholder {
+	color: #ccc;
+}
+
+#dni-input:focus {
+	outline: none;
+}
+
+#search-button {
+    padding: 8px 20px;
+    font-size: 14px;
+    background-color: #fff;
+    color: #3b82f6;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#search-button:hover {
+    background-color: #f0f0f0;
+}
+
+.user-name-container {
+	display: none;
+	align-items: center;
+	padding: 0;
+	margin: 0;
+}
+
+.user-name {
+	width: 100%;
+	font-size: 16px;
+	text-align: center;
+	font-weight: bold;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: #f9f9f9;
+}
+
+.no-results {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.feature-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+}
+
+.feature-card h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    font-size: 14px;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .search-container {
+        flex-direction: column;
+    }
+
+    #dni-input, #search-button {
+        border-radius: 4px;
+    }
+
+    #dni-input {
+        margin-bottom: 10px;
+    }
+}
+

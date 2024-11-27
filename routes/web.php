@@ -6,11 +6,16 @@ use App\Http\Controllers\SocietyController;
 use App\Http\Controllers\UbigeoController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\PublicController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->group(function () {
 	Route::match(['get', 'post'], 'signin', [AuthController::class, 'signin'])->name('login');
 });
+
+Route::get('consultas', [PublicController::class, 'queries'])->name('public.queries');
+Route::get('consultas/{dni}', [PublicController::class, 'findByDni'])->name('public.findByDni');
+
 Route::middleware(['auth'])->group(function () {
 	Route::match(['get', 'put'], 'profile', [AuthController::class, 'profile'])->name('profile');
 	Route::post('logout', [AuthController::class, 'logout'])->name('logout');

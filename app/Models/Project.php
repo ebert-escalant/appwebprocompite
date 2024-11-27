@@ -11,7 +11,7 @@ class Project extends Model
 	public $incrementing = false;
 	public $timestamps = true;
 
-	public function projectSocieties()
+	public function societyProjects()
 	{
 		return $this->hasMany(SocietyProject::class, 'project_id', 'id');
 	}

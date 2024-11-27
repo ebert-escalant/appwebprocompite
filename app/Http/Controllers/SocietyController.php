@@ -237,8 +237,6 @@ class SocietyController extends Controller
 
 		$districts = AppHelper::getDistricts($item->province);
 
-		/* return response()->json($provinces); */
-
         return view('societies.edit', ['society' => $item, 'departments' => $departments, 'provinces' => $provinces, 'districts' => $districts]);
     }
 
@@ -266,49 +264,6 @@ class SocietyController extends Controller
             return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.index'));
         }
     }
-
-	/* public function addProject(Request $request, $id) {
-		if ($request->isMethod('post')) {
-			try {
-				DB::beginTransaction();
-
-				$item = Society::find($id);
-
-				if (!$item) {
-					DB::rollBack();
-
-					return AppHelper::redirect(route('societies.index'), AppHelper::ERROR, ['Registro no encontrado.']);
-				}
-
-				$errors = AppHelper::validate(
-					[
-						'project' => trim($request->input('txtProject')),
-						'year' => trim($request->input('txtYear')),
-						'assets' => trim($request->assets),
-						'qualification' => trim($request->input('txtQualification'))
-					],
-					[
-						'project' => ['required', 'string', 'max:255', 'exists:projects,id'],
-						'year' => ['required', 'numeric'],
-						'assets' => ['required', 'string'],
-						'qualification' => ['nullable', 'string']
-					]
-				);
-
-				if (count($errors) > 0) {
-					DB::rollBack();
-
-					return AppHelper::redirect(route('societies.addProject', $item->id), AppHelper::ERROR, $errors);
-				}
-
-				return AppHelper::redirect(route('societies.index'), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
-			} catch (\Exception $e) {
-				DB::rollBack();
-
-				return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.index'));
-			}
-		}
-	} */
 
 	public function getMembers(Request $request, $id) {
 		$item = Society::find($id);
