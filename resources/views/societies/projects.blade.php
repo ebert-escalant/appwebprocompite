@@ -68,6 +68,7 @@
 								<th>Año</th>
 								<th>Nombre del proyecto</th>
 								<th>Categoría</th>
+								<th>Liquidación</th>
 								<th width="10%">Acciones</th>
 							</tr>
 						</thead>
@@ -77,6 +78,7 @@
 									<td>{{ $item->year }}</td>
 									<td>{{ $item->project->name }}</td>
 									<td>{{ $item->project->category }}</td>
+									<td>{{ $item->project->liquidation == 1 ? 'Sí': 'No'}}</td>
 									<td>
 										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="left" title="Archivos" onclick="openAjaxModal('modal-lg', 'Archivos de ({{ $item->project->name.' - '.$item->year }})', null, '{{ route('societies.editprojectfiles', $item->id) }}', 'GET');">
 											<i class="fas fa-folder-open text-success"></i>

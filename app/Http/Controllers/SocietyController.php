@@ -530,6 +530,7 @@ class SocietyController extends Controller
 				$societyproject->society_id = $item->id;
 				$societyproject->project_id = $project->id;
 				$societyproject->year = trim($request->input('txtYear'));
+				$societyproject->liquidation = 0;
 
 				$societyproject->save();
 
