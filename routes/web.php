@@ -25,6 +25,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('ubigeo/departments', [UbigeoController::class, 'getDepartments'])->name('ubigeo.departments');
 	Route::get('ubigeo/provinces/{departement}', [UbigeoController::class, 'getProvinces'])->name('ubigeo.provinces');
 	Route::get('ubigeo/districts/{province}', [UbigeoController::class, 'getDistricts'])->name('ubigeo.districts');
+	Route::match(['get', 'post'], 'ubigeo/add-province', [UbigeoController::class, 'addProvince'])->name('ubigeo.add-province');
+	Route::match(['get', 'post'], 'ubigeo/add-district', [UbigeoController::class, 'addDistrict'])->name('ubigeo.add-district');
 
 	// societies
 	Route::get('societies', [SocietyController::class, 'getAll'])->name('societies.index');

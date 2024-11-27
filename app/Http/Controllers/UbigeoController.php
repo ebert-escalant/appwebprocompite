@@ -92,7 +92,7 @@ class UbigeoController extends Controller
 				if (count($errors) > 0) {
 					DB::rollBack();
 
-					return AppHelper::redirect(route('ubigeo.add-province'), AppHelper::ERROR, $errors);
+					return AppHelper::redirect(route('dashboard'), AppHelper::ERROR, $errors);
 				}
 
 				$provinces = file_get_contents(public_path('data/provinces.json'));
@@ -100,7 +100,7 @@ class UbigeoController extends Controller
 				$provinces = json_decode($provinces, true);
 
 				$province = collect($provinces)->first(function ($item) use ($request) {
-					return strtolower($item['name']) == strtolower($request->province);
+					return strtolower($item['name']) == strtolower(trim($request->input('txtProvince')));
 				});
 
 
@@ -110,16 +110,16 @@ class UbigeoController extends Controller
 					return AppHelper::redirect(route('dashboard'), AppHelper::ERROR, ['La provincia ya existe']);
 				}
 
-				$lastProvince = collect($provinces)->where('department_id', $request->department_id)->sortByDesc('id')->first();
+				$lastProvince = collect($provinces)->where('department_id', $request->input('txtDepartmentId'))->sortByDesc('id')->first();
 
 				$lastUbigeo = $lastProvince ? (int)substr($lastProvince['id'], 2, 2) : 0;
 
-				$newUbigeo = str_pad($request->department_id, 2, '0', STR_PAD_LEFT) . str_pad($lastUbigeo + 1, 2, '0', STR_PAD_LEFT);
+				$newUbigeo = str_pad($request->input('txtDepartmentId'), 2, '0', STR_PAD_LEFT) . str_pad($lastUbigeo + 1, 2, '0', STR_PAD_LEFT);
 
 				$province = [
 					'id' => $newUbigeo,
-					'name' => $request->province,
-					'department_id' => $request->department_id
+					'name' => trim($request->input('txtProvince')),
+					'department_id' => $request->input('txtDepartmentId')
 				];
 
 				$provinces[] = $province;
@@ -171,7 +171,7 @@ class UbigeoController extends Controller
 				$districts = json_decode($districts, true);
 
 				$district = collect($districts)->first(function ($item) use ($request) {
-					return strtolower($item['name']) == strtolower($request->district);
+					return strtolower($item['name']) == strtolower(trim($request->input('txtDistrict')));
 				});
 
 				if (!empty($district)) {
@@ -180,17 +180,17 @@ class UbigeoController extends Controller
 					return AppHelper::redirect(route('dashboard'), AppHelper::ERROR, ['El distrito ya existe']);
 				}
 
-				$lastDistrict = collect($districts)->where('province_id', $request->province_id)->sortByDesc('id')->first();
+				$lastDistrict = collect($districts)->where('province_id', $request->input('txtProvinceId'))->sortByDesc('id')->first();
 
 				$lastUbigeo = $lastDistrict ? (int)substr($lastDistrict['id'], 4, 2) : 0;
 
-				$newUbigeo = str_pad($request->province_id, 4, '0', STR_PAD_LEFT) . str_pad($lastUbigeo + 1, 2, '0', STR_PAD_LEFT);
+				$newUbigeo = str_pad($request->input('txtProvinceId'), 4, '0', STR_PAD_LEFT) . str_pad($lastUbigeo + 1, 2, '0', STR_PAD_LEFT);
 
 				$district = [
 					'id' => $newUbigeo,
-					'name' => $request->district,
-					'province_id' => $request->province_id,
-					'department_id' => substr($request->province_id, 0, 2)
+					'name' => $request->input('txtDistrict'),
+					'province_id' => $request->input('txtProvinceId'),
+					'department_id' => substr($request->input('txtProvinceId'), 0, 2)
 				];
 
 				$districts[] = $district;

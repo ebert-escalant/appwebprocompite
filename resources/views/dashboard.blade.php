@@ -1,7 +1,18 @@
 <x-admin-layout>
-    <h4 class="mb-3">
-		¡Bienvenido, {{ auth()->user()->name }}!
-	</h4>
+    <div class="d-flex justify-content-between" style="flex-wrap: wrap;">
+		<h4 class="mb-3">
+			¡Bienvenido, {{ auth()->user()->name }}!
+		</h4>
+		<div class="dropdown">
+			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Configuración
+			</button>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				<button type="button" class="dropdown-item" onclick="openAjaxModal('modal-xl', 'Agregar provincia', null, '{{ route('ubigeo.add-province') }}', 'GET');">Agregar provincia</button>
+				<button type="button" class="dropdown-item" onclick="openAjaxModal('modal-xl', 'Agregar distrito', null, '{{ route('ubigeo.add-district') }}', 'GET');">Agregar distrito</button>
+			</div>
+		</div>
+	</div>
     <div class="row">
         <div class="col-md-4">
             <div class="card">

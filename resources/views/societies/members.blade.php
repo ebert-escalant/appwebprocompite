@@ -78,7 +78,7 @@
 									<td>{{ $item->member->dni }}</td>
 									<td>{{ $item->member->full_name }}</td>
 									<td>
-										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="right" title="Bienes y servicios" onclick="openAjaxModal('modal-xl', 'Editar bienes y servicios ({{ $item->member->full_name.' - '.$item->year }})', null, '{{ route('societies.editmemberassets', $item->id) }}', 'GET');"">
+										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="right" title="Bienes y servicios" onclick="openAjaxModal('modal-xl', 'Editar bienes y servicios ({{ $item->member->full_name.' - '.$item->year }})', null, '{{ route('societies.editmemberassets', $item->id) }}', 'GET');">
 											<i class="fas fa-layer-group text-primary"></i>
 										</butoon>
 										<button class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="right" title="Eliminar" onclick="openFormConfirm('delete{{ $item->id }}societymember')">
