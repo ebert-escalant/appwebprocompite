@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Procompite | Búsqueda de socio</title>
     <link rel="stylesheet" href="{{ asset('css/public.css') }}">
+	<link rel="shortcut icon" href="{{asset('images/full_logo_without.png')}}" type="image/x-icon">
 </head>
 <body>
     <main>
