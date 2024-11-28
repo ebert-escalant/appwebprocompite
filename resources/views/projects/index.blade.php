@@ -42,7 +42,7 @@
                         <tbody>
                             @foreach ($data as $item)
 								<tr>
-									<td>{{ $item->name }}</td>
+									<td style="word-wrap: break-word; white-space: normal; max-width: 200px;">{{ $item->name }}</td>
 									<td>{{ $item->category}}</td>
 									<td>{{ $item->investment_amount }}</td>
 									<td>{{ $item->cofinance_amount }}</td>

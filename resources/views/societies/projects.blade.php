@@ -77,7 +77,7 @@
 							@foreach ($projects as $item)
 								<tr>
 									<td>{{ $item->year }}</td>
-									<td>{{ $item->project->name }}</td>
+									<td style="word-wrap: break-word; white-space: normal; max-width: 200px;">{{ $item->project->name }}</td>
 									<td>{{ $item->project->category }}</td>
 									<td>{{ $item->liquidation == 1 ? 'Sí': 'No'}}</td>
 									<td>
