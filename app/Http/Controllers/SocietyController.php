@@ -324,7 +324,8 @@ class SocietyController extends Controller
 							'quantity' => $asset['quantity'],
 							'unit' => $asset['unit'],
 							'receptionDate' => $asset['receptionDate'],
-							'type' => $asset['type']
+							'type' => $asset['type'],
+							'status' => $asset['status']
 						];
 					}
 				}
@@ -582,7 +583,8 @@ class SocietyController extends Controller
 							'quantity' => $asset['quantity'],
 							'unit' => $asset['unit'],
 							'receptionDate' => $asset['receptionDate'],
-							'type' => $asset['type']
+							'type' => $asset['type'],
+							'status' => $asset['status'] 
 						];
 					}
 				}

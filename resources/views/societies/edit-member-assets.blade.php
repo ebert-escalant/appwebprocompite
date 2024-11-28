@@ -26,6 +26,19 @@
 			</select>
 		</div>
 		<div class="col-lg-3 form-group">
+			<label for="txtStatus">Estado *</label>
+			<select name="txtStatus" id="txtStatus" class="form-control form-control-sm">
+				<option value="Habido/Buen estado" >Habido/Buen estado</option>
+				<option value="Habido/Mal estado">Habido/Mal estado</option>
+				<option value="No habido">No habido</option>
+				<option value="No ejecutado">No ejecutado</option>
+				<option value="Ejecutado">Ejecutado</option>
+			</select>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-9"></div>
+		<div class="col-lg-3 form-group">
 			<label for="">&nbsp;</label>
 			<button type="button" class="btn btn-primary btn-sm btn-block" onclick="addAsset()">Agregar bien o servicio</button>
 		</div>
@@ -43,6 +56,7 @@
 								<th>Cantidad</th>
 								<th>Fecha de recepción</th>
 								<th>Tipo</th>
+								<th>Estado</th>
 								<th width="10%"></th>
 							</tr>
 						</thead>
@@ -64,9 +78,9 @@
 	</form>
 </div>
 <script>
-	var member = {!! json_encode($member) !!};
+	let member = {!! json_encode($member) !!};
 
-	var assets = typeof member.assets === 'string' ? (Array.isArray(JSON.parse(member.assets)) ? JSON.parse(member.assets) : []) : Array.isArray(member.assets) ? member.assets : [];
+	let assets = typeof member.assets === 'string' ? (Array.isArray(JSON.parse(member.assets)) ? JSON.parse(member.assets) : []) : Array.isArray(member.assets) ? member.assets : [];
 
 	$(function() {
 		assets.forEach(function(asset) {
@@ -88,26 +102,29 @@
 		$('#txtQuantity').val('');
 		$('#txtReceptionDate').val('');
 		$('#txtType').val('Bien');
+		$('#txtStatus').val('');
 	}
 
 	function addAsset() {
-		var description = $('#txtDescription').val();
-		var unit = $('#txtUnit').val();
-		var quantity = $('#txtQuantity').val();
-		var receptionDate = $('#txtReceptionDate').val();
-		var type = $('#txtType').val();
+		let description = $('#txtDescription').val();
+		let unit = $('#txtUnit').val();
+		let quantity = $('#txtQuantity').val();
+		let receptionDate = $('#txtReceptionDate').val();
+		let type = $('#txtType').val();
+		let status = $('#txtStatus').val();
 
-		if (description == '' || unit == '' || quantity == '' || receptionDate == '' || type == '') {
+		if (description == '' || unit == '' || quantity == '' || receptionDate == '' || type == '' || status == '') {
 			toastr.error('Todos los campos son obligatorios');
 			return;
 		}
 
-		var asset = {
+		let asset = {
 			description: description,
 			unit: unit,
 			quantity: quantity,
 			receptionDate: receptionDate,
-			type: type
+			type: type,
+			status: status
 		};
 
 		appendAsset(asset);
@@ -117,19 +134,20 @@
 	}
 
 	function appendAsset(asset) {
-		var tr = $('<tr>');
+		let tr = $('<tr>');
 		tr.append($('<td>').text(asset.description));
 		tr.append($('<td>').text(asset.unit));
 		tr.append($('<td>').text(asset.quantity));
 		tr.append($('<td>').text(asset.receptionDate));
 		tr.append($('<td>').text(asset.type));
+		tr.append($('<td>').text(asset.status));
 		tr.append($('<td>').append($('<button>').addClass('btn bg-default btn-sm px-1 py-0').attr('type', 'button').attr('onclick', 'removeAsset(this)').append($('<i>').addClass('fas fa-trash text-danger'))));
 		$('#tbodyAssets').append(tr);
 	}
 
 	function removeAsset(button) {
-		var tr = $(button).closest('tr');
-		var index = tr.index();
+		let tr = $(button).closest('tr');
+		let index = tr.index();
 		assets.splice(index, 1);
 		tr.remove();
 		updateAssets();
