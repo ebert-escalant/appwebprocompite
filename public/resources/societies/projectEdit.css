@@ -1,0 +1,31 @@
+.emoji-rating {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.emoji-rating input[type="radio"] {
+    display: none; /* Ocultamos los inputs */
+}
+
+.emoji-rating label {
+    font-size: 2rem; /* Tamaño de los emojis */
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.emoji-rating label:hover {
+    transform: scale(1.3); /* Aumenta el tamaño al pasar el mouse */
+}
+
+.emoji-rating input[type="radio"]:checked + label {
+    transform: scale(1.9); /* Aumenta el tamaño del emoji seleccionado */
+    opacity: 1;
+    color: gold; /* Cambia el color del emoji seleccionado */
+}
+.emoji-rating label:hover {
+    
+    transform: scale(1.8) translateY(-10px); /* El emoji flota hacia arriba */
+}
+

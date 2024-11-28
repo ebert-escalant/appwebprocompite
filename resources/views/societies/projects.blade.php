@@ -69,6 +69,7 @@
 								<th>Nombre del proyecto</th>
 								<th>Categoría</th>
 								<th>Liquidación</th>
+								<th>Calificación</th>
 								<th width="10%">Acciones</th>
 							</tr>
 						</thead>
@@ -78,10 +79,25 @@
 									<td>{{ $item->year }}</td>
 									<td>{{ $item->project->name }}</td>
 									<td>{{ $item->project->category }}</td>
-									<td>{{ $item->project->liquidation == 1 ? 'Sí': 'No'}}</td>
+									<td>{{ $item->liquidation == 1 ? 'Sí': 'No'}}</td>
 									<td>
-										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="left" title="Archivos" onclick="openAjaxModal('modal-lg', 'Archivos de ({{ $item->project->name.' - '.$item->year }})', null, '{{ route('societies.editprojectfiles', $item->id) }}', 'GET');">
-											<i class="fas fa-folder-open text-success"></i>
+										@if($item->qualification == 1)
+											<i style="font-size:1.5rem" class="fas fa-grin text-danger"></i>
+										@elseif($item->qualification == 2)
+											<i style="font-size:1.5rem" class="fas fa-smile text-success"></i>
+										@elseif($item->qualification == 3)
+											<i style="font-size:1.5rem" class="fas fa-meh text-warning"></i>
+										@elseif($item->qualification == 4)
+											<i style="font-size:1.5rem" class="fas fa-frown-open text-danger"></i>
+										@elseif($item->qualification == 5)
+											<i style="font-size:1.5rem" class="fas fa-frown text-danger"></i>
+										@else
+											<i style="font-size:1.5rem" class="fas fa-question-circle text-muted"></i> <!-- Calificación no válida -->
+										@endif
+									</td>
+									<td>
+										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="left" title="Editar" onclick="openAjaxModal('modal-lg', 'Datos de ({{ $item->project->name.' - '.$item->year }})', null, '{{ route('societies.editprojectall', $item->id) }}', 'GET');">
+											<i class="fas fa-pen text-warning"></i>
 										</butoon>
 										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="right" title="Bienes y servicios" onclick="openAjaxModal('modal-xl', 'Editar bienes y servicios ({{ $item->project->name.' - '.$item->year }})', null, '{{ route('societies.editprojectassets', $item->id) }}', 'GET');">
 											<i class="fas fa-layer-group text-primary"></i>
@@ -108,6 +124,7 @@
 	@push('scripts')
 		<script>
 			_baseAppUrl = "{{ url('') }}";
+			liquidation = "{{ $item->liquidation }}";
 		</script>
 		<script src="{{ asset('resources/societies/projects.js') }}"></script>
 	@endpush

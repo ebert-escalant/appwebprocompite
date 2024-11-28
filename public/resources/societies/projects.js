@@ -26,6 +26,5 @@ $(function () {
 			openFormConfirm(form.id)
 		}
 	})
-
 	$('.select2').attr('aria-hidden', 'false')
 })

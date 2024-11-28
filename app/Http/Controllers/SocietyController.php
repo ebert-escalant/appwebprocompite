@@ -612,7 +612,7 @@ class SocietyController extends Controller
 		return view('societies.edit-project-assets', ['project' => $item]);
 	}
 
-	public function editProjectFiles(Request $request, $id) {
+	public function editProjectAll(Request $request, $id) {
 		if ($request->isMethod('put')) {
 			try {
 				DB::beginTransaction();
@@ -624,47 +624,53 @@ class SocietyController extends Controller
 
 					return AppHelper::redirect(route('societies.projects', $item->society_id), AppHelper::ERROR, ['Registro no encontrado.']);
 				}
-
 				// validar arhciivo solo pdf, maximo 20MB
-				$errors = AppHelper::validate(
-					[
-						'file' => $request->fileUploadFile
-					],
-					[
-						'file' => ['required', 'file', 'mimes:pdf', 'max:20480']
-					]
-				);
+				$errors = [];
+				if($request->hasFile('fileUploadFile')) {
+					$rules = [
+						'file' => ['sometimes', 'file', 'mimes:pdf', 'max:20480'],
+						'liquidation' => ['required']
+					];
+					
+					$data = [
+						'file' => $request->file('fileUploadFile'), 
+						'liquidation' => trim($request->input('txtLiquidation'))
+					];
+					$errors = AppHelper::validate($data, $rules);
 
 
-				if (count($errors) > 0) {
-					DB::rollBack();
 
-					return AppHelper::redirect(route('societies.projects', $item->society_id), AppHelper::ERROR, $errors);
+					if (count($errors) > 0) {
+						DB::rollBack();
+
+						return AppHelper::redirect(route('societies.projects', $item->society_id), AppHelper::ERROR, $errors);
+					}
+
+					/* dd($request->file('fileUploadFile')); */
+
+					$file = $request->file('fileUploadFile');
+
+					$filename = uniqid();
+					// store on disk local
+					Storage::disk('local')->put($filename.'.'.strtolower($file->getClientOriginalExtension()), file_get_contents($file));
+
+					$item->files = $item->files ? [
+						...$item->files,
+						[
+							'originalname' => $file->getClientOriginalName(),
+							'filename' => $filename,
+							'created_at' => date('Y-m-d H:i:s')
+						]
+					]: [
+						[
+							'originalname' => $file->getClientOriginalName(),
+							'filename' => $filename,
+							'created_at' => date('Y-m-d H:i:s')
+						]
+					];
 				}
-
-				/* dd($request->file('fileUploadFile')); */
-
-				$file = $request->file('fileUploadFile');
-
-				$filename = uniqid();
-				// store on disk local
-				Storage::disk('local')->put($filename.'.'.strtolower($file->getClientOriginalExtension()), file_get_contents($file));
-
-				$item->files = $item->files ? [
-					...$item->files,
-					[
-						'originalname' => $file->getClientOriginalName(),
-						'filename' => $filename,
-						'created_at' => date('Y-m-d H:i:s')
-					]
-				]: [
-					[
-						'originalname' => $file->getClientOriginalName(),
-						'filename' => $filename,
-						'created_at' => date('Y-m-d H:i:s')
-					]
-				];
-
+				$item->qualification = trim($request->input('rating'));
+				$item->liquidation = trim($request->input('txtLiquidation'));
 				$item->save();
 
 				DB::commit();
@@ -672,7 +678,6 @@ class SocietyController extends Controller
 				return AppHelper::redirect(route('societies.projects', $item->society_id), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
 			} catch (\Exception $e) {
 				DB::rollBack();
-
 				return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.projects', $item->society_id));
 			}
 		}
@@ -682,7 +687,6 @@ class SocietyController extends Controller
 		if (!$item) {
 			return '<div class="alert alert-danger">Registro no encontrado.</div>';
 		}
-
 		return view('societies.edit-project-files', ['project' => $item]);
 	}
 
