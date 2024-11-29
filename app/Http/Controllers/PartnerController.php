@@ -12,7 +12,7 @@ class PartnerController extends Controller
     {
         $search = $request->input('search') ? $request->input('search') : '';
 
-        $data = Partner::whereRaw('concat(dni, full_name, phone, address, email, family_charge, charge) like ?', ['%' . $search . '%']) ->paginate(10);
+        $data = Partner::whereRaw('concat(dni, full_name, phone, address, email, charge) like ?', ['%' . $search . '%']) ->paginate(10);
 
         $data->appends(['search' => $search]);
         $data->onEachSide(0);
