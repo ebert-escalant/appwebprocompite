@@ -46,12 +46,12 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="txtComunity">Comunidad *</label>
+					<label for="txtComunity">Comunidad</label>
 					<input id="txtComunity" name="txtComunity" type="text" class="form-control form-control-sm">
 				</div>
 				<div class="row">
 					<div class="col-md-12 form-group">
-						<label for="txtAddress">Dirección *</label>
+						<label for="txtAddress">Dirección</label>
 						<input id="txtAddress" name="txtAddress" type="text" class="form-control form-control-sm">
 					</div>
 				</div>
@@ -67,7 +67,7 @@
 						</select>
 					</div>
 					<div class="col-md-4 form-group">
-						<label for="txtPhone">Celular *</label>
+						<label for="txtPhone">Celular</label>
 						<input id="txtPhone" name="txtPhone" type="text" maxlength="9" class="form-control form-control-sm">
 					</div>
 				</div>
@@ -83,7 +83,7 @@
 						<input id="txtRepresentativeFullName" name="txtRepresentativeFullName" type="text" class="form-control form-control-sm">
 					</div>
                     <div class="col-md-3 form-group">
-                        <label for="txtRepresentativePhone">Celular*</label>
+                        <label for="txtRepresentativePhone">Celular</label>
                         <input id="txtRepresentativePhone" name="txtRepresentativePhone" type="text" maxlength="9" class="form-control form-control-sm">
                     </div>
 					<div class="col-md-3 form-group">
@@ -98,7 +98,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-6 form-group">
-                        <label for="txtRepresentativeEmail">Correlo electrónico *</label>
+                        <label for="txtRepresentativeEmail">Correlo electrónico</label>
                         <input id="txtRepresentativeEmail" name="txtRepresentativeEmail" type="email" class="form-control form-control-sm">
                     </div>
 				</div>

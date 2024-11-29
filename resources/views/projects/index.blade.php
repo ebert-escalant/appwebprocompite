@@ -1,18 +1,28 @@
 <x-admin-layout>
     <div class="row">
-        <div class="form-group col-md-7 order-1 order-md-0">
-            <form id="divSearch" method="get">
-                <div class="input-group">
-                    <div class="input-group-append">
-                        <span class="input-group-text">
-                            <i class="fas fa-search"></i>
-                        </span>
-                    </div>
-                    <input type="search" id="search" name="search" class="form-control" value="{{ $search }}" placeholder="Información para búsqueda (Enter)" autofocus autocomplete="off">
-                </div>
+        <div class="form-group col-md-8 order-1 order-md-0">
+            <form id="divSearch" method="get" class="row">
+                <div class="col-md-8">
+					<div class="input-group input-group-sm">
+						<div class="input-group-append">
+							<span class="input-group-text">
+								<i class="fas fa-search"></i>
+							</span>
+						</div>
+						<input type="search" id="search" name="search" class="form-control" value="{{ $search }}" placeholder="Información para búsqueda (Enter)" autofocus autocomplete="off">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<select name="year" id="year" class="form-control form-control-sm select2" onchange="this.form.submit()">
+						<option value="all" {{ $year == 'all' ? 'selected' : '' }}>Todos</option>
+						@foreach ($years as $i)
+							<option value="{{ $i }}" {{ $year == $i ? 'selected' : '' }}>{{ $i }}</option>
+						@endforeach
+					</select>
+				</div>
             </form>
         </div>
-        <div class="form-group col-md-5 order-0 order-md-1 d-flex justify-content-end align-items-center">
+        <div class="form-group col-md-4 order-0 order-md-1 d-flex justify-content-end align-items-center">
             <div class="d-flex justify-content-end align-items-center" style="gap: 6px;">
                 <a href="{{ route('projects.insert') }}" class="btn btn-primary btn-sm elevation-3" data-toggle="tooltip" data-placement="right" title="Agregar">
                     <i class="fas fa-plus fa-lg"></i> AGREGAR

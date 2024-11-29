@@ -10,11 +10,18 @@ class ProjectController extends Controller
 {
     public function getAll(Request $request)
     {
-        $search = $request->input('search') ?? '';
-        $data = Project::whereRaw('concat(name, name, category) like ?', ['%' . $search . '%'])->paginate(10);
-        $data->appends(['search' => $search]);
+        $search = trim($request->input('search')) ? trim($request->input('search')) : '';
+		$year = trim($request->input('year')) ? trim($request->input('year')) : 'all';
+
+        $data = Project::whereRaw('concat(name, name, category) like ?', ['%' . $search . '%'])->whereHas('societyProjects', function ($query) use ($year) {
+			if ($year != 'all') {
+				$query->where('year', $year);
+			}
+		})->orderBy('created_at', 'desc')->paginate(10);
+
+        $data->appends(['search' => $search, 'year' => $year]);
         $data->onEachSide(0);
-        return view('projects.index', ['data' => $data, 'search' => $search]);
+        return view('projects.index', ['data' => $data, 'search' => $search, 'years' => range(date('Y'), 2021, -1), 'year' => $year]);
     }
 
     public function insert(Request $request)

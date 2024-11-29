@@ -11,6 +11,8 @@ $(function() {
 		rules: {
 			txtDni: {
                 maxlength: 8,
+				minlength: 8,
+				number: true,
                 required: true
             },
             txtFullName: {
@@ -22,7 +24,8 @@ $(function() {
                 date: true
             },
             txtPhone: {
-                required: true,
+                required: false,
+				minlength: 9,
                 maxlength: 9
             },
             txtEmail: {
@@ -31,19 +34,17 @@ $(function() {
                 maxlength: 255
             },
 			txtAddress: {
-				required: true,
+				required: false,
 				maxlength: 255
 			},
-            txtFamilyCharge: {
-                required: true,
-                maxlength: 255
-            },
             txtCharge: {
                 required: true,
                 maxlength: 255
             },
 			txtSpouseDni: {
+				number: true,
 				maxlength: 8,
+				minlength: 8,
 				required: {
 					depends: function() {
 						return $('#chkHasSpouse').is(':checked')
@@ -67,11 +68,8 @@ $(function() {
 				date: true
 			},
 			txtSpousePhone: {
-				required: {
-					depends: function() {
-						return $('#chkHasSpouse').is(':checked')
-					}
-				},
+				required: false,
+				minlength: 9,
 				maxlength: 9
 			},
 			txtSpouseEmail: {
@@ -82,7 +80,9 @@ $(function() {
 		messages: {
 			txtDni: {
                 required: 'El campo es requerido',
-                maxlength: 'El campo debe contener máximo 8 caracteres'
+				number: 'Formato inválido',
+				minlength: 'El campo debe contener 8 caracteres',
+                maxlength: 'El campo debe contener 8 caracteres'
             },
             txtFirstName: {
                 required: 'El campo es requerido',
@@ -94,7 +94,8 @@ $(function() {
             },
             txtPhone: {
                 required: 'El campo es requerido',
-                maxlength: 'El campo debe contener máximo 9 caracteres'
+				minlength: 'El campo debe contener 9 caracteres',
+                maxlength: 'El campo debe contener 9 caracteres'
             },
             txtEmail: {
                 required: 'El campo es requerido',
@@ -105,17 +106,15 @@ $(function() {
 				required: 'El campo es requerido',
 				maxlength: 'El campo debe contener máximo 255 caracteres'
 			},
-            txtFamilyCharge: {
-                required: 'El campo es requerido',
-                maxlength: 'El campo debe contener máximo 255 caracteres'
-            },
             txtCharge: {
                 required: 'El campo es requerido',
                 maxlength: 'El campo debe contener máximo 255 caracteres'
             },
 			txtSpouseDni: {
 				required: 'El campo es requerido',
-				maxlength: 'El campo debe contener máximo 8 caracteres'
+				number: 'Formato inválido',
+				minlength: 'El campo debe contener 8 caracteres',
+				maxlength: 'El campo debe contener 8 caracteres'
 			},
 			txtSpouseFullName: {
 				required: 'El campo es requerido',
@@ -127,7 +126,8 @@ $(function() {
 			},
 			txtSpousePhone: {
 				required: 'El campo es requerido',
-				maxlength: 'El campo debe contener máximo 9 caracteres'
+				minlength: 'El campo debe contener 9 caracteres',
+				maxlength: 'El campo debe contener 9 caracteres'
 			},
 			txtSpouseEmail: {
 				required: 'El campo es requerido',

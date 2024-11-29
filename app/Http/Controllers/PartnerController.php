@@ -12,7 +12,7 @@ class PartnerController extends Controller
     {
         $search = $request->input('search') ? $request->input('search') : '';
 
-        $data = Partner::whereRaw('concat(dni, full_name, phone, address, email, family_charge, charge) like ?', ['%' . $search . '%']) ->paginate(10);
+        $data = Partner::whereRaw('concat(dni, full_name, phone, address, email, charge) like ?', ['%' . $search . '%']) ->paginate(10);
 
         $data->appends(['search' => $search]);
         $data->onEachSide(0);
@@ -33,10 +33,9 @@ class PartnerController extends Controller
                         'phone' => trim($request->input('txtPhone')),
                         'address' => trim($request->input('txtAddress')),
                         'email' => trim($request->input('txtEmail')),
-                        'family_charge' => trim($request->input('txtFamilyCharge')),
                         'charge' => trim($request->input('txtCharge')),
-						'spouse_dni' => trim($request->input('txtSpouseDni')),
 						'has_spouse' => trim($request->input('chkHasSpouse')),
+						'spouse_dni' => trim($request->input('txtSpouseDni')),
 						'spouse_full_name' => trim($request->input('txtSpouseFullName')),
 						'spouse_birthdate' => trim($request->input('txtSpouseBirthDate')),
 						'spouse_phone' => trim($request->input('txtSpousePhone')),
@@ -46,15 +45,14 @@ class PartnerController extends Controller
                         'dni' => ['required', 'string', 'max:8', 'unique:partners,dni'],
                         'full_name' => ['required', 'string', 'max:255'],
                         'birthdate' => ['required', 'date_format:Y-m-d'],
-                        'phone' => ['required', 'string', 'max:13'],
-                        'address' => ['required', 'string', 'max:255'],
+                        'phone' => ['nullable', 'string', 'max:9'],
+                        'address' => ['nullable', 'string', 'max:255'],
                         'email' => ['nullable', 'string', 'max:255'],
-                        'family_charge' => ['required', 'string', 'max:255'],
                         'charge' => ['required', 'string', 'max:255'],
 						'spouse_dni' => ['required_if:has_spouse,true', 'string', 'max:8'],
 						'spouse_full_name' => ['required_if:has_spouse,true', 'string', 'max:255'],
 						'spouse_birthdate' => ['required_if:has_spouse,true', 'date_format:Y-m-d'],
-						'spouse_phone' => ['required_if:has_spouse,true', 'string', 'max:13'],
+						'spouse_phone' => ['nullable', 'string', 'max:9'],
 						'spouse_email' => ['nullable', 'string', 'max:255']
                     ]
                 );
@@ -70,8 +68,8 @@ class PartnerController extends Controller
                 $partner->dni = trim($request->input('txtDni'));
                 $partner->full_name = trim($request->input('txtFullName'));
                 $partner->birthdate = trim($request->input('txtBirthDate'));
-                $partner->phone = trim($request->input('txtPhone'));
-                $partner->address = trim($request->input('txtAddress'));
+                $partner->phone = trim($request->input('txtPhone')) ? trim($request->input('txtPhone')) : '';
+                $partner->address = trim($request->input('txtAddress')) ? trim($request->input('txtAddress')) : '';
                 $partner->email = trim($request->input('txtEmail')) ? trim($request->input('txtEmail')) : '';
                 $partner->family_charge = trim($request->input('txtFamilyCharge'));
                 $partner->charge = $request->input('txtCharge');
@@ -81,7 +79,7 @@ class PartnerController extends Controller
 						'dni' => trim($request->input('txtSpouseDni')),
 						'full_name' => trim($request->input('txtSpouseFullName')),
 						'birthdate' => trim($request->input('txtSpouseBirthDate')),
-						'phone' => trim($request->input('txtSpousePhone')),
+						'phone' => trim($request->input('txtSpousePhone')) ? trim($request->input('txtSpousePhone')) : '',
 						'email' => trim($request->input('txtSpouseEmail')) ? trim($request->input('txtSpouseEmail')) : ''
 					];
 				}
@@ -119,18 +117,26 @@ class PartnerController extends Controller
                         'phone' => trim($request->input('txtPhone')),
                         'address' => trim($request->input('txtAddress')),
                         'email' => trim($request->input('txtEmail')),
-                        'family_charge' => trim($request->input('txtFamilyCharge')),
-                        'charge' => trim($request->input('txtCharge'))
+                        'charge' => trim($request->input('txtCharge')),
+						'has_spouse' => trim($request->input('chkHasSpouse')),
+						'spouse_dni' => trim($request->input('txtSpouseDni')),
+						'spouse_full_name' => trim($request->input('txtSpouseFullName')),
+						'spouse_birthdate' => trim($request->input('txtSpouseBirthDate')),
+						'spouse_phone' => trim($request->input('txtSpousePhone')),
+						'spouse_email' => trim($request->input('txtSpouseEmail'))
                     ],
                     [
                         'dni' => ['required', 'string', 'max:8'],
                         'full_name' => ['required', 'string', 'max:255'],
                         'birthdate' => ['required', 'date_format:Y-m-d'],
-                        'phone' => ['required', 'string', 'max:13'],
-                        'address' => ['required', 'string', 'max:255'],
-                        'email' => ['required', 'string', 'max:255'],
-                        'family_charge' => ['required', 'string', 'max:255'],
-                        'charge' => ['required', 'string', 'max:255']
+                        'phone' => ['nullable', 'string', 'max:9'],
+                        'address' => ['nullable', 'string', 'max:255'],
+                        'email' => ['nullable', 'string', 'max:255'],
+                        'charge' => ['required', 'string', 'max:255'],
+						'spouse_dni' => ['required_if:has_spouse,true', 'string', 'max:8'],
+						'spouse_full_name' => ['required_if:has_spouse,true', 'string', 'max:255'],
+						'spouse_birthdate' => ['required_if:has_spouse,true', 'date_format:Y-m-d'],
+						'spouse_phone' => ['nullable', 'string', 'max:9'],
                     ]
                 );
 
@@ -140,25 +146,25 @@ class PartnerController extends Controller
                     return AppHelper::redirect(route('partners.edit', ['id' => $id]), AppHelper::ERROR, $errors);
                 }
 
-                $partner->dni = $request->input('txtDni');
-                $partner->full_name = $request->input('txtFullName');
-                $partner->birthdate = $request->input('txtBirthdate');
-                $partner->phone = $request->input('txtPhone');
-                $partner->address = $request->input('txtAddress');
-                $partner->email = $request->input('txtEmail');
-                $partner->family_charge = $request->input('txtFamilyCharge');
+                $partner->dni = trim($request->input('txtDni'));
+                $partner->full_name = trim($request->input('txtFullName'));
+                $partner->birthdate = trim($request->input('txtBirthdate'));
+                $partner->phone = trim($request->input('txtPhone')) ? trim($request->input('txtPhone')) : '';
+                $partner->address = trim($request->input('txtAddress')) ? trim($request->input('txtAddress')) : '';
+                $partner->email = trim($request->input('txtEmail')) ? trim($request->input('txtEmail')) : '';
                 $partner->charge = $request->input('txtCharge');
                 if($request->input('chkHasSpouse')){
                     $partner->spouse = [
 						'dni' => trim($request->input('txtSpouseDni')),
 						'full_name' => trim($request->input('txtSpouseFullName')),
 						'birthdate' => trim($request->input('txtSpouseBirthDate')),
-						'phone' => trim($request->input('txtSpousePhone')),
+						'phone' => trim($request->input('txtSpousePhone')) ? trim($request->input('txtSpousePhone')) : '',
 						'email' => trim($request->input('txtSpouseEmail')) ? trim($request->input('txtSpouseEmail')) : ''
 					];
                 }else{
                     $partner->spouse = null;
                 }
+
                 $partner->save();
 
                 DB::commit();

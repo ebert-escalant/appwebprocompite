@@ -56,12 +56,12 @@ class SocietyController extends Controller
 						'district' => ['required', 'string', 'max:255'],
 						'province' => ['required', 'string', 'max:255'],
 						'department' => ['required', 'string', 'max:255'],
-						'comunity' => ['required', 'string', 'max:255'],
-						'address' => ['required', 'string', 'max:255'],
-						'phone' => ['required', 'string', 'max:9'],
+						'comunity' => ['nullable', 'string', 'max:255'],
+						'address' => ['nullable', 'string', 'max:255'],
+						'phone' => ['nullable', 'string', 'max:9'],
 						'representative_dni' => ['required', 'string', 'max:8'],
 						'representative_full_name' => ['required', 'string', 'max:255'],
-						'representative_phone' => ['required', 'string', 'max:9'],
+						'representative_phone' => ['nullable', 'string', 'max:9'],
 						'representative_email' => ['nullable', 'string', 'max:255'],
 						'representative_charge' => ['required', 'string', 'max:255']
                     ]
@@ -81,10 +81,9 @@ class SocietyController extends Controller
 					$representative->dni = trim($request->input('txtRepresentativeDni'));
 					$representative->full_name = trim($request->input('txtRepresentativeFullName'));
 					$representative->birthdate = null;
-					$representative->phone = trim($request->input('txtRepresentativePhone'));
+					$representative->phone = trim($request->input('txtRepresentativePhone')) ? trim($request->input('txtRepresentativePhone')) : '';
 					$representative->address = '';
 					$representative->email = trim($request->input('txtRepresentativeEmail')) ? trim($request->input('txtRepresentativeEmail')) : '';
-					$representative->family_charge = '';
 					$representative->charge = trim($request->input('txtRepresentativeCharge'));
 
 					$representative->save();
@@ -100,9 +99,9 @@ class SocietyController extends Controller
 				$item->district = trim($request->input('txtDistrict'));
 				$item->province = trim($request->input('txtProvince'));
 				$item->department = trim($request->input('txtDepartment'));
-				$item->comunity = trim($request->input('txtComunity'));
-				$item->address = trim($request->input('txtAddress'));
-				$item->phone = trim($request->input('txtPhone'));
+				$item->comunity = trim($request->input('txtComunity')) ? trim($request->input('txtComunity')) : '';
+				$item->address = trim($request->input('txtAddress')) ? trim($request->input('txtAddress')) : '';
+				$item->phone = trim($request->input('txtPhone')) ? trim($request->input('txtPhone')) : '';
 				$item->id_partner = $representative->id;
 
                 $item->save();
@@ -166,12 +165,12 @@ class SocietyController extends Controller
 						'district' => ['required', 'string', 'max:255'],
 						'province' => ['required', 'string', 'max:255'],
 						'department' => ['required', 'string', 'max:255'],
-						'comunity' => ['required', 'string', 'max:255'],
-						'address' => ['required', 'string', 'max:255'],
-						'phone' => ['required', 'string', 'max:9'],
+						'comunity' => ['nullable', 'string', 'max:255'],
+						'address' => ['nullable', 'string', 'max:255'],
+						'phone' => ['nullable', 'string', 'max:9'],
 						'representative_dni' => ['required', 'string', 'max:8'],
 						'representative_full_name' => ['required', 'string', 'max:255'],
-						'representative_phone' => ['required', 'string', 'max:9'],
+						'representative_phone' => ['nullable', 'string', 'max:9'],
 						'representative_email' => ['nullable', 'string', 'max:255'],
 						'representative_charge' => ['required', 'string', 'max:255']
                     ]
@@ -191,10 +190,9 @@ class SocietyController extends Controller
 					$representative->dni = trim($request->input('txtRepresentativeDni'));
 					$representative->full_name = trim($request->input('txtRepresentativeFullName'));
 					$representative->birthdate = null;
-					$representative->phone = trim($request->input('txtRepresentativePhone'));
+					$representative->phone = trim($request->input('txtRepresentativePhone')) ? trim($request->input('txtRepresentativePhone')) : '';
 					$representative->address = '';
 					$representative->email = trim($request->input('txtRepresentativeEmail')) ? trim($request->input('txtRepresentativeEmail')) : '';
-					$representative->family_charge = '';
 					$representative->charge = trim($request->input('txtRepresentativeCharge'));
 
 					$representative->save();
@@ -208,9 +206,9 @@ class SocietyController extends Controller
 				$item->district = trim($request->input('txtDistrict'));
 				$item->province = trim($request->input('txtProvince'));
 				$item->department = trim($request->input('txtDepartment'));
-				$item->comunity = trim($request->input('txtComunity'));
-				$item->address = trim($request->input('txtAddress'));
-				$item->phone = trim($request->input('txtPhone'));
+				$item->comunity = trim($request->input('txtComunity')) ? trim($request->input('txtComunity')) : '';
+				$item->address = trim($request->input('txtAddress')) ? trim($request->input('txtAddress')) : '';
+				$item->phone = trim($request->input('txtPhone')) ? trim($request->input('txtPhone')) : '';
 				$item->id_partner = $representative->id;
 
                 $item->save();
@@ -283,7 +281,7 @@ class SocietyController extends Controller
 
 		$members->onEachSide(0);
 
-		return view('societies.members', ['society' => $item, 'members' => $members, 'year' => $year, 'years' => range(date('Y'), 2018, -1), 'search' => $search]);
+		return view('societies.members', ['society' => $item, 'members' => $members, 'year' => $year, 'years' => range(date('Y'), 2021, -1), 'search' => $search]);
 	}
 
 	public function editMemberAssets(Request $request, $id) {
@@ -483,7 +481,7 @@ class SocietyController extends Controller
 
 		$allprojects = Project::all();
 
-		return view('societies.projects', ['society' => $item,'allprojects'=>$allprojects, 'projects' => $projects, 'year' => $year, 'years' => range(date('Y'), 2018, -1), 'search' => $search]);
+		return view('societies.projects', ['society' => $item,'allprojects'=>$allprojects, 'projects' => $projects, 'year' => $year, 'years' => range(date('Y'), 2021, -1), 'search' => $search]);
 	}
 
 	public function addProject(Request $request, $id) {
@@ -584,7 +582,7 @@ class SocietyController extends Controller
 							'unit' => $asset['unit'],
 							'receptionDate' => $asset['receptionDate'],
 							'type' => $asset['type'],
-							'status' => $asset['status'] 
+							'status' => $asset['status']
 						];
 					}
 				}
@@ -631,9 +629,9 @@ class SocietyController extends Controller
 						'file' => ['sometimes', 'file', 'mimes:pdf', 'max:20480'],
 						'liquidation' => ['required']
 					];
-					
+
 					$data = [
-						'file' => $request->file('fileUploadFile'), 
+						'file' => $request->file('fileUploadFile'),
 						'liquidation' => trim($request->input('txtLiquidation'))
 					];
 					$errors = AppHelper::validate($data, $rules);

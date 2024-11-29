@@ -38,9 +38,8 @@
 								<th>Teléfono</th>
                                 <th>Dirección</th>
 								<th>Cooreo electrónico</th>
-                                <th>Carga familiar</th>
+                                <th>Conyugue</th>
                                 <th>Cargo</th>
-                                {{-- <th>Conyugue</th> --}}
                                 <th width="10%"></th>
                             </tr>
                         </thead>
@@ -53,9 +52,8 @@
                                     <td>{{ $item->phone }}</td>
                                     <td>{{ $item->address }}</td>
                                     <td>{{ $item->email }}</td>
-                                    <td>{{ $item->family_charge }}</td>
+                                    <td>{{ $item->spouse ? $item->spouse->full_name : '' }}</td>
                                     <td>{{ $item->charge }}</td>
-                                    {{-- <td>{{ $item->spouse }}</td> --}}
 									<td align="right">
 										<a class="btn bg-default btn-sm px-1 py-0" href="{{ route('partners.edit', $item->id) }}" data-toggle="tooltip" data-placement="right" title="Editar" >
 											<i class="fas fa-edit text-success"></i>
