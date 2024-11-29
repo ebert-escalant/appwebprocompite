@@ -59,7 +59,7 @@
 									<td>{{ $item->address }}</td>
 									<td>{{ $item->phone }}</td>
 									<td align="right">
-										<a class="btn bg-default btn-sm px-1 py-0" href="{{ route('societies.projects', $item->id) }}" data-toggle="tooltip" data-placement="left" title="Proyectos" >
+										<a class="btn bg-default btn-sm px-1 py-0" href="{{ route('societies.projects', $item->id) }}" data-toggle="tooltip" data-placement="left" title="Planes de negocio" >
 											<i class="fas fa-book text-dark"></i>
 										</a>
 										<a class="btn bg-default btn-sm px-1 py-0" href="{{ route('societies.members', $item->id) }}" data-toggle="tooltip" data-placement="right" title="Socios" >

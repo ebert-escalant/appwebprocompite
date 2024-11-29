@@ -651,15 +651,14 @@ class SocietyController extends Controller
 					$filename = uniqid();
 					// store on disk local
 					Storage::disk('local')->put($filename.'.'.strtolower($file->getClientOriginalExtension()), file_get_contents($file));
-
-					$item->files = $item->files ? [
-						...$item->files,
-						[
-							'originalname' => $file->getClientOriginalName(),
-							'filename' => $filename,
-							'created_at' => date('Y-m-d H:i:s')
-						]
-					]: [
+					//borrar los archivos anteriores
+					if($item->files) {
+						foreach ($item->files as $filee) {
+							Storage::disk('local')->delete($filee['filename'].'.'.pathinfo($filee['originalname'], PATHINFO_EXTENSION));
+						}
+						// $item->files = [];
+					}
+					$item->files =  [
 						[
 							'originalname' => $file->getClientOriginalName(),
 							'filename' => $filename,

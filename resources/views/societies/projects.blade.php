@@ -1,5 +1,5 @@
 <x-admin-layout>
-	<h5 class="card-title text-primary">Proyectos de ({{ $society->social_razon }})</h5>
+	<h5 class="card-title text-primary">Planes de negocio de ({{ $society->social_razon }})</h5>
 	<form class="card" id="frmAddProject" action="{{ route('societies.addproject', $society->id) }}" method="POST">
 		@csrf
 		<div class="card-body">
@@ -14,7 +14,7 @@
 					</select>
 				</div>
 				<div class="col-md-6 form-group">
-					<label for="txtProjectName">Nombre del proyecto *</label>
+					<label for="txtProjectName">Nombre del plan de negocio *</label>
 					<select name="txtProjectName" id="txtProjectName" class="form-control select2" style="width: 100%">
 						<option></option>
 						@foreach ($allprojects as $item)
@@ -25,7 +25,7 @@
 				<div class="col-md-3 form-group">
 					<label for="">&nbsp;</label>
 					<button type="submit" class="btn btn-primary btn-block">
-						Registrar proyecto
+						Registrar Plan de negocio
 					</button>
 				</div>
 			</div>
@@ -66,10 +66,11 @@
 						<thead>
 							<tr class="bg-slate-300">
 								<th>Año</th>
-								<th>Nombre del proyecto</th>
+								<th>Nombre del plan de negocio</th>
 								<th>Categoría</th>
 								<th>Liquidación</th>
 								<th>Calificación</th>
+								<th>Documento</th>
 								<th width="10%">Acciones</th>
 							</tr>
 						</thead>
@@ -94,6 +95,13 @@
 										@else
 											<i style="font-size:1.5rem" class="fas fa-question-circle text-muted"></i> <!-- Calificación no válida -->
 										@endif
+									</td>
+									<td>
+									@if ($item->files)
+										@foreach ($item->files as $items)
+											<a href="{{ route('societies.downloadprojectfile', [$item->id, $items['filename']]) }}">{{ $items['originalname'] }}</a> 
+										@endforeach
+									@endif
 									</td>
 									<td>
 										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="left" title="Editar" onclick="openAjaxModal('modal-lg', 'Datos de ({{ $item->project->name.' - '.$item->year }})', null, '{{ route('societies.editprojectall', $item->id) }}', 'GET');">
