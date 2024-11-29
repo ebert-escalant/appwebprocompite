@@ -21,24 +21,20 @@
 						<input id="txtBirthDate" name="txtBirthDate" type="date" class="form-control form-control-sm" value="{{ $partner->birthdate }}">
 					</div>
                     <div class="col-md-4 form-group">
-                        <label for="txtPhone">Teléfono*</label>
+                        <label for="txtPhone">Celular</label>
                         <input id="txtPhone" name="txtPhone" type="text" class="form-control form-control-sm" maxlength="9" value="{{ $partner->phone }}">
                     </div>
 					<div class="col-md-4 form-group">
-                        <label for="txtEmail">Correo electrónico *</label>
+                        <label for="txtEmail">Correo electrónico</label>
                         <input id="txtEmail" name="txtEmail" type="email" class="form-control form-control-sm" value="{{ $partner->email }}">
                     </div>
 				</div>
                 <div class="row">
-                    <div class="col-md-6 form-group">
-                        <label for="txtAddress">Dirección *</label>
+                    <div class="col-md-8 form-group">
+                        <label for="txtAddress">Dirección</label>
                         <input id="txtAddress" name="txtAddress" type="text" class="form-control form-control-sm" value="{{ $partner->address }}">
                     </div>
-                    <div class="col-md-3 form-group">
-                        <label for="txtFamilyCharge">Carga familiar *</label>
-                        <input id="txtFamilyCharge" name="txtFamilyCharge" type="text" class="form-control form-control-sm" value="{{ $partner->family_charge }}">
-                    </div>
-                    <div class="col-md-3 form-group">
+                    <div class="col-md-4 form-group">
                         <label for="txtCharge">Cargo *</label>
                         <select name="txtCharge" id="txtCharge" class="form-control select2" style="width: 100%;">
 							<option></option>
@@ -71,11 +67,11 @@
 						<input id="txtSpouseBirthDate" name="txtSpouseBirthDate" type="date" class="form-control form-control-sm" value="{{$partner->spouse ? $partner->spouse->birthdate : ''}}">
 					</div>
 					<div class="col-md-4 form-group">
-						<label for="txtSpousePhone">Teléfono*</label>
+						<label for="txtSpousePhone">Celular</label>
 						<input id="txtSpousePhone" name="txtSpousePhone" type="text" class="form-control form-control-sm" maxlength="9" value="{{$partner->spouse ? $partner->spouse->phone : ''}}">
 					</div>
 					<div class="col-md-4 form-group">
-						<label for="txtSpouseEmail">Correlo electrónico *</label>
+						<label for="txtSpouseEmail">Correlo electrónico</label>
 						<input id="txtSpouseEmail" name="txtSpouseEmail" type="email" class="form-control form-control-sm" value="{{$partner->spouse ? $partner->spouse->email : ''}}">
 					</div>
 				</div>

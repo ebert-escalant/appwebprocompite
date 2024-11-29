@@ -45,7 +45,6 @@ create table partners (
 	phone varchar(13) not null,
 	address varchar(255) not null,
 	email varchar(255) not null,
-	family_charge varchar(50) not null,
 	charge varchar(50) not null,
 	spouse json,
 	created_at timestamp null default null,

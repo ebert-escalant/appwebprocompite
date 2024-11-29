@@ -283,7 +283,7 @@ class SocietyController extends Controller
 
 		$members->onEachSide(0);
 
-		return view('societies.members', ['society' => $item, 'members' => $members, 'year' => $year, 'years' => range(date('Y'), 2018, -1), 'search' => $search]);
+		return view('societies.members', ['society' => $item, 'members' => $members, 'year' => $year, 'years' => range(date('Y'), 2021, -1), 'search' => $search]);
 	}
 
 	public function editMemberAssets(Request $request, $id) {
@@ -483,7 +483,7 @@ class SocietyController extends Controller
 
 		$allprojects = Project::all();
 
-		return view('societies.projects', ['society' => $item,'allprojects'=>$allprojects, 'projects' => $projects, 'year' => $year, 'years' => range(date('Y'), 2018, -1), 'search' => $search]);
+		return view('societies.projects', ['society' => $item,'allprojects'=>$allprojects, 'projects' => $projects, 'year' => $year, 'years' => range(date('Y'), 2021, -1), 'search' => $search]);
 	}
 
 	public function addProject(Request $request, $id) {
@@ -584,7 +584,7 @@ class SocietyController extends Controller
 							'unit' => $asset['unit'],
 							'receptionDate' => $asset['receptionDate'],
 							'type' => $asset['type'],
-							'status' => $asset['status'] 
+							'status' => $asset['status']
 						];
 					}
 				}
@@ -631,9 +631,9 @@ class SocietyController extends Controller
 						'file' => ['sometimes', 'file', 'mimes:pdf', 'max:20480'],
 						'liquidation' => ['required']
 					];
-					
+
 					$data = [
-						'file' => $request->file('fileUploadFile'), 
+						'file' => $request->file('fileUploadFile'),
 						'liquidation' => trim($request->input('txtLiquidation'))
 					];
 					$errors = AppHelper::validate($data, $rules);
