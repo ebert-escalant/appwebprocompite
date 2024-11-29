@@ -12,7 +12,7 @@
     <main>
         <div class="container">
 			<header class="align-center">
-				<img src="{{ asset('images/full_logo.webp') }}" alt="Logo" class="logo">
+				<img src="{{ asset('images/full_logo_without.png') }}" alt="Logo" class="logo">
 			</header>
             <div class="search-container">
                 <input type="text" id="dni-input" placeholder="Ingrese DNI">
@@ -27,6 +27,22 @@
             </div>
         </div>
     </main>
+	<style>
+		body{
+			background-image: url("{{ asset('images/campo_background.jpg') }}");
+			background-size: cover;
+			background-repeat: no-repeat;
+			height: 100vh;
+			backdrop-filter: brightness(0.6);
+		}
+		.container {
+			backdrop-filter: opacity(0.8);
+			background: #cfd7ce99;
+		}
+		tbody{
+			background: #ffffffb3;
+		}
+	</style>
     <script>
         document.getElementById('search-button').addEventListener('click', function() {
             const dni = document.getElementById('dni-input').value;

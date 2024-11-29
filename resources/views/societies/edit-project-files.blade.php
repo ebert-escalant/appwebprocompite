@@ -4,7 +4,7 @@
 	<div class="row">
 		<div class="col-md-6 form group">
 			<label for="txtLiquidation">Liquidación</label>
-			<select name="txtLiquidation" id="txtLiquidation">
+			<select name="txtLiquidation" id="txtLiquidation" class="select2">
 				<option value="1" {{$project->liquidation == 1 ? 'selected' : ''}}>Sí</option>
 				<option value="0" {{$project->liquidation == 0 ? 'selected' : ''}}>No</option>
 			</select>
