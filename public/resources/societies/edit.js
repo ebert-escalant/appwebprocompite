@@ -39,21 +39,22 @@ $(function() {
 				maxlength: 255
 			},
 			txtComunity: {
-				required: true,
+				required: false,
 				maxlength: 255
 			},
 			txtAddress: {
-				required: true,
+				required: false,
 				maxlength: 255
 			},
 			txtPhone: {
-				required: true,
+				required: false,
 				number: true,
 				maxlength: 9,
 				minlength: 9
 			},
 			txtRepresentativeDni: {
 				required: true,
+				number: true,
 				maxlength: 8,
 				minlength: 8
 			},
@@ -62,13 +63,13 @@ $(function() {
 				maxlength: 255
 			},
 			txtRepresentativePhone: {
-				required: true,
+				required: false,
 				number: true,
 				maxlength: 9,
 				minlength: 9
 			},
 			txtRepresentativeEmail: {
-				email: true,
+				email: false,
 				maxlength: 255
 			},
 			txtRepresentativeCharge: {
@@ -128,7 +129,9 @@ $(function() {
 			},
 			txtRepresentativeDni: {
 				required: 'El campo es requerido',
-				maxlength: 'El campo debe contener máximo 8 caracteres'
+				number: 'El campo debe ser un número',
+				minlength: 'El campo debe contener 8 caracteres',
+				maxlength: 'El campo debe contener 8 caracteres'
 			},
 			txtRepresentativeFullName: {
 				required: 'El campo es requerido',
