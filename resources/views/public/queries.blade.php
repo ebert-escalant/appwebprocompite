@@ -42,6 +42,48 @@
 		tbody{
 			background: #ffffffb3;
 		}
+		/* Estilos base */
+		.table {
+		width: 100%;
+		border-collapse: collapse;
+		}
+
+		.table th,
+		.table td {
+		padding: 8px;
+		text-align: left;
+		border: 1px solid #ddd;
+		}
+
+		/* Media Query para pantallas pequeñas */
+		@media (max-width: 600px) {
+		.table thead {
+			display: none;
+		}
+
+		.table tr {
+			display: block;
+			margin-bottom: 10px;
+		}
+
+		.table td {
+			display: block;
+			text-align: right;
+			position: relative;
+			padding-left: 50%;
+		}
+
+		.table td::before {
+			content: attr(data-label);
+			position: absolute;
+			left: 0;
+			width: 50%;
+			padding-left: 10px;
+			font-weight: bold;
+			text-align: left;
+		}
+		}
+
 	</style>
     <script>
         document.getElementById('search-button').addEventListener('click', function() {

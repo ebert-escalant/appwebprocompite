@@ -4,7 +4,7 @@
 	<div class="row">
 		<div class="col-md-6 form group">
 			<label for="txtLiquidation">Liquidación</label>
-			<select name="txtLiquidation" id="txtLiquidation" class="select2">
+			<select name="txtLiquidation" id="txtLiquidation" class="select2" onchange="changeLqiqui(event)">
 				<option value="1" {{$project->liquidation == 1 ? 'selected' : ''}}>Sí</option>
 				<option value="0" {{$project->liquidation == 0 ? 'selected' : ''}}>No</option>
 			</select>
@@ -86,6 +86,7 @@
 <link rel="stylesheet" href="{{asset('resources/societies/projectEdit.css')}}">
 <script>
 	$(function() {
+		
 		$('#frmEditProjectFiles').validate({
 			rules: {
 				// 'fileUploadFile[]': {
@@ -120,11 +121,19 @@
 		liquidation == 0 ? $('.hLiquidation').hide() : $('.hLiquidation').show()
 		liquidation == 1 ? $('.sLiquidations').hide() : $('.sLiquidations').show()
 
-		document.getElementById('txtLiquidation').addEventListener('change', (event) => {
-			liquidation = event.target.value;
-			liquidation == 0 ? $('.hLiquidation').hide() : $('.hLiquidation').show()
-			liquidation == 1 ? $('.sLiquidations').hide() : $('.sLiquidations').show()
-		});
+		// document.getElementById('txtLiquidation').addEventListener('change', (event) => {
+		// 	console.log(event.target.value);
+		// 	liquidation = event.target.value;
+		// 	liquidation == 0 ? $('.hLiquidation').hide() : $('.hLiquidation').show()
+		// 	liquidation == 1 ? $('.sLiquidations').hide() : $('.sLiquidations').show()
+		// });
 
 	})
+
+	function changeLqiqui(event) {
+		console.log(event.target.value);
+		liquidation = event.target.value;
+		liquidation == 0 ? $('.hLiquidation').hide() : $('.hLiquidation').show()
+		liquidation == 1 ? $('.sLiquidations').hide() : $('.sLiquidations').show()
+	}
 </script>
