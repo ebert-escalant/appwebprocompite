@@ -37,7 +37,10 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-lg-9"></div>
+		<div class="col-lg-9">
+			<label for="txtObservation">Observaciones</label>
+			<input id="txtObservation" name="txtObservation" type="text" class="form-control form-control-sm">
+		</div>
 		<div class="col-lg-3 form-group">
 			<label for="">&nbsp;</label>
 			<button type="button" class="btn btn-primary btn-sm btn-block" onclick="addAsset()">Agregar bien o servicio</button>
@@ -57,6 +60,7 @@
 								<th>Fecha de recepción</th>
 								<th>Tipo</th>
 								<th>Estado</th>
+								<th>Observación</th>
 								<th width="10%"></th>
 							</tr>
 						</thead>
@@ -103,6 +107,7 @@
 		$('#txtReceptionDate').val('');
 		$('#txtType').val('Bien');
 		$('#txtStatus').val('');
+		$('#txtObservation').val('');
 	}
 
 	function addAsset() {
@@ -112,6 +117,7 @@
 		let receptionDate = $('#txtReceptionDate').val();
 		let type = $('#txtType').val();
 		let status = $('#txtStatus').val();
+		let observation = $('#txtObservation').val();
 
 		if (description == '' || unit == '' || quantity == '' || receptionDate == '' || type == '' || status == '') {
 			toastr.error('Todos los campos son obligatorios');
@@ -124,7 +130,8 @@
 			quantity: quantity,
 			receptionDate: receptionDate,
 			type: type,
-			status: status
+			status: status,
+			observation: observation
 		};
 
 		appendAsset(asset);
@@ -141,6 +148,7 @@
 		tr.append($('<td>').text(asset.receptionDate));
 		tr.append($('<td>').text(asset.type));
 		tr.append($('<td>').text(asset.status));
+		tr.append($('<td>').text(asset.observation));
 		tr.append($('<td>').append($('<button>').addClass('btn bg-default btn-sm px-1 py-0').attr('type', 'button').attr('onclick', 'removeAsset(this)').append($('<i>').addClass('fas fa-trash text-danger'))));
 		$('#tbodyAssets').append(tr);
 	}

@@ -59,7 +59,6 @@
 						<tr class="bg-slate-300">
 							<th width="80%">Descripción</th>
 							<th>Fecha de subida</th>
-							<th width="10%"></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -68,11 +67,6 @@
 								<tr>
 									<td>{{ $item['originalname'] }}</td>
 									<td>{{ $item['created_at'] }}</td>
-									<td>
-										<a href="{{ route('societies.downloadprojectfile', [$project->id, $item['filename']]) }}" class="btn bg-default btn-sm px-1 py-0" title="Descargar archivo">
-											<i class="fas fa-download text-primary"></i>
-										</a>
-									</td>
 								</tr>
 							@endforeach
 						@endif

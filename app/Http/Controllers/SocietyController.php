@@ -323,7 +323,8 @@ class SocietyController extends Controller
 							'unit' => $asset['unit'],
 							'receptionDate' => $asset['receptionDate'],
 							'type' => $asset['type'],
-							'status' => $asset['status']
+							'status' => $asset['status'],
+							'observation' => isset($asset['observation']) ? $asset['observation'] : ''
 						];
 					}
 				}
@@ -336,7 +337,6 @@ class SocietyController extends Controller
 				return AppHelper::redirect(route('societies.members', $item->society_id), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
 			} catch (\Exception $e) {
 				DB::rollBack();
-
 				return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.members', $item->society_id));
 			}
 		}
@@ -582,7 +582,8 @@ class SocietyController extends Controller
 							'unit' => $asset['unit'],
 							'receptionDate' => $asset['receptionDate'],
 							'type' => $asset['type'],
-							'status' => $asset['status']
+							'status' => $asset['status'],
+							'observation' => isset($asset['observation']) ? $asset['observation'] : ''
 						];
 					}
 				}
