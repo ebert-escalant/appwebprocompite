@@ -18,9 +18,12 @@ class PartnerController extends Controller
 			if ($year != 'all') {
 				$query->where('year', $year);
 			}
-		}])->whereRaw('concat(dni, full_name, phone, address, email, charge) like ?', ['%' . $search . '%'])->whereHas('societyMembers', function($query) use($year) {
+		}])->where(function($query) use ($search, $year) {
+			$query->whereRaw('concat(dni, full_name, phone, address, email, charge) like ?', ['%' . $search . '%']);
 			if ($year != 'all') {
-				$query->where('year', $year);
+				$query->whereHas('societyMembers', function($query) use($year) {
+					$query->where('year', $year);
+				});
 			}
 		})->paginate(10);
 
@@ -33,7 +36,7 @@ class PartnerController extends Controller
 		}
 
         $data->appends(['search' => $search, 'year' => $year]);
-        $data->onEachSide(0);
+
         return view('partners.index', ['data' => $data, 'search' => $search, 'year' => $year, 'years' => range(date('Y'), 2021, -1)]);
     }
 
