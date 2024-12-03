@@ -214,7 +214,7 @@ class SocietyController extends Controller
 
                 DB::commit();
 
-                return AppHelper::redirect(route('societies.edit', $item->id), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
+                return AppHelper::redirect(route('societies.index', $item->id), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
             } catch (\Exception $e) {
                 DB::rollBack();
 
