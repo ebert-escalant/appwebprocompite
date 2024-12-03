@@ -25,7 +25,7 @@
     color: gold; /* Cambia el color del emoji seleccionado */
 }
 .emoji-rating label:hover {
-    
-    transform: scale(1.6) translateY(-10px); /* El emoji flota hacia arriba */
+
+    transform: scale(1.6); /* El emoji flota hacia arriba */
 }
 

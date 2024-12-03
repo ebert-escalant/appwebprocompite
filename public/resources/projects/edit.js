@@ -19,8 +19,13 @@ $(function() {
             txtConfinanceAmount:{
                 required: true,
                 number: true
-            }
-
+            },
+			txtSociety: {
+				required: true
+			},
+			txtYear: {
+				required: true
+			}
 		},
 		messages: {
             txtPlanNegocio: {
@@ -38,7 +43,13 @@ $(function() {
             txtConfinanceAmount:{
                 required: 'El campo es requerido',
                 number: 'El campo debe ser un número'
-            }
+            },
+			txtSociety: {
+				required: 'El campo es requerido'
+			},
+			txtYear: {
+				required: 'El campo es requerido'
+			}
 		},
 		...validationConfig,
 		submitHandler: function (form) {

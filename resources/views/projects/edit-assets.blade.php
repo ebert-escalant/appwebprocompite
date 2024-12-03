@@ -72,7 +72,7 @@
 		</div>
 	</div>
 	<hr>
-	<form class="row" id="frmEditProjectAssets" method="POST" action="{{ route('societies.editprojectassets', $project->id) }}">
+	<form class="row" id="frmEditProjectAssets" method="POST" action="{{ route('projects.editassets', $project->id) }}">
 		@csrf
 		@method('PUT')
 		<input type="hidden" name="txtAssets" id="txtAssets">

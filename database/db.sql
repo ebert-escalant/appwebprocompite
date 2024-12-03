@@ -27,16 +27,6 @@ create table sessions (
   key sessions_last_activity_index (last_activity)
 ) engine = innodb;
 
-create table projects (
-	id char(13) primary key not null,
-	name varchar(700) not null,
-	category varchar(255) not null,
-	investment_amount double not null,
-	cofinance_amount double not null,
-	created_at timestamp null default null,
-  	updated_at timestamp null default null
-) engine = innodb;
-
 create table partners (
 	id char(13) primary key not null,
 	dni char(8) unique not null,
@@ -70,20 +60,22 @@ create table societies (
 	foreign key (id_partner) REFERENCES partners(id)
 ) engine = innodb;
 
-create table society_projects (
+create table projects (
 	id char(13) primary key not null,
 	society_id char(13) not null,
-	project_id char(13) not null,
 	year int not null,
 	assets json,
-	files json,
+	file json,
 	liquidation boolean not null,
-	qualification varchar(50),
+	qualification varchar(50) not null,
+	name varchar(700) not null,
+	category varchar(255) not null,
+	investment_amount double not null,
+	cofinance_amount double not null,
 	created_at timestamp null default null,
   	updated_at timestamp null default null,
 	foreign key (society_id) references societies(id),
-	foreign key (project_id) references projects(id),
-	constraint unique (society_id, year, project_id)
+	constraint unique (society_id, year)
 ) engine = innodb;
 
 create table society_members (

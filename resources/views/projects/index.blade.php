@@ -44,8 +44,11 @@
                             <tr class="bg-slate-300">
                                 <th>Nombre del plan de negocio</th>
 								<th>Categoría</th>
-								<th>Monto total de inversión</th>
-								<th>Cofinanciamiento solicitado</th>
+								<th>Monto inversión</th>
+								<th>Cofinanciamiento</th>
+								<th>Liquidación</th>
+								<th>Calificación</th>
+								<th>Año</th>
                                 <th width="10%"></th>
                             </tr>
                         </thead>
@@ -56,7 +59,33 @@
 									<td>{{ $item->category}}</td>
 									<td>{{ $item->investment_amount }}</td>
 									<td>{{ $item->cofinance_amount }}</td>
+									<td>{{ $item->liquidation == 1 ? 'Sí': 'No'}}</td>
+									<td>
+										@if($item->qualification == 1)
+											<i style="font-size:1.5rem" class="fas fa-grin text-danger"></i>
+										@elseif($item->qualification == 2)
+											<i style="font-size:1.5rem" class="fas fa-smile text-success"></i>
+										@elseif($item->qualification == 3)
+											<i style="font-size:1.5rem" class="fas fa-meh text-warning"></i>
+										@elseif($item->qualification == 4)
+											<i style="font-size:1.5rem" class="fas fa-frown-open text-danger"></i>
+										@elseif($item->qualification == 5)
+											<i style="font-size:1.5rem" class="fas fa-frown text-danger"></i>
+										@else
+											<i style="font-size:1.5rem" class="fas fa-question-circle text-muted"></i> <!-- Calificación no válida -->
+										@endif
+									</td>
+									<td>{{ $item->year }}</td>
 									<td align="right">
+										<button class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="left" title="Descargar archivo" onclick="window.open('{{ route('projects.downloadfile', $item->id) }}');" @disabled(!$item->file)>
+											<i class="fas fa-download text-primary"></i>
+										</button>
+										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="left" title="Liquidar plan de negocio" onclick="openAjaxModal('modal-lg', 'Datos de ({{ $item->name.' - '.$item->year }})', null, '{{ route('projects.editqualification', $item->id) }}', 'GET');">
+											<i class="fas fa-star text-warning"></i>
+										</butoon>
+										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="right" title="Bienes y servicios" onclick="openAjaxModal('modal-xl', 'Editar bienes y servicios ({{ $item->name.' - '.$item->year }})', null, '{{ route('projects.editassets', $item->id) }}', 'GET');">
+											<i class="fas fa-layer-group text-primary"></i>
+										</butoon>
 										<a class="btn bg-default btn-sm px-1 py-0" href="{{ route('projects.edit', $item->id) }}" data-toggle="tooltip" data-placement="right" title="Editar" >
 											<i class="fas fa-edit text-success"></i>
 										</a>

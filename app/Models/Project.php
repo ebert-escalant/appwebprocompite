@@ -11,13 +11,16 @@ class Project extends Model
 	public $incrementing = false;
 	public $timestamps = true;
 
-	public function societyProjects()
+	public function society()
 	{
-		return $this->hasMany(SocietyProject::class, 'project_id', 'id');
+		return $this->belongsTo(Society::class, 'society_id', 'id');
 	}
 
-	public function societies()
+	protected function casts()
 	{
-		return $this->belongsToMany(Society::class, 'society_projects', 'project_id', 'society_id', 'id', 'id');
+		return [
+			'assets' => 'array',
+			'file' => 'object'
+		];
 	}
 }

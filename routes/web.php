@@ -37,18 +37,15 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('societies/add-member/{id}', [SocietyController::class, 'addMember'])->name('societies.addmember');
 	Route::delete('societies/delete-member/{id}', [SocietyController::class, 'deleteMember'])->name('societies.deletemember');
 	Route::match(['get', 'put'], 'societies/edit-member-assets/{id}', [SocietyController::class, 'editMemberAssets'])->name('societies.editmemberassets');
-	Route::get('societies/projects/{id}', [SocietyController::class, 'getProjects'])->name('societies.projects');
-	Route::post('societies/add-project/{id}', [SocietyController::class, 'addProject'])->name('societies.addproject');
-	Route::delete('societies/delete-project/{id}', [SocietyController::class, 'deleteProject'])->name('societies.deleteproject');
-	Route::match(['get', 'put'], 'societies/edit-project-assets/{id}', [SocietyController::class, 'editProjectAssets'])->name('societies.editprojectassets');
-	Route::match(['get', 'put'], 'societies/edit-project-all/{id}', [SocietyController::class, 'editProjectAll'])->name('societies.editprojectall');
-	Route::get('societies/download-project-file/{id}/{filename}', [SocietyController::class, 'downloadProjectFile'])->name('societies.downloadprojectfile');
 
 	// projects
 	Route::get('projects', [ProjectController::class, 'getAll'])->name('projects.index');
 	Route::match(['get', 'post'], 'projects/insert', [ProjectController::class, 'insert'])->name('projects.insert');
 	Route::match(['get', 'put'], 'projects/edit/{id}', [ProjectController::class, 'edit'])->name('projects.edit');
 	Route::delete('projects/delete/{id}', [ProjectController::class, 'delete'])->name('projects.delete');
+	Route::get('projects/download-file/{id}', [ProjectController::class, 'downloadFile'])->name('projects.downloadfile');
+	Route::match(['get', 'put'], 'projects/edit-assets/{id}', [ProjectController::class, 'editAssets'])->name('projects.editassets');
+	Route::match(['get', 'put'], 'projects/edit-editQualification/{id}', [ProjectController::class, 'editQualification'])->name('projects.editqualification');
 
 	Route::get('partners', [PartnerController::class, 'getAll'])->name('partners.index');
 	Route::match(['get', 'post'], 'partners/insert', [PartnerController::class, 'insert'])->name('partners.insert');
