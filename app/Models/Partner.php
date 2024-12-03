@@ -16,19 +16,9 @@ class Partner extends Model
 		return $this->hasMany(SocietyMember::class, 'partner_id', 'id');
 	}
 
-	public function societyProjects()
-	{
-		return $this->hasMany(SocietyProject::class, 'partner_id', 'id');
-	}
-
 	public function societies()
 	{
 		return $this->belongsToMany(Society::class, 'society_members', 'partner_id', 'society_id', 'id', 'id');
-	}
-
-	public function projects()
-	{
-		return $this->belongsToMany(Project::class, 'society_members', 'partner_id', 'project_id', 'id', 'id');
 	}
 
 	protected function casts()

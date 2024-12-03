@@ -65,7 +65,7 @@
 			font-weight: bold;
 			text-align: left;
 		}
-		
+
 		}
 		#fondito{
 			filter: drop-shadow(2px 4px 4px rgb(240, 238, 238));
@@ -131,8 +131,8 @@
 								${data.societies.map(ietm => `
 									<tr>
 										<td>${ietm.year}</td>
-										<td>${ietm.project?.name}</td>
-										<td>${ietm.society?.social_razon}</td>
+										<td>${ietm.project?.name || ''}</td>
+										<td>${ietm.society?.social_razon || ''}</td>
 									</tr>
 								`).join('')}
 							</tbody>

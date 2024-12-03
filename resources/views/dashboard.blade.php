@@ -14,6 +14,32 @@
 		</div>
 	</div>
     <div class="row">
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-body">
+					<div class="d-flex justify-content-between align-items-baseline">
+						<h6 class="card-title mb-0">Organizaciones</h6>
+					</div>
+					<div class="d-flex justify-content-between">
+						<h3 class="text-success">{{ $quantities['societies'] }}</h3>
+						<a href="{{ route('societies.index') }}"><i data-feather="layers" class="text-primary icon-xxl"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-body">
+					<div class="d-flex justify-content-between align-items-baseline">
+						<h6 class="card-title mb-0">Planes de negocio</h6>
+					</div>
+					<div class="d-flex justify-content-between">
+						<h3 class="text-success">{{ $quantities['projects'] }}</h3>
+						<a href="{{ route('projects.index') }}"><i data-feather="file-text" class="text-primary icon-xxl"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
@@ -22,37 +48,11 @@
                     </div>
 					<div class="d-flex justify-content-between">
 						<h3 class="text-success">{{ $quantities['partners'] }}</h3>
-						<i data-feather="users" class="text-primary icon-xxl"></i>
+						<a href="{{ route('partners.index') }}"><i data-feather="users" class="text-primary icon-xxl"></i></a>
 					</div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-			<div class="card">
-				<div class="card-body">
-					<div class="d-flex justify-content-between align-items-baseline">
-						<h6 class="card-title mb-0">Sociedades</h6>
-					</div>
-					<div class="d-flex justify-content-between">
-						<h3 class="text-success">{{ $quantities['societies'] }}</h3>
-						<i data-feather="layers" class="text-primary icon-xxl"></i>
-					</div>
-				</div>
-			</div>
-		</div>
-        <div class="col-md-4">
-			<div class="card">
-				<div class="card-body">
-					<div class="d-flex justify-content-between align-items-baseline">
-						<h6 class="card-title mb-0">Planes de negocio</h6>
-					</div>
-					<div class="d-flex justify-content-between">
-						<h3 class="text-success">{{ $quantities['projects'] }}</h3>
-						<i data-feather="file-text" class="text-primary icon-xxl"></i>
-					</div>
-				</div>
-			</div>
-		</div>
     </div>
 	<form class="card my-2">
 		<div class="card-body p-2">

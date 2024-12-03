@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\AppHelper;
 use App\Models\Partner;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -11,12 +12,29 @@ class PartnerController extends Controller
     public function getAll(Request $request)
     {
         $search = $request->input('search') ? $request->input('search') : '';
+		$year = $request->input('year') ? $request->input('year') : 'all';
 
-        $data = Partner::whereRaw('concat(dni, full_name, phone, address, email, charge) like ?', ['%' . $search . '%']) ->paginate(10);
+        $data = Partner::with(['societyMembers' => function($query) use($year) {
+			if ($year != 'all') {
+				$query->where('year', $year);
+			}
+		}])->whereRaw('concat(dni, full_name, phone, address, email, charge) like ?', ['%' . $search . '%'])->whereHas('societyMembers', function($query) use($year) {
+			if ($year != 'all') {
+				$query->where('year', $year);
+			}
+		})->paginate(10);
 
-        $data->appends(['search' => $search]);
+		if ($year != 'all') {
+			foreach($data as $item){
+				if ($item->societyMembers->first()) {
+					$item->project = Project::select('id', 'name')->whereRaw('society_id=? and year=?', [$item->societyMembers->first()->society_id, $item->societyMembers->first()->year])->first();
+				}
+			}
+		}
+
+        $data->appends(['search' => $search, 'year' => $year]);
         $data->onEachSide(0);
-        return view('partners.index', ['data' => $data, 'search' => $search]);
+        return view('partners.index', ['data' => $data, 'search' => $search, 'year' => $year, 'years' => range(date('Y'), 2021, -1)]);
     }
 
     public function insert(Request $request)

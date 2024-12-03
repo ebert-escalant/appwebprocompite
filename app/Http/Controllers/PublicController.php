@@ -26,9 +26,7 @@ class PublicController extends Controller
 			$societymembers = SocietyMember::select('id', 'society_id', 'year')->with('society:id,social_razon')->where('partner_id', $partner->id)->orderBy('year', 'desc')->get();
 
 			foreach ($societymembers as $item) {
-				$item->project = Project::select('id', 'name')->whereHas('societyProjects', function ($query) use ($item) {
-					$query->whereRaw('society_id = ? and year = ?', [$item->society_id, $item->year]);
-				})->first();
+				$item->project = Project::select('id', 'name')->whereRaw('society_id=? and year=?', [$item->society_id, $item->year])->first();
 			}
 
 			$partner->societies = $societymembers;
