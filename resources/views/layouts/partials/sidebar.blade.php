@@ -24,7 +24,7 @@
         </div>
     </div>
     <div class="sidebar-body" style="">
-        <div style="background-image: url('{{asset('images/procompite_aside.jpg')}}'); background-size: cover; height:100%;width:auto;position:absolute;bottom:0;left:0;right:0;top:0;opacity:.05"></div>
+        <div style="background-image: url('{{asset('images/procompite_aside.webp')}}'); background-size: cover; height:100%;width:auto;position:absolute;bottom:0;left:0;right:0;top:0;opacity:.05"></div>
         <ul class="nav">
             <li class="nav-item nav-category">Administración</li>
             <li class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">

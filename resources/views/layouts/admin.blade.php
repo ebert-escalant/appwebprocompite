@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css?x='.env('CACHE_UPDATE_DATE')) }}">
     <link rel="stylesheet" href="{{ asset('vendors/toastr/toastr.min.css') }}">
-    <link rel="shortcut icon" href="{{asset('images/full_logo_without.png')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{asset('images/full_logo_without.webp')}}" type="image/x-icon">
 
     <!-- Styles / Scripts -->
     {{-- @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))

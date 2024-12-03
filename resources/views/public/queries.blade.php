@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Procompite | Búsqueda de socio</title>
     <link rel="stylesheet" href="{{ asset('css/public.css') }}">
-	<link rel="shortcut icon" href="{{asset('images/full_logo_without.png')}}" type="image/x-icon">
+	<link rel="shortcut icon" href="{{asset('images/full_logo_without.webp')}}" type="image/x-icon">
 	<style>
 		#results {
 			overflow: auto;
 		}
 		body{
-			background-image: url("{{ asset('images/campo_background.jpg') }}");
+			background-image: url("{{ asset('images/campo_background.webp') }}");
 			background-size: cover;
 			background-repeat: no-repeat;
 			height: 100vh;
@@ -77,7 +77,7 @@
     <main>
         <div class="container">
 			<header class="align-center">
-				<img id="fondito" src="{{ asset('images/full_logo_without.png') }}" alt="Logo" class="logo">
+				<img id="fondito" src="{{ asset('images/full_logo_without.webp') }}" alt="Logo" class="logo">
 			</header>
             <div class="search-container">
                 <input type="text" id="dni-input" placeholder="Ingrese DNI">
