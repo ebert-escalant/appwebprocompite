@@ -24,13 +24,19 @@
         </div>
     </div>
     <div class="sidebar-body" style="">
-        <div style="background-image: url('{{asset('images/procompite_aside.jpg')}}'); background-size: cover; height:100%;width:auto;position:absolute;bottom:0;left:0;right:0;top:0;opacity:.2"></div>
+        <div style="background-image: url('{{asset('images/procompite_aside.jpg')}}'); background-size: cover; height:100%;width:auto;position:absolute;bottom:0;left:0;right:0;top:0;opacity:.05"></div>
         <ul class="nav">
             <li class="nav-item nav-category">Administración</li>
             <li class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                 <a href="{{ route('dashboard') }}" class="nav-link">
                     <i class="link-icon" data-feather="box"></i>
                     <span class="link-title">Inicio</span>
+                </a>
+            </li>
+            <li class="nav-item {{ request()->routeIs('societies.*') ? 'active' : '' }}">
+                <a href="{{ route('societies.index') }}" class="nav-link">
+                    <i class="link-icon" data-feather="layers"></i>
+                    <span class="link-title">Organización</span>
                 </a>
             </li>
             <li class="nav-item nav-category">Mantenimientos</li>
@@ -44,12 +50,6 @@
                 <a href="{{ route('projects.index') }}" class="nav-link">
                     <i class="link-icon" data-feather="file-text"></i>
                     <span class="link-title">Plan de negocio</span>
-                </a>
-            </li>
-			<li class="nav-item {{ request()->routeIs('societies.*') ? 'active' : '' }}">
-                <a href="{{ route('societies.index') }}" class="nav-link">
-                    <i class="link-icon" data-feather="layers"></i>
-                    <span class="link-title">Organización</span>
                 </a>
             </li>
         </ul>
