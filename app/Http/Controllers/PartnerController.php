@@ -108,12 +108,13 @@ class PartnerController extends Controller
 
         if ($request->isMethod('put')) {
             try {
+
                 DB::beginTransaction();
                 $errors = AppHelper::validate(
                     [
                         'dni' => trim($request->input('txtDni')),
                         'full_name' => trim($request->input('txtFullName')),
-                        'birthdate' => trim($request->input('txtBirthdate')),
+                        'birthdate' => trim($request->input('txtBirthDate')),
                         'phone' => trim($request->input('txtPhone')),
                         'address' => trim($request->input('txtAddress')),
                         'email' => trim($request->input('txtEmail')),
@@ -148,7 +149,7 @@ class PartnerController extends Controller
 
                 $partner->dni = trim($request->input('txtDni'));
                 $partner->full_name = trim($request->input('txtFullName'));
-                $partner->birthdate = trim($request->input('txtBirthdate'));
+                $partner->birthdate = trim($request->input('txtBirthDate'));
                 $partner->phone = trim($request->input('txtPhone')) ? trim($request->input('txtPhone')) : '';
                 $partner->address = trim($request->input('txtAddress')) ? trim($request->input('txtAddress')) : '';
                 $partner->email = trim($request->input('txtEmail')) ? trim($request->input('txtEmail')) : '';
