@@ -80,15 +80,15 @@
 					</div>
 					<div class="col-md-3 form-group">
 						<label for="txtRepresentativeFullName">Nombre completo *</label>
-						<input id="txtRepresentativeFullName" name="txtRepresentativeFullName" type="text" class="form-control form-control-sm">
+						<input id="txtRepresentativeFullName" name="txtRepresentativeFullName" type="text" class="disabled form-control form-control-sm">
 					</div>
                     <div class="col-md-3 form-group">
                         <label for="txtRepresentativePhone">Celular</label>
-                        <input id="txtRepresentativePhone" name="txtRepresentativePhone" type="text" maxlength="9" class="form-control form-control-sm">
+                        <input id="txtRepresentativePhone" name="txtRepresentativePhone" type="text" maxlength="9" class="disabled form-control form-control-sm">
                     </div>
 					<div class="col-md-3 form-group">
                         <label for="txtRepresentativeCharge">Cargo *</label>
-                        <select name="txtRepresentativeCharge" id="txtRepresentativeCharge" class="form-control select2" style="width: 100%">
+                        <select name="txtRepresentativeCharge" id="txtRepresentativeCharge" class=" disabled form-control select2" style="width: 100%">
 							<option></option>
                             <option value="Miembro">Miembro</option>
                             <option value="Directivo">Directivo</option>
@@ -99,7 +99,7 @@
 				<div class="row">
 					<div class="col-md-6 form-group">
                         <label for="txtRepresentativeEmail">Correlo electrónico</label>
-                        <input id="txtRepresentativeEmail" name="txtRepresentativeEmail" type="email" class="form-control form-control-sm">
+                        <input id="txtRepresentativeEmail" name="txtRepresentativeEmail" type="email" class="disabled form-control form-control-sm">
                     </div>
 				</div>
 				<div class="d-flex align-items-center justify-content-end">
