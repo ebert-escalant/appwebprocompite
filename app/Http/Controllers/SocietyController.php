@@ -308,7 +308,7 @@ class SocietyController extends Controller
 				if (count($errors) > 0) {
 					DB::rollBack();
 
-					return AppHelper::redirect(route('societies.members', $item->society_id), AppHelper::ERROR, $errors);
+					return AppHelper::redirect(route('societies.members', $item->society_id).'?year='.$item->year, AppHelper::ERROR, $errors);
 				}
 
 				$assets = json_decode(trim($request->input('txtAssets')), true);
@@ -333,7 +333,7 @@ class SocietyController extends Controller
 
 				DB::commit();
 
-				return AppHelper::redirect(route('societies.members', $item->society_id), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
+				return AppHelper::redirect(route('societies.members', $item->society_id).'?year='.$item->year, AppHelper::SUCCESS, ['Operación realizada con éxito.']);
 			} catch (\Exception $e) {
 				DB::rollBack();
 				return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('societies.members', $item->society_id));
@@ -430,7 +430,7 @@ class SocietyController extends Controller
 
 			DB::commit();
 
-			return AppHelper::redirect(route('societies.members', $id), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
+			return AppHelper::redirect(route('societies.members', $id).'?year='.trim($request->input('txtYear')), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
 		} catch (\Exception $e) {
 			DB::rollBack();
 
@@ -452,7 +452,7 @@ class SocietyController extends Controller
 
 			DB::commit();
 
-			return AppHelper::redirect(route('societies.members', $item->society_id), AppHelper::SUCCESS, ['Operación realizó con éxito.']);
+			return AppHelper::redirect(route('societies.members', $item->society_id).'?year='.$item->year, AppHelper::SUCCESS, ['Operación realizó con éxito.']);
 		} catch (\Exception $e) {
 			DB::rollBack();
 
