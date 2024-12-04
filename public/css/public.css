@@ -44,7 +44,7 @@ main {
 }
 
 .search-container {
-    background: linear-gradient(to right, #243b94, #5a7db9);
+    background: linear-gradient(to right, #0252ff86, #496aa7b7);
     padding: 30px;
     border-radius: 8px;
     display: flex;
@@ -170,4 +170,13 @@ tr {
         margin-bottom: 10px;
     }
 }
-
+#results {
+    overflow: auto;
+}
+.container {
+    backdrop-filter: opacity(0.8);
+    background: #cfd7ce99;
+}
+#fondito{
+    filter: drop-shadow(2px 4px 4px rgb(240, 238, 238));
+}
