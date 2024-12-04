@@ -15,6 +15,16 @@
 		height: 100vh;
 		backdrop-filter: brightness(0.6);
 	}
+	#results {
+		overflow: auto;
+	}
+	.container {
+		backdrop-filter: opacity(0.8);
+		background: #cfd7ce99;
+	}
+	#fondito{
+		filter: drop-shadow(2px 4px 4px rgb(240, 238, 238));
+	}
 	</style>
 </head>
 <body>

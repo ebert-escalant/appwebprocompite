@@ -170,13 +170,3 @@ tr {
         margin-bottom: 10px;
     }
 }
-#results {
-    overflow: auto;
-}
-.container {
-    backdrop-filter: opacity(0.8);
-    background: #cfd7ce99;
-}
-#fondito{
-    filter: drop-shadow(2px 4px 4px rgb(240, 238, 238));
-}
