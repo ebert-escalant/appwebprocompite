@@ -201,7 +201,7 @@ function getParntnerByDni(event) {
 			$('#txtRepresentativeEmail').val(response.email)
 			$('#txtRepresentativeCharge').val(response.charge)
 			$('#txtRepresentativeCharge').trigger('change')
-			$('.disabled').attr('disabled', 'disabled')
+			// $('.disabled').attr('disabled', 'disabled')
 		},
 		error: function (response) {
 			$('#txtRepresentativeFullName').val('')
