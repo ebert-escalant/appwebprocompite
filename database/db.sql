@@ -57,7 +57,7 @@ create table societies (
 	phone varchar(13) not null,
 	created_at timestamp null default null,
   	updated_at timestamp null default null,
-	foreign key (id_partner) REFERENCES partners(id) ON DELETE CASCADE
+	foreign key (id_partner) REFERENCES partners(id)
 ) engine = innodb;
 
 CREATE TABLE projects (
@@ -74,7 +74,7 @@ CREATE TABLE projects (
     cofinance_amount DOUBLE NOT NULL,
     created_at TIMESTAMP NULL DEFAULT NULL,
     updated_at TIMESTAMP NULL DEFAULT NULL,
-    FOREIGN KEY (society_id) REFERENCES societies(id) ON DELETE CASCADE,
+    FOREIGN KEY (society_id) REFERENCES societies(id),
     CONSTRAINT UNIQUE (society_id, year)
 ) ENGINE = InnoDB;
 
@@ -87,7 +87,7 @@ create table society_members (
 	assets json,
 	created_at timestamp null default null,
 	updated_at timestamp null default null,
-	foreign key (society_id) references societies(id) ON DELETE CASCADE,
-	foreign key (partner_id) references partners(id) ON DELETE CASCADE,
+	foreign key (society_id) references societies(id),
+	foreign key (partner_id) references partners(id),
 	constraint unique (society_id, year, partner_id)
 ) engine = innodb;
