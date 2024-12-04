@@ -243,9 +243,9 @@ class SocietyController extends Controller
             DB::beginTransaction();
 
             $item = Society::find($id);
-			$hasSociety = SocietyMember::where('society_id', $id)->first();
-			$hasProject = Project::where('society_id', $id)->first();
-			if($hasSociety || $hasProject) {
+			$hasAssociations = SocietyMember::where('society_id', $id)->exists();
+			$hasProjects = Project::where('society_id', $id)->exists();
+			if($hasAssociations || $hasProjects) {
 				DB::rollBack();
 
 				return AppHelper::redirect(route('societies.index'), AppHelper::ERROR, ['No se puede eliminar la organización por que tiene socios o proyectos asociados. Primero eliminar los socios y proyectos asociados.']);
