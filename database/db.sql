@@ -57,26 +57,27 @@ create table societies (
 	phone varchar(13) not null,
 	created_at timestamp null default null,
   	updated_at timestamp null default null,
-	foreign key (id_partner) REFERENCES partners(id)
+	foreign key (id_partner) REFERENCES partners(id) ON DELETE CASCADE
 ) engine = innodb;
 
-create table projects (
-	id char(13) primary key not null,
-	society_id char(13) not null,
-	year int not null,
-	assets json,
-	file json,
-	liquidation boolean not null,
-	qualification varchar(50) not null,
-	name varchar(700) not null,
-	category varchar(255) not null,
-	investment_amount double not null,
-	cofinance_amount double not null,
-	created_at timestamp null default null,
-  	updated_at timestamp null default null,
-	foreign key (society_id) references societies(id),
-	constraint unique (society_id, year)
-) engine = innodb;
+CREATE TABLE projects (
+    id CHAR(13) PRIMARY KEY NOT NULL,
+    society_id CHAR(13) NOT NULL,
+    year INT NOT NULL,
+    assets JSON,
+    file JSON,
+    liquidation BOOLEAN NOT NULL,
+    qualification VARCHAR(50) NOT NULL,
+    name VARCHAR(700) NOT NULL,
+    category VARCHAR(255) NOT NULL,
+    investment_amount DOUBLE NOT NULL,
+    cofinance_amount DOUBLE NOT NULL,
+    created_at TIMESTAMP NULL DEFAULT NULL,
+    updated_at TIMESTAMP NULL DEFAULT NULL,
+    FOREIGN KEY (society_id) REFERENCES societies(id) ON DELETE CASCADE,
+    CONSTRAINT UNIQUE (society_id, year)
+) ENGINE = InnoDB;
+
 
 create table society_members (
 	id char(13) primary key not null,
@@ -85,8 +86,8 @@ create table society_members (
 	partner_id char(13) not null,
 	assets json,
 	created_at timestamp null default null,
-  	updated_at timestamp null default null,
-	foreign key (society_id) references societies(id),
-	foreign key (partner_id) references partners(id),
+	updated_at timestamp null default null,
+	foreign key (society_id) references societies(id) ON DELETE CASCADE,
+	foreign key (partner_id) references partners(id) ON DELETE CASCADE,
 	constraint unique (society_id, year, partner_id)
 ) engine = innodb;
