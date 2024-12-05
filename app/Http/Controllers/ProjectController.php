@@ -418,25 +418,32 @@ class ProjectController extends Controller
 				return response()->json(['status' => 'error', 'messages' => ['Socio no encontrado.']]);
 			}
 
-			$exist = ProjectMember::with('project')->whereRaw('project_id=? and partner_id=?', [$id, $member->id])->count();
+			$project = Project::find($id);
+
+			// verificar si el socio ya es miembro de algún proyecto en el año seleccionado
+			$exist = ProjectMember::whereRaw('partner_id=?', [$member->id])->whereHas('project', function ($query) use ($project) {
+				$query->where('year', $project->year);
+			})->count();
 
 			if ($exist > 0) {
 				DB::rollBack();
 
-				return response()->json(['status' => 'error', 'messages' => ['El socio ya se encuentra registrado en el proyecto.']]);
+				return response()->json(['status' => 'error', 'messages' => ['El socio ya se encuentra registrado en un proyecto en el año seleccionado.']]);
 			}
 
 			// verificar si el socio es esposo(a) de un miembro
 			$memberspuse = Partner::whereRaw("JSON_EXTRACT(spouse, '$.dni')=?", [trim($request->input('txtDni'))])->first();
 
 			if ($memberspuse) {
-				$existitem = ProjectMember::with('society')->whereRaw('partner_id=? and year=?', [$memberspuse->id, $exist->project->year])->first();
+				$existinyear = ProjectMember::whereRaw('partner_id=?', [$memberspuse->id])->whereHas('project', function ($query) use ($project) {
+					$query->where('year', $project->year);
+				})->first();
 
 				// verificar si el esposo(a) es miembro de una organización en el año seleccionado
-				if ($existitem) {
+				if ($existinyear) {
 					DB::rollBack();
 
-					return response()->json(['status' => 'error', 'messages' => ["No se puede agregar el socio por que su esposo(a) ya es miembro de la organización {$existitem->project->society->social_razon} en el año seleccionado."]]);
+					return response()->json(['status' => 'error', 'messages' => ["No se puede agregar el socio por que su esposo(a) ya es miembro de la organización {$existinyear->project->society->social_razon} en el año seleccionado."]]);
 				}
 			}
 
@@ -446,7 +453,9 @@ class ProjectController extends Controller
 
 				// verificar si el esposo(a) es miembro
 				if($spouse) {
-					$existmember = ProjectMember::whereRaw('partner_id=? and year=?', [$spouse->id, $exist->project->year])->first();
+					$existmember = ProjectMember::whereRaw('partner_id=?', [$spouse->id])->whereHas('project', function ($query) use ($project) {
+						$query->where('year', $project->year);
+					})->first();
 
 					// verificar si el esposo(a) es miembro de una organización en el año seleccionado
 					if ($existmember) {
@@ -471,7 +480,7 @@ class ProjectController extends Controller
 		} catch (\Exception $e) {
 			DB::rollBack();
 
-			return response()->json(['status' => 'error', 'messages' => ['Ocurrió un error al registrar el socio, intente nuevamente.']]);
+			return response()->json(['status' => 'error', 'messages' => [$e->getMessage()]]);
 		}
 	}
 

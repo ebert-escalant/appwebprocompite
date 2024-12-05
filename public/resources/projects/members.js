@@ -60,7 +60,6 @@ function getParntnerByDni(event) {
 }
 
 function addMemberAjax() {
-	//console.log($('#frmAddMember').serialize())
 	var projectId = $('#txtProjectId').val()
 	var data = {}
 
@@ -73,7 +72,6 @@ function addMemberAjax() {
 		type: 'POST',
 		data: data,
 		success: function (response) {
-			console.log(response)
 			if (response.status === 'success') {
 				$('#frmAddMember').trigger('reset')
 				// add new member to the table -> tbody in first position
@@ -83,7 +81,7 @@ function addMemberAjax() {
 						<td>${response.data.member.full_name}</td>
 						<td>${response.data.observation}</td>
 						<td>
-							<button type="button" class="btn bg-default btn-sm px-1 py-0"  data-toggle="tooltip" data-placement="right" title="Eliminar" onclick="openConfirmModal(function() {deleteMemberAjax(${response.data.id})})">
+							<button type="button" class="btn bg-default btn-sm px-1 py-0"  data-toggle="tooltip" data-placement="right" title="Eliminar" onclick="openConfirmModal(function() {deleteMemberAjax('${response.data.id}')})">
 								<i class="fas fa-trash text-danger"></i>
 							</button>
 						</td>
