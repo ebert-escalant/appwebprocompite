@@ -77,15 +77,15 @@
 									</td>
 									<td>{{ $item->year }}</td>
 									<td align="right">
-										<button class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="left" title="Descargar archivo" onclick="window.open('{{ route('projects.downloadfile', $item->id) }}');" @disabled(!$item->file)>
-											<i class="fas fa-download text-primary"></i>
-										</button>
-										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="left" title="Liquidar plan de negocio" onclick="openAjaxModal('modal-lg', 'Datos de ({{ $item->name.' - '.$item->year }})', null, '{{ route('projects.editqualification', $item->id) }}', 'GET');">
-											<i class="fas fa-star text-warning"></i>
-										</butoon>
 										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="right" title="Bienes y servicios" onclick="openAjaxModal('modal-xl', 'Editar bienes y servicios ({{ $item->name.' - '.$item->year }})', null, '{{ route('projects.editassets', $item->id) }}', 'GET');">
 											<i class="fas fa-layer-group text-primary"></i>
 										</butoon>
+										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="left" title="Liquidar plan de negocio" onclick="openAjaxModal('modal-lg', 'Datos de ({{ $item->name.' - '.$item->year }})', null, '{{ route('projects.editqualification', $item->id) }}', 'GET');">
+											<i class="fas fa-star text-warning"></i>
+										</butoon>
+										<button class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="left" title="Descargar archivo" onclick="window.open('{{ route('projects.downloadfile', $item->id) }}');" @disabled(!$item->file)>
+											<i class="fas fa-download text-primary"></i>
+										</button>
 										<a class="btn bg-default btn-sm px-1 py-0" href="{{ route('projects.edit', $item->id) }}" data-toggle="tooltip" data-placement="right" title="Editar" >
 											<i class="fas fa-edit text-success"></i>
 										</a>

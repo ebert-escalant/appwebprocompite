@@ -277,15 +277,18 @@ class ProjectController extends Controller
 					[
 						'rating' => trim($request->input('rating')),
 						'fileUploadFile' => $request->hasFile('fileUploadFile') ? $request->fileUploadFile : null,
-						'file_required' => $item->file ? false : true
+						'file_required' => false,
+						'liquidation' => $request->input('txtLiquidation')
 					],
 					[
 						'rating' => ['required', 'numeric', 'min:0', 'max:20'],
 						'fileUploadFile' => ['required_if:file_required,true'],
+						'liquidation' => ['required', 'boolean']
 					],
 					[
 						'rating.required' => 'La calificación es obligatoria.',
-						'fileUploadFile.required_if' => 'El archivo es obligatorio.'
+						'fileUploadFile.required_if' => 'El archivo es obligatorio.',
+						'liquidation.required' => 'La liquidación es obligatoria.'
 					]
 				);
 
@@ -335,7 +338,7 @@ class ProjectController extends Controller
 				}
 
 				$item->qualification = trim($request->input('rating'));
-				$item->liquidation = true;
+				$item->liquidation = $request->input('txtLiquidation');
 
 				$item->save();
 

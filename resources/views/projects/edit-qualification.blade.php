@@ -3,6 +3,13 @@
 	@csrf
 	@method('PUT')
 	<div class="row">
+		<div class="col-md-12 form-group">
+			<label for="txtLiquidation">Liquidación *</label>
+			<select name="txtLiquidation" id="txtLiquidation" class="form-control form-control-sm select2">
+				<option value="0" @selected(!$project->liquidation)>No</option>
+				<option value="1" @selected($project->liquidation)>Sí</option>
+			</select>
+		</div>
 		<div class="col-md-12">
 			<label for="txtCalification">Calificación *</label>
 			<div class="emoji-rating my-4">

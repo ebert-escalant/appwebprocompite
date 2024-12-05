@@ -82,9 +82,9 @@
 	</form>
 </div>
 <script>
-	let member = {!! json_encode($project) !!};
+	var member = {!! json_encode($project) !!};
 
-	let assets = typeof member.assets === 'string' ? (Array.isArray(JSON.parse(member.assets)) ? JSON.parse(member.assets) : []) : Array.isArray(member.assets) ? member.assets : [];
+	var assets = typeof member.assets === 'string' ? (Array.isArray(JSON.parse(member.assets)) ? JSON.parse(member.assets) : []) : Array.isArray(member.assets) ? member.assets : [];
 
 	$(function() {
 		assets.forEach(function(asset) {
@@ -111,20 +111,20 @@
 	}
 
 	function addAsset() {
-		let description = $('#txtDescription').val();
-		let unit = $('#txtUnit').val();
-		let quantity = $('#txtQuantity').val();
-		let receptionDate = $('#txtReceptionDate').val();
-		let type = $('#txtType').val();
-		let status = $('#txtStatus').val();
-		let observation = $('#txtObservation').val();
+		var description = $('#txtDescription').val();
+		var unit = $('#txtUnit').val();
+		var quantity = $('#txtQuantity').val();
+		var receptionDate = $('#txtReceptionDate').val();
+		var type = $('#txtType').val();
+		var status = $('#txtStatus').val();
+		var observation = $('#txtObservation').val();
 
 		if (description == '' || unit == '' || quantity == '' || receptionDate == '' || type == '' || status == '') {
 			toastr.error('Todos los campos son obligatorios');
 			return;
 		}
 
-		let asset = {
+		var asset = {
 			description: description,
 			unit: unit,
 			quantity: quantity,
@@ -141,7 +141,7 @@
 	}
 
 	function appendAsset(asset) {
-		let tr = $('<tr>');
+		var tr = $('<tr>');
 		tr.append($('<td>').text(asset.description));
 		tr.append($('<td>').text(asset.unit));
 		tr.append($('<td>').text(asset.quantity));
@@ -154,8 +154,8 @@
 	}
 
 	function removeAsset(button) {
-		let tr = $(button).closest('tr');
-		let index = tr.index();
+		var tr = $(button).closest('tr');
+		var index = tr.index();
 		assets.splice(index, 1);
 		tr.remove();
 		updateAssets();
