@@ -7,70 +7,24 @@
     <title>Procompite | Búsqueda de socio</title>
     <link rel="stylesheet" href="{{ asset('css/public.css') }}">
 	<link rel="shortcut icon" href="{{asset('images/full_logo_without.webp')}}" type="image/x-icon">
-	<style>
-		#results {
-			overflow: auto;
-		}
-		body{
-			background-image: url("{{ asset('images/campo_background.webp') }}");
-			background-size: cover;
-			background-repeat: no-repeat;
-			height: 100vh;
-			backdrop-filter: brightness(0.6);
-		}
-		.container {
-			backdrop-filter: opacity(0.8);
-			background: #cfd7ce99;
-		}
-		tbody{
-			background: #ffffffb3;
-		}
-		/* Estilos base */
-		.table {
-		width: 100%;
-		border-collapse: collapse;
-		}
-
-		.table th,
-		.table td {
-		padding: 8px;
-		text-align: left;
-		border: 1px solid #ddd;
-		}
-
-		/* Media Query para pantallas pequeñas */
-		@media (max-width: 600px) {
-		.table thead {
-			display: none;
-		}
-
-		.table tr {
-			display: block;
-			margin-bottom: 10px;
-		}
-
-		.table td {
-			display: block;
-			text-align: right;
-			position: relative;
-			padding-left: 50%;
-		}
-
-		.table td::before {
-			content: attr(data-label);
-			position: absolute;
-			left: 0;
-			width: 50%;
-			padding-left: 10px;
-			font-weight: bold;
-			text-align: left;
-		}
-
-		}
-		#fondito{
-			filter: drop-shadow(2px 4px 4px rgb(240, 238, 238));
-		}
-
+	<style>		
+	body{
+		background-image: url("{{ asset('images/campo_background.webp') }}");
+		background-size: cover;
+		background-repeat: no-repeat;
+		height: 100vh;
+		backdrop-filter: brightness(0.6);
+	}
+	#results {
+		overflow: auto;
+	}
+	.container {
+		backdrop-filter: opacity(0.8);
+		background: #cfd7ce99;
+	}
+	#fondito{
+		filter: drop-shadow(2px 4px 4px rgb(240, 238, 238));
+	}
 	</style>
 </head>
 <body>
