@@ -42,6 +42,9 @@
 		}
 	</style>
 	@stack('styles')
+	<script>
+		_baseAppUrl = "{{ url('') }}";
+	</script>
 </head>
 
 <body class="sidebar-dark">

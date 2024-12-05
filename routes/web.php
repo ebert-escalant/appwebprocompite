@@ -33,10 +33,6 @@ Route::middleware(['auth'])->group(function () {
 	Route::match(['get', 'post'], 'societies/insert', [SocietyController::class, 'insert'])->name('societies.insert');
 	Route::match(['get', 'put'], 'societies/edit/{id}', [SocietyController::class, 'edit'])->name('societies.edit');
 	Route::delete('societies/delete/{id}', [SocietyController::class, 'delete'])->name('societies.delete');
-	Route::get('societies/members/{id}', [SocietyController::class, 'getMembers'])->name('societies.members');
-	Route::post('societies/add-member/{id}', [SocietyController::class, 'addMember'])->name('societies.addmember');
-	Route::delete('societies/delete-member/{id}', [SocietyController::class, 'deleteMember'])->name('societies.deletemember');
-	Route::match(['get', 'put'], 'societies/edit-member-assets/{id}', [SocietyController::class, 'editMemberAssets'])->name('societies.editmemberassets');
 
 	// projects
 	Route::get('projects', [ProjectController::class, 'getAll'])->name('projects.index');
@@ -46,11 +42,13 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('projects/download-file/{id}', [ProjectController::class, 'downloadFile'])->name('projects.downloadfile');
 	Route::match(['get', 'put'], 'projects/edit-assets/{id}', [ProjectController::class, 'editAssets'])->name('projects.editassets');
 	Route::match(['get', 'put'], 'projects/edit-editQualification/{id}', [ProjectController::class, 'editQualification'])->name('projects.editqualification');
+	Route::get('projects/members/{id}', [ProjectController::class, 'getMembers'])->name('projects.members');
+	Route::post('projects/add-member/{id}', [ProjectController::class, 'addMember'])->name('projects.addmember');
+	Route::delete('projects/delete-member/{id}', [ProjectController::class, 'deleteMember'])->name('projects.deletemember');
 
 	Route::get('partners', [PartnerController::class, 'getAll'])->name('partners.index');
 	Route::match(['get', 'post'], 'partners/insert', [PartnerController::class, 'insert'])->name('partners.insert');
 	Route::match(['get', 'put'], 'partners/edit/{id}', [PartnerController::class, 'edit'])->name('partners.edit');
 	Route::delete('partners/delete/{id}', [PartnerController::class, 'delete'])->name('partners.delete');
 	Route::get('partners/get-by-dni/{dni}', [PartnerController::class, 'getByDni'])->name('partners.findByDni');
-
 });

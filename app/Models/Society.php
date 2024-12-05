@@ -11,19 +11,9 @@ class Society extends Model
 	public $incrementing = false;
 	public $timestamps = true;
 
-	public function societyMembers()
-	{
-		return $this->hasMany(SocietyMember::class, 'society_id', 'id');
-	}
-
 	public function project()
 	{
-		return $this->belongsTo(Project::class, 'id', 'society_id');
-	}
-
-	public function partners()
-	{
-		return $this->belongsToMany(Partner::class, 'society_members', 'society_id', 'partner_id', 'id', 'id');
+		return $this->hasOne(Project::class, 'id', 'society_id');
 	}
 
 	public function representative()

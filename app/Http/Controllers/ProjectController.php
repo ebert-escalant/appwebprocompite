@@ -2,7 +2,9 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\AppHelper;
+use App\Models\Partner;
 use App\Models\Project;
+use App\Models\ProjectMember;
 use App\Models\Society;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -312,10 +314,10 @@ class ProjectController extends Controller
 							'fileUploadFile.max' => 'El archivo no debe ser mayor a 20MB.'
 						]
 					);
-	
+
 					if (count($errors) > 0) {
 						DB::rollBack();
-	
+
 						return AppHelper::redirect(route('projects.index'), AppHelper::ERROR, $errors);
 					}
 
@@ -375,5 +377,125 @@ class ProjectController extends Controller
 		$filepath = storage_path('app/private/projects/'.$item->file->filename);
 
 		return response()->download($filepath, $item->file->originalname);
+	}
+
+	public function getMembers($id) {
+		$project = Project::find($id);
+
+		if (!$project) {
+			return '<div class="alert alert-danger">Registro no encontrado.</div>';
+		}
+
+		$members = ProjectMember::where('project_id', $id)->with('member')->orderBy('created_at', 'desc')->get();
+
+		return view('projects.members', ['members' => $members, 'project_id' => $id]);
+	}
+
+	public function addMember(Request $request, $id) {
+		try {
+			DB::beginTransaction();
+
+			$errors = AppHelper::validate(
+				[
+					'dni' => trim($request->input('txtMemberDni'))
+				],
+				[
+					'dni' => ['required', 'exists:partners,dni']
+				]
+			);
+
+			if (count($errors) > 0) {
+				DB::rollBack();
+
+				return response()->json(['status' => 'error', 'messages' => $errors]);
+			}
+
+			$member = Partner::where('dni', trim($request->input('txtMemberDni')))->first();
+
+			if (!$member) {
+				DB::rollBack();
+
+				return response()->json(['status' => 'error', 'messages' => ['Socio no encontrado.']]);
+			}
+
+			$exist = ProjectMember::with('project')->whereRaw('project_id=? and partner_id=?', [$id, $member->id])->count();
+
+			if ($exist > 0) {
+				DB::rollBack();
+
+				return response()->json(['status' => 'error', 'messages' => ['El socio ya se encuentra registrado en el proyecto.']]);
+			}
+
+			// verificar si el socio es esposo(a) de un miembro
+			$memberspuse = Partner::whereRaw("JSON_EXTRACT(spouse, '$.dni')=?", [trim($request->input('txtDni'))])->first();
+
+			if ($memberspuse) {
+				$existitem = ProjectMember::with('society')->whereRaw('partner_id=? and year=?', [$memberspuse->id, $exist->project->year])->first();
+
+				// verificar si el esposo(a) es miembro de una organización en el año seleccionado
+				if ($existitem) {
+					DB::rollBack();
+
+					return response()->json(['status' => 'error', 'messages' => ["No se puede agregar el socio por que su esposo(a) ya es miembro de la organización {$existitem->project->society->social_razon} en el año seleccionado."]]);
+				}
+			}
+
+			// verificar si el socio tiene esposo(a)
+			if ($member->spouse) {
+				$spouse = Partner::whereRaw('dni=?', [$member->spouse->dni])->first();
+
+				// verificar si el esposo(a) es miembro
+				if($spouse) {
+					$existmember = ProjectMember::whereRaw('partner_id=? and year=?', [$spouse->id, $exist->project->year])->first();
+
+					// verificar si el esposo(a) es miembro de una organización en el año seleccionado
+					if ($existmember) {
+						DB::rollBack();
+
+						return response()->json(['status' => 'error', 'messages' => ["No se puede agregar el socio por que su esposo(a) ya es miembro de la organización {$existmember->project->society->social_razon} en el año seleccionado."]]);
+					}
+				}
+			}
+
+			$item = new ProjectMember();
+			$item->id = uniqid();
+			$item->project_id = $id;
+			$item->partner_id = $member->id;
+			$item->observation = trim($request->input('txtObservation')) ? trim($request->input('txtObservation')) : '';
+
+			$item->save();
+
+			DB::commit();
+
+			return response()->json(['status' => 'success', 'data' => ProjectMember::with('member')->find($item->id), 'messages' => ['Operación realizada con éxito.']]);
+		} catch (\Exception $e) {
+			DB::rollBack();
+
+			return response()->json(['status' => 'error', 'messages' => ['Ocurrió un error al registrar el socio, intente nuevamente.']]);
+		}
+	}
+
+	public function deleteMember($id) {// ajax
+		try {
+			DB::beginTransaction();
+
+			$item = ProjectMember::find($id);
+
+			if (!$item) {
+				DB::rollBack();
+
+				return response()->json(['status' => 'error', 'messages' => ['Registro no encontrado.']]);
+			}
+
+			$item->delete();
+
+			DB::commit();
+
+			return response()->json(['status' => 'success', 'messages' => ['Operación realizada con éxito.']]);
+		} catch (\Exception $e) {
+			DB::rollBack();
+
+			return response()->json(['status' => 'error', 'messages' => ['Ocurrió un error al eliminar el registro, intente nuevamente.']]);
+		}
 	}
 }

@@ -16,6 +16,11 @@ class Project extends Model
 		return $this->belongsTo(Society::class, 'society_id', 'id');
 	}
 
+	public function projectMembers()
+	{
+		return $this->hasMany(ProjectMember::class, 'project_id', 'id');
+	}
+
 	protected function casts()
 	{
 		return [

@@ -3,28 +3,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SocietyMember extends Model
+class ProjectMember extends Model
 {
-    protected $table = 'society_members';
+    protected $table = 'project_members';
 	protected $primaryKey = 'id';
 	protected $keyType = 'string';
 	public $incrementing = false;
 	public $timestamps = true;
-
-	public function society()
-	{
-		return $this->belongsTo(Society::class, 'society_id', 'id');
-	}
 
 	public function member()
 	{
 		return $this->belongsTo(Partner::class, 'partner_id', 'id');
 	}
 
-	protected function casts()
+	public function project()
 	{
-		return [
-			'assets' => 'array'
-		];
+		return $this->belongsTo(Project::class, 'project_id', 'id');
 	}
 }

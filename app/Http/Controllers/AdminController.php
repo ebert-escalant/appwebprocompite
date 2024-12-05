@@ -12,9 +12,9 @@ class AdminController extends Controller
 	{
 		$year = $request->input('year') ? $request->input('year') : date('Y');
 
-		$societies = $societies = Society::withCount(['societyMembers' => function ($query) use ($year) {
+		$projects = Project::with('society')->withCount(['projectMembers' => function ($query) use ($year) {
 			$query->where('year', $year);
-		}])->whereHas('societyMembers', function ($query) use ($year) {
+		}])->whereHas('projectMembers', function ($query) use ($year) {
 			$query->where('year', $year);
 		})->get();
 
@@ -24,6 +24,6 @@ class AdminController extends Controller
 			'societies' => Society::count()
 		];
 
-		return view('dashboard', ['societies' => $societies, 'year' => $year, 'quantities' => $quantities, 'years' => range(date('Y'), 2018, -1)]);
+		return view('dashboard', ['projects' => $projects, 'year' => $year, 'quantities' => $quantities, 'years' => range(date('Y'), 2018, -1)]);
 	}
 }

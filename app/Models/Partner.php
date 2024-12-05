@@ -11,9 +11,9 @@ class Partner extends Model
 	public $incrementing = false;
 	public $timestamps = true;
 
-	public function societyMembers()
+	public function projectMembers()
 	{
-		return $this->hasMany(SocietyMember::class, 'partner_id', 'id');
+		return $this->hasMany(ProjectMember::class, 'partner_id', 'id');
 	}
 
 	public function societies()

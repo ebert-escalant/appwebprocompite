@@ -78,16 +78,14 @@ CREATE TABLE projects (
     CONSTRAINT UNIQUE (society_id, year)
 ) ENGINE = InnoDB;
 
-
-create table society_members (
+create table project_members (
 	id char(13) primary key not null,
-	year int not null,
-	society_id char(13) not null,
+	project_id char(13) not null,
 	partner_id char(13) not null,
-	assets json,
+	observation varchar(500) not null,
 	created_at timestamp null default null,
 	updated_at timestamp null default null,
-	foreign key (society_id) references societies(id),
+	foreign key (project_id) references projects(id),
 	foreign key (partner_id) references partners(id),
-	constraint unique (society_id, year, partner_id)
+	constraint unique (project_id, partner_id)
 ) engine = innodb;

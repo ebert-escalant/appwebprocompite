@@ -14,24 +14,26 @@ class PartnerController extends Controller
         $search = $request->input('search') ? $request->input('search') : '';
 		$year = $request->input('year') ? $request->input('year') : 'all';
 
-        $data = Partner::with(['societyMembers' => function($query) use($year) {
+        $data = Partner::with(['projectMembers' => function($query) use($year) {
 			if ($year != 'all') {
-				$query->where('year', $year);
+				$query->whereHas('project', function($query) use($year) {
+					$query->where('year', $year);
+				});
 			}
 		}])->where(function($query) use ($search, $year) {
 			$query->whereRaw('concat(dni, full_name, phone, address, email, charge) like ?', ['%' . $search . '%']);
 			if ($year != 'all') {
-				$query->whereHas('societyMembers', function($query) use($year) {
-					$query->where('year', $year);
+				$query->whereHas('projectMembers', function($query) use($year) {
+					$query->whereHas('project', function($query) use($year) {
+						$query->where('year', $year);
+					});
 				});
 			}
 		})->paginate(10);
 
 		if ($year != 'all') {
-			foreach($data as $item){
-				if ($item->societyMembers->first()) {
-					$item->project = Project::select('id', 'name')->whereRaw('society_id=? and year=?', [$item->societyMembers->first()->society_id, $item->societyMembers->first()->year])->first();
-				}
+			foreach ($data as $partner) {
+				$partner->project = $partner->projectMembers->count() > 0 ? $partner->projectMembers->first()->project : null;
 			}
 		}
 

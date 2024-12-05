@@ -83,18 +83,20 @@
 								<th>RUC</th>
 								<th>Nombre</th>
 								<th>Representante legal</th>
+								<th>Plan de negocio</th>
 								<th>Total de socios</th>
 								<th>Fecha de registro</th>
 							</tr>
 						</thead>
 						<tbody>
-							@foreach ($societies as $item)
+							@foreach ($projects as $item)
 								<tr>
-									<td>{{ $item->ruc }}</td>
-									<td>{{ $item->social_razon }}</td>
-									<td>{{ $item->representative?->full_name }}</td>
-									<td>{{ $item->society_members_count }}</td>
-									<td>{{ $item->created_at->format('d/m/Y H:i:s') }}</td>
+									<td>{{ $item->society->ruc }}</td>
+									<td>{{ $item->society->social_razon }}</td>
+									<td>{{ $item->society->representative?->full_name }}</td>
+									<td>{{ $item->name }}</td>
+									<td>{{ $item->project_members_count }}</td>
+									<td>{{ $item->society->created_at->format('d/m/Y H:i:s') }}</td>
 								</tr>
 							@endforeach
 						</tbody>

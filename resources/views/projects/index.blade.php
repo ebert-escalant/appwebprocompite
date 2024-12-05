@@ -77,7 +77,10 @@
 									</td>
 									<td>{{ $item->year }}</td>
 									<td align="right">
-										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="right" title="Bienes y servicios" onclick="openAjaxModal('modal-xl', 'Editar bienes y servicios ({{ $item->name.' - '.$item->year }})', null, '{{ route('projects.editassets', $item->id) }}', 'GET');">
+										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="left" title="Socios" onclick="openAjaxModal('modal-xl', 'Editar socios', null, '{{ route('projects.members', $item->id) }}', 'GET');">
+											<i class="fas fa-users text-info"></i>
+										</butoon>
+										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="left" title="Bienes y servicios" onclick="openAjaxModal('modal-xl', 'Editar bienes y servicios ({{ $item->name.' - '.$item->year }})', null, '{{ route('projects.editassets', $item->id) }}', 'GET');">
 											<i class="fas fa-layer-group text-primary"></i>
 										</butoon>
 										<butoon class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="left" title="Liquidar plan de negocio" onclick="openAjaxModal('modal-lg', 'Datos de ({{ $item->name.' - '.$item->year }})', null, '{{ route('projects.editqualification', $item->id) }}', 'GET');">
@@ -108,4 +111,7 @@
             </div>
         </div>
     </div>
+	{{-- @push('scripts')
+		<script src="{{ asset('resources/projects/members.js?x='.env('CACHE_UPDATE_DATE')) }}"></script>
+	@endpush --}}
 </x-admin-layout>
