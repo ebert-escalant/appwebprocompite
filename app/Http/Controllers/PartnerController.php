@@ -94,7 +94,6 @@ class PartnerController extends Controller
                 $partner->phone = trim($request->input('txtPhone')) ? trim($request->input('txtPhone')) : '';
                 $partner->address = trim($request->input('txtAddress')) ? trim($request->input('txtAddress')) : '';
                 $partner->email = trim($request->input('txtEmail')) ? trim($request->input('txtEmail')) : '';
-                $partner->family_charge = trim($request->input('txtFamilyCharge'));
                 $partner->charge = $request->input('txtCharge');
 
 				if ($request->input('chkHasSpouse')) {
