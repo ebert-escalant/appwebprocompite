@@ -66,6 +66,7 @@ CREATE TABLE projects (
     year INT NOT NULL,
     assets JSON,
     file JSON,
+	assets_file JSON,/*alter table projects add column assets_file JSON after file*/
     liquidation BOOLEAN NOT NULL,
     qualification VARCHAR(50) NOT NULL,
     name VARCHAR(700) NOT NULL,

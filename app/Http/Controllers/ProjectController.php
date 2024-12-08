@@ -175,13 +175,22 @@ class ProjectController extends Controller
             DB::beginTransaction();
 
             $item = Project::find($id);
+			$hasMembers = ProjectMember::where('project_id', $id)->count();
+
+			if ($hasMembers > 0) {
+				DB::rollBack();
+				return AppHelper::redirect(route('projects.index'), AppHelper::ERROR, ['No se puede eliminar el proyecto por que tiene miembros registrados. Primero elimine los miembros de este proyecto.']);
+			}
 
             if ($item == null) {
                 DB::rollBack();
 
                 return AppHelper::redirect(route('projects.index'), AppHelper::ERROR, ['Registro no encontrado.']);
             }
-
+			if($item->assets_file || $item->file) {
+				Storage::disk('local')->delete('projects/assets/'.json_decode($item->assets_file)->filename);
+				Storage::disk('local')->delete('projects/'.$item->file->filename);
+			}
             $item->delete();
 
             DB::commit();
@@ -189,7 +198,6 @@ class ProjectController extends Controller
             return AppHelper::redirect(route('projects.index'), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
         } catch (\Exception $e) {
             DB::rollBack();
-
             return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('projects.index'));
         }
     }
@@ -215,7 +223,6 @@ class ProjectController extends Controller
 						'assets' => ['nullable', 'string']
 					]
 				);
-
 				if (count($errors) > 0) {
 					DB::rollBack();
 
@@ -224,6 +231,48 @@ class ProjectController extends Controller
 
 				$assets = json_decode(trim($request->input('txtAssets')), true);
 				$newAssets = null;
+				if ($request->hasFile('fileUploadFileAssets')) {
+					$errors = AppHelper::validate(
+						[
+							'fileUploadFileAssets' => $request->hasFile('fileUploadFileAssets') ? $request->fileUploadFileAssets : null,
+						],
+						[
+							'fileUploadFileAssets' => ['required', 'file', 'mimes:pdf', 'max:20480'],
+						],
+						[
+							'fileUploadFileAssets.file' => 'El archivo debe ser un archivo.',
+							'fileUploadFileAssets.mimes' => 'El archivo debe ser un archivo PDF.',
+							'fileUploadFileAssets.max' => 'El archivo no debe ser mayor a 20MB.'
+						]
+					);
+
+					if (count($errors) > 0) {
+						DB::rollBack();
+						//retornar json con error
+						return response()->json(['status' => 'error', 'messages' => $errors], 422);
+					}
+
+					if ($item->assets_file) {
+						// delete old file
+						try {
+							Storage::disk('local')->delete('projects/assets/'.json_decode($item->assets_file)->filename);
+						} catch (\Exception $e) {
+							return dd($e->getMessage());
+						}
+					}
+
+					$file = $request->file('fileUploadFileAssets');
+
+					$filename = uniqid();
+
+					Storage::disk('local')->put('projects/assets/'.$filename.'.'.strtolower($file->getClientOriginalExtension()), file_get_contents($file));
+
+					$item->assets_file = [
+						'originalname' => $file->getClientOriginalName(),
+						'filename' => $filename.'.'.strtolower($file->getClientOriginalExtension()),
+						'created_at' => date('Y-m-d H:i:s')
+					];
+				}
 
 				if ($assets && is_array($assets)) {
 					foreach ($assets as $asset) {
@@ -244,8 +293,10 @@ class ProjectController extends Controller
 				$item->save();
 
 				DB::commit();
+				//retornar json con exito y archivo campo para validar que se agrego archivo
+				return response()->json(['status' => 'success', 'data' => $item, 'messages' => ['Operación realizada con éxito.']]);
 
-				return AppHelper::redirect(route('projects.index'), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
+				// return AppHelper::redirect(route('projects.index'), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
 			} catch (\Exception $e) {
 				DB::rollBack();
 
@@ -377,6 +428,22 @@ class ProjectController extends Controller
 		$filepath = storage_path('app/private/projects/'.$item->file->filename);
 
 		return response()->download($filepath, $item->file->originalname);
+	}
+
+	public function downloadFileAsset($id) {
+		$item = Project::find($id);
+
+		if (!$item) {
+			return AppHelper::redirect(route('projects.index'), AppHelper::ERROR, ['Registro no encontrado.']);
+		}
+
+		if (!$item->assets_file) {
+			return AppHelper::redirect(route('projects.index'), AppHelper::ERROR, ['Archivo no encontrado.']);
+		}
+
+		$filepath = storage_path('app/private/projects/assets/'.json_decode($item->assets_file)->filename);
+
+		return response()->download($filepath, json_decode($item->assets_file)->originalname);
 	}
 
 	public function getMembers($id) {
