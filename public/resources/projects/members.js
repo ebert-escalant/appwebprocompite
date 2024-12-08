@@ -163,6 +163,11 @@ function keyUpTxtDni(event) {
 	}
 }
 
+function clearPartnerFields() {
+	$('#frmAddMember').trigger('reset')
+	$('#chkHasSpouse').prop('checked', false).trigger('change')
+}
+
 function getParntnerByDni(event) {
 	if (event.target.value.length !== 8) return
 
@@ -189,18 +194,7 @@ function getParntnerByDni(event) {
 			}
 		},
 		error: function (error) {
-			$('#txtFullName').val('')
-			$('#txtBirthDate').val('')
-			$('#txtPhone').val('')
-			$('#txtEmail').val('')
-			$('#txtAddress').val('')
-			$('#txtCharge').val(null).trigger('change')
-			$('#chkHasSpouse').prop('checked', false).trigger('change')
-			$('#txtSpouseDni').val('')
-			$('#txtSpouseFullName').val('')
-			$('#txtSpouseBirthDate').val('')
-			$('#txtSpousePhone').val('')
-			$('#txtSpouseEmail').val('')
+			clearPartnerFields()
 		}
 	})
 }
@@ -219,7 +213,8 @@ function addMemberAjax() {
 		data: data,
 		success: function (response) {
 			if (response.status === 'success') {
-				$('#frmAddMember').trigger('reset')
+				// clear form
+				clearPartnerFields()
 				// add new member to the table -> tbody in first position
 				$('#tblMembers tbody').prepend(`
 					<tr data-member-id="${response.data.id}">
