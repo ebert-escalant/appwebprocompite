@@ -40,6 +40,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::match(['get', 'put'], 'projects/edit/{id}', [ProjectController::class, 'edit'])->name('projects.edit');
 	Route::delete('projects/delete/{id}', [ProjectController::class, 'delete'])->name('projects.delete');
 	Route::get('projects/download-file/{id}', [ProjectController::class, 'downloadFile'])->name('projects.downloadfile');
+	Route::get('projects/download-file-asset/{id}', [ProjectController::class, 'downloadFileAsset'])->name('projects.downloadfileasset');
 	Route::match(['get', 'put'], 'projects/edit-assets/{id}', [ProjectController::class, 'editAssets'])->name('projects.editassets');
 	Route::match(['get', 'put'], 'projects/edit-editQualification/{id}', [ProjectController::class, 'editQualification'])->name('projects.editqualification');
 	Route::get('projects/members/{id}', [ProjectController::class, 'getMembers'])->name('projects.members');

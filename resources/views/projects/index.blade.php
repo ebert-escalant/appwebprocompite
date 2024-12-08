@@ -43,6 +43,7 @@
                         <thead>
                             <tr class="bg-slate-300">
                                 <th>Nombre del plan de negocio</th>
+								<th>Organización</th>
 								<th>Categoría</th>
 								<th>Monto inversión</th>
 								<th>Cofinanciamiento</th>
@@ -56,6 +57,7 @@
                             @foreach ($data as $item)
 								<tr>
 									<td style="word-wrap: break-word; white-space: normal; max-width: 200px;">{{ $item->name }}</td>
+									<td style="word-wrap: break-word; white-space: normal; max-width: 200px;">{{ $item->society->social_razon}}</td>
 									<td>{{ $item->category}}</td>
 									<td>{{ $item->investment_amount }}</td>
 									<td>{{ $item->cofinance_amount }}</td>

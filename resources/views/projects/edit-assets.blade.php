@@ -48,6 +48,26 @@
 	</div>
 	<hr>
 	<div class="row">
+		<div class="col-md-8 form-group">
+			<label for="fileUploadFileAssets">Añadir un archivo adicional - Archivo (20 MB)</label>
+			<input type="file" name="fileUploadFileAssets" class="file-upload-default" accept=".pdf">
+			<div class="input-group">
+				<input type="text" name="fileUploadFileAssetsTxt" id="fileUploadFileAssetsTxt" value="{{$project->assets_file ? json_decode($project->assets_file)->originalname :''}}" disabled class="form-control form-control-sm file-upload-info">
+				<span class="input-group-append">
+					<button class="file-upload-browse btn btn-success" type="button">Seleccionar</button>
+				</span>
+			</div>
+			<small class="form-text text-muted">
+				Optimize el archivo antes de subirlo. puede comprimirlo en: <a href="https://ilovepdf.com/compress_pdf" rel="noopener noreferrer" target="_blank">ilovepdf.com</a>
+			</small>
+		</div>
+		<div class="col-md-4 form-group">
+			<label for="descagarArchivo">Descargar archivo</label>
+			<a href="{{ route('projects.downloadfileasset', $project->id) }}" style="{{$project->assets_file ? '': 'pointer-events: none; cursor: not-allowed; color: red; text-decoration: none;'}}"  class="btn btn-success btn-sm btn-block" id="descagarArchivo">Descargar</a>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
 		<div class="col-12">
 			<div class="card">
 				<div class="card-body shadow-sm table-responsive p-0">
@@ -81,6 +101,7 @@
 		</div>
 	</form>
 </div>
+<script src="{{ asset('js/file-upload.js') }}"></script>
 <script>
 	var member = {!! json_encode($project) !!};
 
@@ -93,9 +114,43 @@
 
 		$('#frmEditProjectAssets').validate({
 			submitHandler: function (form) {
-				$('#txtAssets').val(JSON.stringify(assets));
-				openFormConfirm(form.id)
+			// Capturamos los datos del formulario
+			const formData = new FormData(form);
+			
+			// Agregar el JSON de assets al form data
+			formData.set('txtAssets', JSON.stringify(assets));
+			
+			// Capturamos el archivo del input
+			const fileInput = $('input[name="fileUploadFileAssets"]')[0];
+			if (fileInput.files.length > 0) {
+				formData.append('fileUploadFileAssets', fileInput.files[0]);
 			}
+
+			// Realizamos la petición AJAX
+			$.ajax({
+				url: form.action, // URL del formulario
+				type: form.method, // Método definido (POST, PUT, etc.)
+				data: formData,
+				processData: false, // Evitar procesamiento automático de datos
+				contentType: false, // Permitir que el navegador gestione el Content-Type
+				success: function (response) {
+					console.log('Guardado exitosamente', response);
+					toastr.success('Se guardaron los datos y el archivo correctamente');
+					if (response.data.assets_file) {
+						// $('#fileUploadFileAssetsTxt').val(response.data.assets_file.originalname);//xd
+						const link = document.getElementById('descagarArchivo');
+						link.style.pointerEvents = 'auto';
+						link.style.cursor = 'pointer';
+						link.style.color = '';
+						link.style.textDecoration = '';
+					}
+				},
+				error: function (error) {
+					console.error('Error al guardar', error);
+					toastr.error('Hubo un error al guardar los datos o el archivo',error);
+				}
+			});
+		}
 		});
 
 	});
