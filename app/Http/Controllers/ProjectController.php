@@ -17,10 +17,11 @@ class ProjectController extends Controller
         $search = trim($request->input('search')) ? trim($request->input('search')) : '';
 		$year = trim($request->input('year')) ? trim($request->input('year')) : 'all';
 
-        $data = Project::whereRaw('concat(name, name, category) like ? and (year=? or "all"=?)', ['%' . $search . '%', $year, $year])->orderBy('created_at', 'desc')->paginate(10);
+        $data = Project::with('society:id,social_razon')->whereRaw('concat(name, name, category) like ? and (year=? or "all"=?)', ['%' . $search . '%', $year, $year])->orderBy('created_at', 'desc')->paginate(10);
 
         $data->appends(['search' => $search, 'year' => $year]);
         $data->onEachSide(0);
+
         return view('projects.index', ['data' => $data, 'search' => $search, 'years' => range(date('Y'), 2021, -1), 'year' => $year]);
     }
 

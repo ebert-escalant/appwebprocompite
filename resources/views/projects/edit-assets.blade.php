@@ -49,12 +49,12 @@
 	<hr>
 	<div class="row">
 		<div class="col-md-8 form-group">
-			<label for="fileUploadFileAssets">Añadir un archivo adicional - Archivo (20 MB) *</label>
+			<label for="fileUploadFileAssets">Añadir un archivo adicional - Archivo (20 MB)</label>
 			<input type="file" name="fileUploadFileAssets" class="file-upload-default" accept=".pdf">
 			<div class="input-group">
 				<input type="text" name="fileUploadFileAssetsTxt" id="fileUploadFileAssetsTxt" value="{{$project->assets_file ? json_decode($project->assets_file)->originalname :''}}" disabled class="form-control form-control-sm file-upload-info">
 				<span class="input-group-append">
-					<button class="file-upload-browse btn btn-primary" type="button">Seleccionar</button>
+					<button class="file-upload-browse btn btn-success" type="button">Seleccionar</button>
 				</span>
 			</div>
 			<small class="form-text text-muted">
