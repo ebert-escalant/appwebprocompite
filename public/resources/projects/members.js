@@ -4,23 +4,130 @@ $(function () {
 
 	$('#frmAddMember').validate({
 		rules: {
-			txtYear: {
-				required: true,
-				number: true
-			},
 			txtDni: {
-				required: true,
-				maxlength: 8
+                maxlength: 8,
+				minlength: 8,
+				number: true,
+                required: true
+            },
+            txtFullName: {
+                required: true,
+                maxlength: 255
+            },
+            txtBirthDate: {
+                required: true,
+                date: true
+            },
+            txtPhone: {
+                required: false,
+				minlength: 9,
+                maxlength: 9
+            },
+            txtEmail: {
+                required: false,
+                email: true,
+                maxlength: 255
+            },
+			txtAddress: {
+				required: false,
+				maxlength: 255
+			},
+            txtCharge: {
+                required: true,
+                maxlength: 255
+            },
+			txtSpouseDni: {
+				maxlength: 8,
+				minlength: 8,
+				number: true,
+				required: {
+					depends: function() {
+						return $('#chkHasSpouse').is(':checked')
+					}
+				}
+			},
+			txtSpouseFullName: {
+				required: {
+					depends: function() {
+						return $('#chkHasSpouse').is(':checked')
+					}
+				},
+				maxlength: 255
+			},
+			txtSpouseBirthDate: {
+				required: {
+					depends: function() {
+						return $('#chkHasSpouse').is(':checked')
+					}
+				},
+				date: true
+			},
+			txtSpousePhone: {
+				required: false,
+				minlength: 9,
+				maxlength: 9
+			},
+			txtSpouseEmail: {
+				email: true,
+				maxlength: 255
 			}
 		},
 		messages: {
-			txtYear: {
-				required: 'El campo es requerido',
-				number: 'El campo debe contener solo números'
-			},
 			txtDni: {
+                required: 'El campo es requerido',
+				number: 'Formato inválido',
+				minlength: 'El campo debe contener 8 caracteres',
+                maxlength: 'El campo debe contener 8 caracteres'
+            },
+            txtFullName: {
+                required: 'El campo es requerido',
+                maxlength: 'El campo debe contener máximo 255 caracteres'
+            },
+            txtBirthDate: {
+                required: 'El campo es requerido',
+                date: 'El campo debe ser una fecha válida'
+            },
+            txtPhone: {
+                required: 'El campo es requerido',
+				minlength: 'El campo debe contener 9 caracteres',
+                maxlength: 'El campo debe contener 9 caracteres'
+            },
+            txtEmail: {
+                required: 'El campo es requerido',
+                email: 'El campo debe ser un correo válido',
+                maxlength: 'El campo debe contener máximo 255 caracteres'
+            },
+			txtAddress: {
 				required: 'El campo es requerido',
-				maxlength: 'El campo debe contener máximo 8 caracteres'
+				maxlength: 'El campo debe contener máximo 255 caracteres'
+			},
+            txtCharge: {
+                required: 'El campo es requerido',
+                maxlength: 'El campo debe contener máximo 255 caracteres'
+            },
+			txtSpouseDni: {
+				required: 'El campo es requerido',
+				number: 'Formato inválido',
+				minlength: 'El campo debe contener 8 caracteres',
+				maxlength: 'El campo debe contener 8 caracteres'
+			},
+			txtSpouseFullName: {
+				required: 'El campo es requerido',
+				maxlength: 'El campo debe contener máximo 255 caracteres'
+			},
+			txtSpouseBirthDate: {
+				required: 'El campo es requerido',
+				date: 'El campo debe ser una fecha válida'
+			},
+			txtSpousePhone: {
+				required: 'El campo es requerido',
+				minlength: 'El campo debe contener 9 caracteres',
+				maxlength: 'El campo debe contener 9 caracteres'
+			},
+			txtSpouseEmail: {
+				required: 'El campo es requerido',
+				email: 'El campo debe ser un correo válido',
+				maxlength: 'El campo debe contener máximo 255 caracteres'
 			}
 		},
 		...validationConfig,
@@ -32,7 +139,22 @@ $(function () {
 	})
 
 	$('.select2').attr('aria-hidden', 'false')
+	$(".form-check label,.form-radio label").append('<i class="input-frame"></i>')
+
+	$('form[method="post"]').on('keypress', function (event) {
+		if (event.keyCode === 13 && event.target.tagName != 'TEXTAREA') {
+			event.preventDefault()
+		}
+	})
 })
+
+function changeChkHasSpouse(e) {
+	if (e.target.checked) {
+		$('.hasSpouseDiv').show()
+	} else {
+		$('.hasSpouseDiv').hide()
+	}
+}
 
 // if key is enter, and txtDni is not empty, then get partner by dni
 function keyUpTxtDni(event) {
@@ -51,10 +173,34 @@ function getParntnerByDni(event) {
 			dni: $('#txtDni').val()
 		},
 		success: function (response) {
-			$('#txtFullName').val(response.full_name);
+			$('#txtFullName').val(response.full_name)
+			$('#txtBirthDate').val(response.birthdate ? response.birthdate : '')
+			$('#txtPhone').val(response.phone ? response.phone : '')
+			$('#txtEmail').val(response.email ? response.email : '')
+			$('#txtAddress').val(response.address ? response.address : '')
+			$('#txtCharge').val(response.charge).trigger('change')
+			$('#chkHasSpouse').prop('checked', response.spouse ? true : false).trigger('change')
+			if (response.spouse) {
+				$('#txtSpouseDni').val(response.spouse.dni)
+				$('#txtSpouseFullName').val(response.spouse.full_name)
+				$('#txtSpouseBirthDate').val(response.spouse.birthdate ? response.spouse.birthdate : '')
+				$('#txtSpousePhone').val(response.spouse.phone ? response.spouse.phone : '')
+				$('#txtSpouseEmail').val(response.spouse.email ? response.spouse.email : '')
+			}
 		},
 		error: function (error) {
-			toastr.error('El DNI ingresado no se encuentra registrado en el sistema.')
+			$('#txtFullName').val('')
+			$('#txtBirthDate').val('')
+			$('#txtPhone').val('')
+			$('#txtEmail').val('')
+			$('#txtAddress').val('')
+			$('#txtCharge').val(null).trigger('change')
+			$('#chkHasSpouse').prop('checked', false).trigger('change')
+			$('#txtSpouseDni').val('')
+			$('#txtSpouseFullName').val('')
+			$('#txtSpouseBirthDate').val('')
+			$('#txtSpousePhone').val('')
+			$('#txtSpouseEmail').val('')
 		}
 	})
 }

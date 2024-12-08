@@ -79,7 +79,7 @@ $(function() {
 				minlength: 'El campo debe contener 8 caracteres',
                 maxlength: 'El campo debe contener 8 caracteres'
             },
-            txtFirstName: {
+            txtFullName: {
                 required: 'El campo es requerido',
                 maxlength: 'El campo debe contener máximo 255 caracteres'
             },

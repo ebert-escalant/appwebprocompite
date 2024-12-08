@@ -397,10 +397,10 @@ class ProjectController extends Controller
 
 			$errors = AppHelper::validate(
 				[
-					'dni' => trim($request->input('txtMemberDni'))
+					'dni' => trim($request->input('txtDni'))
 				],
 				[
-					'dni' => ['required', 'exists:partners,dni']
+					'dni' => ['required', 'string', 'max:8']
 				]
 			);
 
@@ -410,12 +410,68 @@ class ProjectController extends Controller
 				return response()->json(['status' => 'error', 'messages' => $errors]);
 			}
 
-			$member = Partner::where('dni', trim($request->input('txtMemberDni')))->first();
+			$member = Partner::where('dni', trim($request->input('txtDni')))->first();
 
 			if (!$member) {
-				DB::rollBack();
+				$errors = AppHelper::validate(
+                    [
+                        'dni' => trim($request->input('txtDni')),
+                        'full_name' => trim($request->input('txtFullName')),
+                        'birthdate' => trim($request->input('txtBirthDate')),
+                        'phone' => trim($request->input('txtPhone')),
+                        'address' => trim($request->input('txtAddress')),
+                        'email' => trim($request->input('txtEmail')),
+                        'charge' => trim($request->input('txtCharge')),
+						'has_spouse' => trim($request->input('chkHasSpouse')),
+						'spouse_dni' => trim($request->input('txtSpouseDni')),
+						'spouse_full_name' => trim($request->input('txtSpouseFullName')),
+						'spouse_birthdate' => trim($request->input('txtSpouseBirthDate')),
+						'spouse_phone' => trim($request->input('txtSpousePhone')),
+						'spouse_email' => trim($request->input('txtSpouseEmail'))
+                    ],
+                    [
+                        'dni' => ['required', 'string', 'max:8', 'unique:partners,dni'],
+                        'full_name' => ['required', 'string', 'max:255'],
+                        'birthdate' => ['required', 'date_format:Y-m-d'],
+                        'phone' => ['nullable', 'string', 'max:9'],
+                        'address' => ['nullable', 'string', 'max:255'],
+                        'email' => ['nullable', 'string', 'max:255'],
+                        'charge' => ['required', 'string', 'max:255'],
+						'spouse_dni' => ['required_if:has_spouse,true', 'string', 'max:8'],
+						'spouse_full_name' => ['required_if:has_spouse,true', 'string', 'max:255'],
+						'spouse_birthdate' => ['required_if:has_spouse,true', 'date_format:Y-m-d'],
+						'spouse_phone' => ['nullable', 'string', 'max:9'],
+						'spouse_email' => ['nullable', 'string', 'max:255']
+                    ]
+                );
 
-				return response()->json(['status' => 'error', 'messages' => ['Socio no encontrado.']]);
+				if (count($errors) > 0) {
+                    DB::rollBack();
+
+					return response()->json(['status' => 'error', 'messages' => $errors]);
+                }
+
+                $member = new Partner();
+                $member->id = uniqid();
+                $member->dni = trim($request->input('txtDni'));
+                $member->full_name = trim($request->input('txtFullName'));
+                $member->birthdate = trim($request->input('txtBirthDate'));
+                $member->phone = trim($request->input('txtPhone')) ? trim($request->input('txtPhone')) : '';
+                $member->address = trim($request->input('txtAddress')) ? trim($request->input('txtAddress')) : '';
+                $member->email = trim($request->input('txtEmail')) ? trim($request->input('txtEmail')) : '';
+                $member->charge = $request->input('txtCharge');
+
+				if ($request->input('chkHasSpouse')) {
+					$member->spouse = [
+						'dni' => trim($request->input('txtSpouseDni')),
+						'full_name' => trim($request->input('txtSpouseFullName')),
+						'birthdate' => trim($request->input('txtSpouseBirthDate')),
+						'phone' => trim($request->input('txtSpousePhone')) ? trim($request->input('txtSpousePhone')) : '',
+						'email' => trim($request->input('txtSpouseEmail')) ? trim($request->input('txtSpouseEmail')) : ''
+					];
+				}
+
+                $member->save();
 			}
 
 			$project = Project::find($id);
@@ -480,7 +536,7 @@ class ProjectController extends Controller
 		} catch (\Exception $e) {
 			DB::rollBack();
 
-			return response()->json(['status' => 'error', 'messages' => [$e->getMessage()]]);
+			return response()->json(['status' => 'error', 'messages' => ['Ocurrió un error al agregar el registro, intente nuevamente.']]);
 		}
 	}
 
