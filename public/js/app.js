@@ -143,7 +143,7 @@ const openAjaxModal = (width, title, data, url, method) => {
 		})
 	}).fail(() => {
 		loadingModal.hide()
-		toastr.error('Ocurrió un error inesperado. Por favor reporte esto a la plataforma.')
+		toastr.error('Ocurrió un error inesperado. Por favor intentelo nuevamente.')
 	})
 }
 
