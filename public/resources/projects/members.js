@@ -158,13 +158,15 @@ function changeChkHasSpouse(e) {
 
 // if key is enter, and txtDni is not empty, then get partner by dni
 function keyUpTxtDni(event) {
-	if (event.target.value.length === 8) {
+	if (event.target.value.length === 8 && event.keyCode === 13) {
 		getParntnerByDni(event)
 	}
 }
 
 function clearPartnerFields() {
+	var dniValue = $('#txtDni').val()
 	$('#frmAddMember').trigger('reset')
+	$('#txtDni').val(dniValue)
 	$('#chkHasSpouse').prop('checked', false).trigger('change')
 }
 
