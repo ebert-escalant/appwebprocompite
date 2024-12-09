@@ -222,6 +222,7 @@ function addMemberAjax() {
 					<tr data-member-id="${response.data.id}">
 						<td>${response.data.member.dni}</td>
 						<td>${response.data.member.full_name}</td>
+						<td>${response.data.member.charge}</td>
 						<td>${response.data.observation}</td>
 						<td>
 							<button type="button" class="btn bg-default btn-sm px-1 py-0"  data-toggle="tooltip" data-placement="right" title="Eliminar" onclick="openConfirmModal(function() {deleteMemberAjax('${response.data.id}')})">

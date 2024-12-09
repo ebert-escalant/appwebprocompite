@@ -94,6 +94,7 @@
 						<tr class="bg-slate-300">
 							<th width="10%">DNI</th>
 							<th>Nombre completo</th>
+							<th>Cargo</th>
 							<th>Observación</th>
 							<th width="10%">Acciones</th>
 						</tr>
@@ -103,6 +104,7 @@
 							<tr data-member-id="{{ $item->id }}">
 								<td>{{ $item->member->dni }}</td>
 								<td>{{ $item->member->full_name }}</td>
+								<td>{{ $item->member->charge }}</td>
 								<td>{{ $item->observation }}</td>
 								<td>
 									<button class="btn bg-default btn-sm px-1 py-0" data-toggle="tooltip" data-placement="right" title="Eliminar" onclick="openConfirmModal(function() {deleteMemberAjax('{{ $item->id }}')})">
