@@ -188,9 +188,12 @@ class ProjectController extends Controller
 
                 return AppHelper::redirect(route('projects.index'), AppHelper::ERROR, ['Registro no encontrado.']);
             }
-			if($item->assets_file || $item->file) {
-				Storage::disk('local')->delete('projects/assets/'.json_decode($item->assets_file)->filename);
+			if($item->file) {
 				Storage::disk('local')->delete('projects/'.$item->file->filename);
+			}
+			if($item->assets_file)
+			{
+				Storage::disk('local')->delete('projects/assets/'.json_decode($item->assets_file)->filename);
 			}
             $item->delete();
 
@@ -199,6 +202,7 @@ class ProjectController extends Controller
             return AppHelper::redirect(route('projects.index'), AppHelper::SUCCESS, ['Operación realizada con éxito.']);
         } catch (\Exception $e) {
             DB::rollBack();
+			return dd($e->getMessage());
             return AppHelper::redirectException(__CLASS__, __FUNCTION__, $e->getMessage(), route('projects.index'));
         }
     }
@@ -335,12 +339,11 @@ class ProjectController extends Controller
 						'liquidation' => $request->input('txtLiquidation')
 					],
 					[
-						'rating' => ['required', 'numeric', 'min:0', 'max:20'],
+						'rating' => ['nulleable', 'numeric', 'min:0', 'max:20'],
 						'fileUploadFile' => ['required_if:file_required,true'],
 						'liquidation' => ['required', 'boolean']
 					],
 					[
-						'rating.required' => 'La calificación es obligatoria.',
 						'fileUploadFile.required_if' => 'El archivo es obligatorio.',
 						'liquidation.required' => 'La liquidación es obligatoria.'
 					]

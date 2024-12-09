@@ -41,7 +41,7 @@
 			</small>
 		</div>
 	</div>
-	<p class="text-danger">(*) Al guardar los cambios, se cambiará a liquidado el proyecto</p>
+	{{-- <p class="text-danger">(*) Al guardar los cambios, se cambiará a liquidado el proyecto</p> --}}
 	<hr>
 	<div class="row">
 		<div class="col-md-12 d-flex justify-content-between form-group">
