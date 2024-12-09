@@ -16,7 +16,7 @@ class PublicController extends Controller
 		try {
 			$partner = Partner::select('id', 'dni', 'full_name')->with(['projectMembers'=> function($query) {
 				$query->select('id', 'partner_id', 'project_id')->with(['project' => function($query) {
-					$query->select('id', 'name', 'society_id');
+					$query->select('id', 'year', 'name', 'society_id');
 				}, 'project.society:id,social_razon']);
 			}])->whereRaw('dni = ?', [trim($dni)])->first();
 

@@ -7,7 +7,7 @@
     <title>Procompite | Búsqueda de socio</title>
     <link rel="stylesheet" href="{{ asset('css/public.css') }}">
 	<link rel="shortcut icon" href="{{asset('images/full_logo_without.webp')}}" type="image/x-icon">
-	<style>		
+	<style>
 	body{
 		background-image: url("{{ asset('images/campo_background.webp') }}");
 		background-size: cover;
@@ -64,12 +64,16 @@
 				}
 			}).then(response => {
 				if (!response.ok) {
-					throw new Error('Error en la petición');
+					throw new Error('Ocurrió un error al realizar la búsqueda.');
 				}
 				return response.json();
 			}).then(({data}) => {
-				console.log(data);
 				if (data) {
+					if (data.project_members.length === 0) {
+						resultsContainer.innerHTML = '<p class="no-results">El socio no se encuentra en ningún proyecto.</p>';
+						return;
+					}
+
 					document.querySelector('.user-name-container').style.display = 'flex';
 					document.querySelector('#user-name').innerHTML = data.full_name;
 					let tableHTML = `
@@ -82,11 +86,11 @@
 								</tr>
 							</thead>
 							<tbody>
-								${data.societies.map(ietm => `
+								${data.project_members.map(item => `
 									<tr>
-										<td>${ietm.year}</td>
-										<td>${ietm.project?.name || ''}</td>
-										<td>${ietm.society?.social_razon || ''}</td>
+										<td>${item.project?.year}</td>
+										<td>${item.project?.name || ''}</td>
+										<td>${item.project?.society?.social_razon || ''}</td>
 									</tr>
 								`).join('')}
 							</tbody>
