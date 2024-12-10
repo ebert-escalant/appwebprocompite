@@ -448,7 +448,6 @@ class ProjectController extends Controller
 		}
 
 		$filepath = storage_path('app/private/projects/assets/'.json_decode($item->assets_file)->filename);
-
 		return response()->download($filepath, json_decode($item->assets_file)->originalname);
 	}
 

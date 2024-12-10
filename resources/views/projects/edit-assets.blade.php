@@ -67,7 +67,7 @@
 		</div>
 		<div class="col-md-4 form-group">
 			<label for="descagarArchivo">Descargar archivo</label>
-			<a href="{{ route('projects.downloadfileasset', $project->id) }}" style="{{$project->assets_file ? '': 'pointer-events: none; cursor: not-allowed; color: red; text-decoration: none;'}}"  class="btn btn-success btn-sm btn-block" id="descagarArchivo">Descargar</a>
+			<a href="{{ route('projects.downloadfileasset', $project->id) }}?v={{ \Illuminate\Support\Str::random(8)}}" style="{{$project->assets_file ? '': 'pointer-events: none; cursor: not-allowed; color: red; text-decoration: none;'}}"  class="btn btn-success btn-sm btn-block" id="descagarArchivo">Descargar</a>
 		</div>
 	</div>
 	<hr>
