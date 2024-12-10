@@ -288,7 +288,9 @@ class ProjectController extends Controller
 							'receptionDate' => $asset['receptionDate'],
 							'type' => $asset['type'],
 							'status' => $asset['status'],
-							'observation' => isset($asset['observation']) ? $asset['observation'] : ''
+							'observation' => isset($asset['observation']) ? $asset['observation'] : '',
+							'file' => isset($asset['file']) ? $asset['file'] : null,
+							'amount' => isset($asset['amount']) ? $asset['amount'] : 0
 						];
 					}
 				}

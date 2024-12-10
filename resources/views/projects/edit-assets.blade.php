@@ -20,14 +20,14 @@
 		</div>
 		<div class="col-lg-3 form-group">
 			<label for="txtType">Tipo *</label>
-			<select name="txtType" id="txtType" class="form-control form-control-sm">
+			<select name="txtType" id="txtType" class="select2 form-control form-control-sm">
 				<option value="Bien" selected>Bien</option>
 				<option value="Servicio">Servicio</option>
 			</select>
 		</div>
 		<div class="col-lg-3 form-group">
 			<label for="txtStatus">Estado *</label>
-			<select name="txtStatus" id="txtStatus" class="form-control form-control-sm">
+			<select name="txtStatus" id="txtStatus" class="select2 form-control form-control-sm">
 				<option value="Habido/Buen estado" >Habido/Buen estado</option>
 				<option value="Habido/Mal estado">Habido/Mal estado</option>
 				<option value="No habido">No habido</option>
@@ -37,9 +37,13 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-lg-9">
+		<div class="col-lg-6">
 			<label for="txtObservation">Observaciones</label>
 			<input id="txtObservation" name="txtObservation" type="text" class="form-control form-control-sm">
+		</div>
+		<div class="col-lg-3">
+			<label for="txtAmount">Precio *</label>
+			<input id="txtAmount" name="txtAmount" type="number" class="form-control form-control-sm">
 		</div>
 		<div class="col-lg-3 form-group">
 			<label for="">&nbsp;</label>
@@ -80,6 +84,7 @@
 								<th>Fecha de recepción</th>
 								<th>Tipo</th>
 								<th>Estado</th>
+								<th>Precio</th>
 								<th>Observación</th>
 								<th width="10%"></th>
 							</tr>
@@ -163,6 +168,7 @@
 		$('#txtType').val('Bien');
 		$('#txtStatus').val('');
 		$('#txtObservation').val('');
+		$('#txtAmount').val('');
 	}
 
 	function addAsset() {
@@ -173,8 +179,9 @@
 		var type = $('#txtType').val();
 		var status = $('#txtStatus').val();
 		var observation = $('#txtObservation').val();
+		var amount = $('#txtAmount').val();
 
-		if (description == '' || unit == '' || quantity == '' || receptionDate == '' || type == '' || status == '') {
+		if (description == '' || unit == '' || quantity == '' || receptionDate == '' || type == '' || status == '' || amount == '') {
 			toastr.error('Todos los campos son obligatorios');
 			return;
 		}
@@ -186,7 +193,8 @@
 			receptionDate: receptionDate,
 			type: type,
 			status: status,
-			observation: observation
+			observation: observation,
+			amount: amount
 		};
 
 		appendAsset(asset);
@@ -203,6 +211,7 @@
 		tr.append($('<td>').text(asset.receptionDate));
 		tr.append($('<td>').text(asset.type));
 		tr.append($('<td>').text(asset.status));
+		tr.append($('<td>').text(asset.amount));
 		tr.append($('<td>').text(asset.observation));
 		tr.append($('<td>').append($('<button>').addClass('btn bg-default btn-sm px-1 py-0').attr('type', 'button').attr('onclick', 'removeAsset(this)').append($('<i>').addClass('fas fa-trash text-danger'))));
 		$('#tbodyAssets').append(tr);
